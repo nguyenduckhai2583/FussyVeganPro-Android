@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#55AA44</color>
+    <color name="colorPrimaryDark">#55AA44</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="colorVegan">#55AA44</color>
+    <color name="colorVegan_alpha">#CC55AA44</color>
+    <color name="colorCaution">#F3AF22</color>
+    <color name="colorNotVegan">#BE2813</color>
+    <color name="colorManvegan">#1B34C8</color>
+    <color name="background_material_light">#ffffff</color>
+    <color name="black">#000</color>
+    <color name="white">#FFF</color>
+    <color name="gray">#86CCCACC</color>
+</resources>

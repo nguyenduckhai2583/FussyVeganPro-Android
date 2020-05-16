@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.fussyvegan.scanner.AboutFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:text="The Fussy Vegan is owned and managed by Ken and Shanna Goldstein. We have both been vegan since 2014. We decided to create the Fussy Vegan Pro app because we found there was a lack of accurate and reliable information on whether products were vegan or not.\n
+\n
+We have carefully researched each ingredient in the products, ingredients and menu items that we have listed in our app database and have verified the vegan status of all questionable ingredients with the manufacturer. All listings have been manually entered into the app database to ensure accuracy. If you believe that there is an error in our app database, please contact us and we will review the listing and update our app database if required.\n
+\n
+Copyright © 2020 The Fussy Vegan\n
+\n
+Version: 1.12\n
+\n
+
+"
+        android:textColor="@android:color/black" />
+
+</FrameLayout>

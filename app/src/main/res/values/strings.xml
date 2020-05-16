@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Fussy Vegan Pro</string>
+    <string name="title_scan">Scan</string>
+    <string name="title_search">Search</string>
+    <string name="title_fastfood">Fast Food</string>
+    <string name="title_ingredients">Ingredients</string>
+    <string name="title_setting">More</string>
+    <string name="turn_on_flashlight">Turn on Flashlight</string>
+    <string name="turn_off_flashlight">Turn off Flashlight</string>
+    <string name="product_information">MORE INFORMATION</string>
+    <string name="tv_search_all">Search All</string>
+    <string name="tv_guide">Vegan Fast Food Guide</string>
+    <string name="tv_browse_food_chain">Browse Food Chain</string>
+    <string name="tv_choose_search_option">Choose Search Option</string>
+
+    <!-- Filter Search -->
+    <string name="txt_filter_options">Filter Options</string>
+    <string name="txt_clear_filter_search">Clear</string>
+    <string name="txt_apply_filter_search">Apply</string>
+    <string name="txt_filter_search_no_palm">No Palm Oil</string>
+    <string name="txt_filter_search_no_gmo">No GMO</string>
+    <string name="txt_filter_search_gluten_free">Gluten Free</string>
+    <string name="txt_filter_search_nut_free">Nut Free</string>
+    <string name="txt_filter_search_soy_free">Soy Free</string>
+    <string name="txt_filter_search_vegan_company">Vegan</string>
+
+    <!-- Login -->
+    <string name="txt_login">LOGIN</string>
+    <string name="txt_email">Email</string>
+    <string name="txt_password">Password</string>
+    <string name="txt_login_lowcase">Login</string>
+    <string name="txt_forgot_pass">Forgot your password?</string>
+    <string name="txt_register_switch">Tap here to register</string>
+    <string name="txt_register">Register</string>
+    <string name="txt_name">Name</string>
+    <string name="txt_confirm_password">Type password again</string>
+    <string name="txt_forgot_pass_title">Forgot Password</string>
+    <string name="txt_confirm">Confirm</string>
+    <string name="txt_write_review">Write a review</string>
+    <string name="txt_name_optional">Name (Optional)</string>
+    <string name="txt_title">Title</string>
+    <string name="txt_reviewe">Review</string>
+    <string name="txt_submit">Submit</string>
+
+</resources>
