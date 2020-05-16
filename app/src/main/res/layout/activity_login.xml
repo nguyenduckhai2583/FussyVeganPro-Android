@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context="com.fussyvegan.scanner.activity.LoginActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
+
+        <ImageView
+            android:id="@+id/loginImg_Back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_clear"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/anim_ripple_vegan"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:src="@drawable/logo"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/arlrdbd"
+            android:text="PRO"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_login"
+            android:textColor="@color/black"
+            android:textSize="@dimen/edt_text"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:id="@+id/loginEdt_Email"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="18dp"
+            android:hint="@string/txt_email"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:background="@drawable/bg_login_edittext_background"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"/>
+
+        <EditText
+            android:id="@+id/loginEdt_Password"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/txt_password"
+            android:inputType="textPassword"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:background="@drawable/bg_login_edittext_background"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"/>
+        
+        <Button
+            android:id="@+id/reviewBtn_Submid"
+            android:layout_width="200dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/txt_login_lowcase"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textAllCaps="false"
+            android:background="@drawable/bg_login_btn_login"/>
+
+        <TextView
+            android:id="@+id/loginTxt_ForgotPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/txt_forgot_pass"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/anim_ripple_vegan"/>
+
+        <TextView
+            android:id="@+id/loginTxt_Register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/txt_register_switch"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/anim_ripple_vegan"/>
+
+    </LinearLayout>
+
+</LinearLayout>

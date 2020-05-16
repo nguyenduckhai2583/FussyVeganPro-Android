@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "437001637924",
+    "firebase_url": "https://fussy-vegan-scanner.firebaseio.com",
+    "project_id": "fussy-vegan-scanner",
+    "storage_bucket": "fussy-vegan-scanner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437001637924:android:217757599011918b31c8b1",
+        "android_client_info": {
+          "package_name": "com.fussyvegan.pro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "437001637924-i6bfin74du09h07a2bul03lhm9eqihl3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqkJdbh0i902dd14yjp7pbIFanvxvOYP4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "437001637924-i6bfin74du09h07a2bul03lhm9eqihl3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "437001637924-k5adr9a3i79o45pgd6uvrhfdde5mos1o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fussyvegan.scanpro",
+                "app_store_id": "1457398900"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437001637924:android:12a0f1073a10b8a7",
+        "android_client_info": {
+          "package_name": "com.fussyvegan.scanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "437001637924-lopjv93li3jebh12dpvi2lcdq3apa0ck.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fussyvegan.scanner",
+            "certificate_hash": "8cdcdfc5f7fbc874cca501590fa18e917bb6ca6f"
+          }
+        },
+        {
+          "client_id": "437001637924-i6bfin74du09h07a2bul03lhm9eqihl3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqkJdbh0i902dd14yjp7pbIFanvxvOYP4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "437001637924-i6bfin74du09h07a2bul03lhm9eqihl3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "437001637924-k5adr9a3i79o45pgd6uvrhfdde5mos1o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fussyvegan.scanpro",
+                "app_store_id": "1457398900"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
