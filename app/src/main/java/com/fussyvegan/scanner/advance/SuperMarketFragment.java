@@ -102,7 +102,7 @@ public class SuperMarketFragment extends Fragment implements ChainFoodAdapter.IC
         mKeySearch.add("woolworths");
     }
 
-    // Change data name and icon follow country.
+    // Change Data name and icon follow country.
 
 
     @Override

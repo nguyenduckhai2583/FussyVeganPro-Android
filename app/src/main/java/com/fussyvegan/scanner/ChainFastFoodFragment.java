@@ -160,7 +160,7 @@ public class ChainFastFoodFragment extends Fragment implements ChainFoodAdapter.
         mAdapter.updateData(mChains);
     }
 
-    // Change data name and icon follow country.
+    // Change Data name and icon follow country.
     void initDataUS() {
         mChains.add(new ChainFastFood("A&W ", "ic_aw"));
         mChains.add(new ChainFastFood("Arby’s ", "ic_arby"));

@@ -1,22 +1,22 @@
-package com.fussyvegan.scanner.model.AccountFlow;
+package com.fussyvegan.scanner.model.accountFlow;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class forgotPassResult {
+public class PostReviewResult {
 
     @SerializedName("message")
     @Expose
     private String message;
 
-    @SerializedName("data")
+    @SerializedName("Data")
     @Expose
-    private String data;
+    private Data data;
 
-    public forgotPassResult() {
+    public PostReviewResult() {
     }
 
-    public forgotPassResult(String message, String data) {
+    public PostReviewResult(String message, Data data) {
         this.message = message;
         this.data = data;
     }
@@ -29,11 +29,11 @@ public class forgotPassResult {
         this.message = message;
     }
 
-    public String getData() {
+    public Data getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Data data) {
         this.data = data;
     }
 }

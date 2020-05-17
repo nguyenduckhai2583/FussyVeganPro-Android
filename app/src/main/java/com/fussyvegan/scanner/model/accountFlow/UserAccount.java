@@ -1,4 +1,4 @@
-package com.fussyvegan.scanner.model.AccountFlow;
+package com.fussyvegan.scanner.model.accountFlow;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -11,12 +11,12 @@ public class UserAccount {
 
     @SerializedName("data")
     @Expose
-    private data data;
+    private Data data;
 
     public UserAccount() {
     }
 
-    public UserAccount(String message, com.fussyvegan.scanner.model.AccountFlow.data data) {
+    public UserAccount(String message, Data data) {
         this.message = message;
         this.data = data;
     }
@@ -29,11 +29,11 @@ public class UserAccount {
         this.message = message;
     }
 
-    public com.fussyvegan.scanner.model.AccountFlow.data getData() {
+    public Data getData() {
         return data;
     }
 
-    public void setData(com.fussyvegan.scanner.model.AccountFlow.data data) {
+    public void setData(Data data) {
         this.data = data;
     }
 }

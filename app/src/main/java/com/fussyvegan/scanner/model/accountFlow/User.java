@@ -1,9 +1,9 @@
-package com.fussyvegan.scanner.model.AccountFlow;
+package com.fussyvegan.scanner.model.accountFlow;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class user {
+public class User {
 
     @SerializedName("name")
     @Expose
@@ -17,7 +17,7 @@ public class user {
     @Expose
     private int deny_access;
 
-    @SerializedName("email")
+    @SerializedName("Email")
     @Expose
     private String email;
 
@@ -33,10 +33,10 @@ public class user {
     @Expose
     private String username;
 
-    public user() {
+    public User() {
     }
 
-    public user(String name, int role_id, int deny_access, String email, int authentication_id, int is_deleted, String username) {
+    public User(String name, int role_id, int deny_access, String email, int authentication_id, int is_deleted, String username) {
         this.name = name;
         this.role_id = role_id;
         this.deny_access = deny_access;

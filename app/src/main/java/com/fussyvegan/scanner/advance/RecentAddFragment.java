@@ -102,7 +102,7 @@ public class RecentAddFragment extends Fragment implements ChainFoodAdapter.ICha
         mKeySearch.add("woolworths");
     }
 
-    // Change data name and icon follow country.
+    // Change Data name and icon follow country.
 
 
     @Override

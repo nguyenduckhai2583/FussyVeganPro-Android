@@ -1,11 +1,8 @@
-package com.fussyvegan.scanner.model.AccountFlow;
+package com.fussyvegan.scanner.model.accountFlow;
 
 import com.google.gson.annotations.SerializedName;
 
-public class requestRegister {
-
-    @SerializedName("name")
-    private String name;
+public class RequestLogin {
 
     @SerializedName("email")
     private String email;
@@ -13,21 +10,12 @@ public class requestRegister {
     @SerializedName("password")
     private String password;
 
-    public requestRegister() {
+    public RequestLogin() {
     }
 
-    public requestRegister(String name, String email, String password) {
-        this.name = name;
+    public RequestLogin(String email, String password) {
         this.email = email;
         this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getEmail() {

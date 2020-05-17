@@ -14,8 +14,8 @@ import android.widget.Toast;
 import com.fussyvegan.scanner.APIForgotPassClient;
 import com.fussyvegan.scanner.APIInterface;
 import com.fussyvegan.scanner.R;
-import com.fussyvegan.scanner.model.AccountFlow.forgotPassResult;
-import com.fussyvegan.scanner.model.AccountFlow.email;
+import com.fussyvegan.scanner.model.accountFlow.ForgotPassResult;
+import com.fussyvegan.scanner.model.accountFlow.Email;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,17 +65,17 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             Toast.makeText(this, "Invalid Email Address", Toast.LENGTH_SHORT).show();
         } else {
-            email requestForgotPass = new email(email);
+            Email requestForgotPass = new Email(email);
             apiInterface = APIForgotPassClient.getClient().create(APIInterface.class);
-            Call<forgotPassResult> call = apiInterface.requestForgotPassword(requestForgotPass);
-            call.enqueue(new Callback<forgotPassResult>() {
+            Call<ForgotPassResult> call = apiInterface.requestForgotPassword(requestForgotPass);
+            call.enqueue(new Callback<ForgotPassResult>() {
                 @Override
-                public void onResponse(Call<forgotPassResult> call, Response<forgotPassResult> response) {
+                public void onResponse(Call<ForgotPassResult> call, Response<ForgotPassResult> response) {
 
                     Log.d(TAG, String.valueOf(response.code()));
 
                     if (response.code() == 200 ){
-                        forgotPassResult result = response.body();
+                        ForgotPassResult result = response.body();
                         Log.d(TAG, "Reset success");
 
                         Intent forgorPassBack = getIntent();
@@ -89,7 +89,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<forgotPassResult> call, Throwable t) {
+                public void onFailure(Call<ForgotPassResult> call, Throwable t) {
                     Log.d(TAG, t.getMessage());
                 }
             });

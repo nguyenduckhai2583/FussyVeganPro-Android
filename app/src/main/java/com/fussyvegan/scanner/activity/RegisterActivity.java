@@ -15,12 +15,15 @@ import com.fussyvegan.scanner.APIInterface;
 import com.fussyvegan.scanner.APIRegisterClient;
 import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.model.CurrentUser;
-import com.fussyvegan.scanner.model.AccountFlow.UserAccount;
-import com.fussyvegan.scanner.model.AccountFlow.requestRegister;
+import com.fussyvegan.scanner.model.accountFlow.UserAccount;
+import com.fussyvegan.scanner.model.accountFlow.RequestRegister;
+import com.fussyvegan.scanner.utils.SharedPrefs;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.fussyvegan.scanner.activity.LoginActivity.ACCESS_TOKEN;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -73,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             Toast.makeText(this, "Invalid Email Address", Toast.LENGTH_SHORT).show();
         } else {
-            requestRegister requestRegister = new requestRegister(name, email, password);
+            RequestRegister requestRegister = new RequestRegister(name, email, password);
             apiInterface = APIRegisterClient.getClient().create(APIInterface.class);
             Call<UserAccount> call = apiInterface.requestRegister(requestRegister);
             call.enqueue(new Callback<UserAccount>() {
@@ -85,11 +88,10 @@ public class RegisterActivity extends AppCompatActivity {
                     if (response.code() == 200) {
                         CurrentUser.instance = response.body();
                         Log.d(TAG, "register success");
-
+                        SharedPrefs.getInstance().put(ACCESS_TOKEN, response.body().getData().getToken());
                         Intent registerBack = getIntent();
                         registerBack.putExtra("key", "Register Success");
                         setResult(registerIntentCODE, registerBack);
-
                         finish();
                     } else {
 

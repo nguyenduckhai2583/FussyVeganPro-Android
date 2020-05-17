@@ -1,31 +1,31 @@
-package com.fussyvegan.scanner.model.AccountFlow;
+package com.fussyvegan.scanner.model.accountFlow;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class data {
+public class Data {
 
     @SerializedName("user")
     @Expose
-    private user user;
+    private User user;
 
     @SerializedName("token")
     @Expose
     private String token;
 
-    public data() {
+    public Data() {
     }
 
-    public data(com.fussyvegan.scanner.model.AccountFlow.user user, String token) {
+    public Data(User user, String token) {
         this.user = user;
         this.token = token;
     }
 
-    public com.fussyvegan.scanner.model.AccountFlow.user getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(com.fussyvegan.scanner.model.AccountFlow.user user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

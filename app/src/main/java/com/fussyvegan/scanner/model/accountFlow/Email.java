@@ -1,18 +1,18 @@
-package com.fussyvegan.scanner.model.AccountFlow;
+package com.fussyvegan.scanner.model.accountFlow;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class email {
+public class Email {
 
-    @SerializedName("email")
+    @SerializedName("Email")
     @Expose
     private String email;
 
-    public email() {
+    public Email() {
     }
 
-    public email(String email) {
+    public Email(String email) {
         this.email = email;
     }
 

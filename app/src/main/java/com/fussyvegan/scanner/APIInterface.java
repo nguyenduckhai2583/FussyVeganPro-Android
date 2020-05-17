@@ -1,15 +1,18 @@
 package com.fussyvegan.scanner;
 
-import com.fussyvegan.scanner.model.AccountFlow.UserAccount;
-import com.fussyvegan.scanner.model.AccountFlow.forgotPassResult;
-import com.fussyvegan.scanner.model.AccountFlow.email;
-import com.fussyvegan.scanner.model.AccountFlow.requestLogin;
-import com.fussyvegan.scanner.model.AccountFlow.requestRegister;
+import com.fussyvegan.scanner.model.accountFlow.PostReviewResult;
+import com.fussyvegan.scanner.model.accountFlow.ReviewProduct;
+import com.fussyvegan.scanner.model.accountFlow.UserAccount;
+import com.fussyvegan.scanner.model.accountFlow.ForgotPassResult;
+import com.fussyvegan.scanner.model.accountFlow.Email;
+import com.fussyvegan.scanner.model.accountFlow.RequestLogin;
+import com.fussyvegan.scanner.model.accountFlow.RequestRegister;
 import com.fussyvegan.scanner.model.Resource;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -63,11 +66,16 @@ public interface APIInterface {
     Call<Resource> doGetResponseBySearchFastFoodName(@Query("api_key") String api_key, @Query("search") String search, @Query("country") String barcode, @Query("name") String name);
 
     @POST("login.php?api_key=45090dcae2aYMK")
-    Call<UserAccount> requestUserLogin(@Body requestLogin requestLogin);
+    Call<UserAccount> requestUserLogin(@Body RequestLogin requestLogin);
 
     @POST("register.php?api_key=45090dcae2aYMK")
-    Call<UserAccount> requestRegister(@Body requestRegister requestRegister);
+    Call<UserAccount> requestRegister(@Body RequestRegister requestRegister);
 
     @POST("reset_password.php?api_key=45090dcae2aYMK")
-    Call<forgotPassResult> requestForgotPassword(@Body email email);
+    Call<ForgotPassResult> requestForgotPassword(@Body Email email);
+
+    @POST("post_rating.php?api_key=45090dcae2aYMK")
+    Call<PostReviewResult> postReviewProduct(@Header("access-token") String token,
+                                             @Body ReviewProduct reviewProduct);
+
 }

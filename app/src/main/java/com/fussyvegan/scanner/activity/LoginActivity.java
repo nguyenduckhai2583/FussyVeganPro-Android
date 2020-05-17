@@ -1,5 +1,6 @@
 package com.fussyvegan.scanner.activity;
 
+import android.app.Application;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -17,8 +18,9 @@ import com.fussyvegan.scanner.APIInterface;
 import com.fussyvegan.scanner.APILoginClient;
 import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.model.CurrentUser;
-import com.fussyvegan.scanner.model.AccountFlow.UserAccount;
-import com.fussyvegan.scanner.model.AccountFlow.requestLogin;
+import com.fussyvegan.scanner.model.accountFlow.UserAccount;
+import com.fussyvegan.scanner.model.accountFlow.RequestLogin;
+import com.fussyvegan.scanner.utils.SharedPrefs;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,7 +29,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = LoginActivity.class.getSimpleName();
-
+    public static final String ACCESS_TOKEN = "access_token";
     public int loginIntentCODE = 0;
 
     public int registerIntentCODE = 1;
@@ -88,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             Toast.makeText(this, "Invalid Email Address", Toast.LENGTH_SHORT).show();
         } else {
-            requestLogin requestLogin = new requestLogin(email, password);
+            RequestLogin requestLogin = new RequestLogin(email, password);
             apiInterface = APILoginClient.getClient().create(APIInterface.class);
             Call<UserAccount> call = apiInterface.requestUserLogin(requestLogin);
             call.enqueue(new Callback<UserAccount>() {
@@ -99,8 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     if(response.code() == 200) {
                         CurrentUser.instance = response.body();
-                        Log.d(TAG, "login success");
-
+                        SharedPrefs.getInstance().put(ACCESS_TOKEN, response.body().getData().getToken());
                         Intent loginBack = getIntent();
                         loginBack.putExtra("key", "Login Success");
                         setResult(loginIntentCODE, loginBack);
