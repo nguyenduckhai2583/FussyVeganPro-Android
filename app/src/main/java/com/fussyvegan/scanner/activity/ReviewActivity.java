@@ -1,5 +1,6 @@
 package com.fussyvegan.scanner.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -53,6 +54,11 @@ public class ReviewActivity extends AppCompatActivity {
         productId = product.getId();
          mProductReview = intent.getParcelableExtra("review");
         categoryId = intent.getIntExtra("category", 1);
+
+        reviewEdt_Email.setText(SharedPrefs.getInstance().get(Constant.EMAIL, String.class));
+        reviewEdt_Name.setText(SharedPrefs.getInstance().get(Constant.USER_NAME, String.class));
+
+
         if (mProductReview != null) {
             updateUIReview();
         }
@@ -79,8 +85,6 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     private void updateUIReview() {
-        reviewEdt_Email.setText(mProductReview.getUsername());
-        reviewEdt_Name.setText(mProductReview.getUsername());
         reviewEdt_Title.setText(mProductReview.getTitle());
         reviewEdt_Review.setText(mProductReview.getReview());
         reviewRatingBar.setRating(mProductReview.getRating());
@@ -103,7 +107,6 @@ public class ReviewActivity extends AppCompatActivity {
                     updateReview();
                 } else {
                     postReview();
-
                 }
             }
         });
@@ -136,8 +139,8 @@ public class ReviewActivity extends AppCompatActivity {
     private void updateReview() {
 
         String token = SharedPrefs.getInstance().get(Constant.ACCESS_TOKEN, String.class);
-        UpdateReviewProduct updateProduct = new UpdateReviewProduct(mProductReview.getRating(),
-                mProductReview.getReview(), mProductReview.getTitle(), mProductReview.getId());
+        UpdateReviewProduct updateProduct = new UpdateReviewProduct(reviewRatingBar.getRating(),
+                reviewEdt_Review.getText().toString(), reviewEdt_Title.getText().toString(), mProductReview.getId());
         apiInterface = APILoginClient.getClient().create(APIInterface.class);
 
         Call<PostReviewResult> call = apiInterface.updateReviewProduct(token, updateProduct);
@@ -145,6 +148,8 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PostReviewResult> call, Response<PostReviewResult> response) {
                 Log.d(TAG, String.valueOf(response.code()));
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_OK,returnIntent);
                 finish();
 
             }

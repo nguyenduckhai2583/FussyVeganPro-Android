@@ -103,6 +103,8 @@ public class LoginActivity extends AppCompatActivity {
                         CurrentUser.instance = response.body();
                         SharedPrefs.getInstance().put(Constant.ACCESS_TOKEN, response.body().getData().getToken());
                         SharedPrefs.getInstance().put(Constant.USER_NAME, response.body().getData().getUser().getName());
+                        SharedPrefs.getInstance().put(Constant.EMAIL, response.body().getData().getUser().getEmail());
+                        Log.d("alo1",response.body().getData().getUser().getEmail());
                         SharedPrefs.getInstance().put(Constant.IS_LOGIN, true);
                         Intent loginBack = getIntent();
                         loginBack.putExtra("key", "Login Success");

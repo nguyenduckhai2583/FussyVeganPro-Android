@@ -17,7 +17,7 @@ public class User {
     @Expose
     private int deny_access;
 
-    @SerializedName("Email")
+    @SerializedName("email")
     @Expose
     private String email;
 

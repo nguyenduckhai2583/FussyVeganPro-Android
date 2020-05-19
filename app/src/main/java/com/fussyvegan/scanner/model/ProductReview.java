@@ -95,7 +95,7 @@ public class ProductReview   implements Parcelable {
         this.review = review;
     }
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 

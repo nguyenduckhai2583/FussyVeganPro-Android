@@ -318,18 +318,26 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tvNameCountry"
+                    <android.support.v7.widget.AppCompatRatingBar
+                        android:id="@+id/rb_AveRating"
+                        style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tvLastTime"
-                        android:layout_marginLeft="50dp"
+                        android:layout_centerHorizontal="true"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:theme="@style/RatingBar" />
 
-                        android:layout_toRightOf="@+id/tvTime"
-                        android:text=""
+                    <TextView
+                        android:id="@+id/tvSumRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/rb_AveRating"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="1dp"
+                        android:text="(0)"
                         android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textSize="17sp" />
 
                     <LinearLayout
                         android:id="@+id/lnPrice"
@@ -497,13 +505,7 @@
                         android:layout_marginRight="20dp"
                         android:src="@drawable/ic_unknown_animal" />
 
-                    <ImageView
-                        android:id="@+id/imgWebsite"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:src="@drawable/ic_web" />
+
                 </LinearLayout>
 
                 <TextView
@@ -534,8 +536,8 @@
             <RelativeLayout
                 android:id="@+id/lnReview"
                 android:layout_width="match_parent"
-                android:visibility="gone"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <include
                     layout="@layout/layout_product_review"
@@ -583,6 +585,15 @@
             android:layout_marginRight="20dp"
             android:padding="10dp"
             android:src="@drawable/ic_map_search" />
+
+        <ImageView
+            android:id="@+id/imgWebsite"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:padding="10dp"
+            android:src="@drawable/ic_web_green" />
 
     </LinearLayout>
 </RelativeLayout>

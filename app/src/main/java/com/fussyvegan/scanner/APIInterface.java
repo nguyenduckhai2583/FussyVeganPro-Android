@@ -25,7 +25,7 @@ public interface APIInterface {
     @GET("get_products.php?")
     Call<Resource> doGetResponseBySearch(@Query("api_key") String api_key, @Query("search") String search);
 
-    @GET("get_products.php?")
+    @GET("get_product.php?")
     Call<Resource> doGetResponseByBarcode(@Query("api_key") String api_key, @Query("barcode") String barcode);
 
     @GET("get_products.php?")

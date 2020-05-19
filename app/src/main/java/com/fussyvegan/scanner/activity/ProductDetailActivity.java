@@ -1,6 +1,7 @@
 package com.fussyvegan.scanner.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
@@ -65,6 +67,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     public Product product;
 
+    AppCompatRatingBar rb_AveRating;
+    TextView tvSumRating;
+
     MainActivity activity;
     TextView tvProductInfor;
     TextView tvCompanyInfor;
@@ -76,7 +81,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     TextView tvReview;
     TextView tvPrice;
     TextView tvPricePer;
-    TextView tvNameCountry;
+    //TextView tvNameCountry;
     TextView textView6;
     TextView tvSpecial;
     // Review
@@ -116,6 +121,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
 
+        rb_AveRating = findViewById(R.id.rb_AveRating);
+        tvSumRating = findViewById(R.id.tvSumRating);
 
         ImageView imgProduct = findViewById(R.id.imgProductDetail);
         tvProductInfor = findViewById(R.id.tvProductInfor);
@@ -133,7 +140,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         tvPrice = findViewById(R.id.tvPrice);
         textView6 = findViewById(R.id.textView6);
         tvPricePer = findViewById(R.id.tvPricePer);
-        tvNameCountry = findViewById(R.id.tvNameCountry);
+    //    tvNameCountry = findViewById(R.id.tvNameCountry);
         imgCamera = findViewById(R.id.imgCamera);
         imgListWish = findViewById(R.id.imgListWish);
         imgMap = findViewById(R.id.imgMap);
@@ -265,15 +272,15 @@ public class ProductDetailActivity extends AppCompatActivity {
         }
 
         if (product.getCategory().equals("fastfood")) {
-            tvNameCountry.setVisibility(View.VISIBLE);
-            tvNameCountry.setText(product.getCountry());
+        //    tvNameCountry.setVisibility(View.VISIBLE);
+        //    tvNameCountry.setText(product.getCountry());
         } else {
-            tvNameCountry.setVisibility(View.GONE);
+        //    tvNameCountry.setVisibility(View.GONE);
         }
         if (product.getCategory().equals("ingredient")) {
             lnActionChange.setVisibility(View.GONE);
         } else {
-            tvNameCountry.setVisibility(View.VISIBLE);
+        //    tvNameCountry.setVisibility(View.VISIBLE);
         }
 
         TextView txvDetail = findViewById(R.id.txvDetail);
@@ -452,6 +459,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         tvWriteReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (SharedPrefs.getInstance().get(Constant.IS_LOGIN,Boolean.class)) {
                     Intent intentProduct = new Intent(ProductDetailActivity.this, ReviewActivity.class);
                     intentProduct.putExtra("product", product);
@@ -463,7 +471,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                     tvProductInfor.setSelected(false);
                     tvCompanyInfor.setSelected(false);
                     tvReview.setSelected(true);
-                    startActivity(intentProduct);
+                    startActivityForResult(intentProduct,Constant.LAUNCH_REVIEW_ACTIVITY);
                 } else {
                     Intent loginScreen = new Intent(ProductDetailActivity.this, LoginActivity.class);
                     startActivity(loginScreen);
@@ -532,7 +540,6 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (product.getAddinfo() != null && product.getAddinfo().contains("http")) {
-
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(product.getAddinfo()));
                     startActivity(intent);
                 } else {
@@ -574,7 +581,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                     mApdater.updateData(response.body().getData());
                     setRating(response.body().getData());
                     checkIsReview(response.body().getData());
-
+                    setOverallRatingReview(response.body().getData());
                 }
             }
 
@@ -586,6 +593,19 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     }
 
+    private void setOverallRatingReview(List<ProductReview> data) {
+        int numReview = data.size();
+
+        float number = 0;
+        for (int i = 0; i < data.size(); i++) {
+            number = number + data.get(i).getRating();
+        }
+
+        float aveRating = number/data.size();
+
+        tvSumRating.setText("("+String.valueOf(numReview)+")");
+        rb_AveRating.setRating(aveRating);
+    }
 
     private void checkIsReview(List<ProductReview> productReviews) {
         for (int i = 0; i < productReviews.size(); i++) {
@@ -611,7 +631,17 @@ public class ProductDetailActivity extends AppCompatActivity {
         realm.commitTransaction();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == Constant.LAUNCH_REVIEW_ACTIVITY) {
+            if(resultCode == Activity.RESULT_OK){
+                getReview(product.getId(), mCategory);
+
+            }
+        }
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions,
                                            @NonNull final int[] grantResults) {
