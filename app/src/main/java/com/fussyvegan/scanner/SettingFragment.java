@@ -1,10 +1,12 @@
 package com.fussyvegan.scanner;
 
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,8 @@ import com.fussyvegan.scanner.activity.ForgotPasswordActivity;
 import com.fussyvegan.scanner.activity.LoginActivity;
 import com.fussyvegan.scanner.activity.MainActivity;
 import com.fussyvegan.scanner.adapter.SettingAdapter;
+import com.fussyvegan.scanner.utils.Constant;
+import com.fussyvegan.scanner.utils.SharedPrefs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +61,16 @@ public class SettingFragment extends Fragment {
         settings.add("App Support");
         settings.add("Website");
         settings.add("Privacy Policy");
-        settings.add("Forgot Password");
-        settings.add("Login/Register");
+        if (SharedPrefs.getInstance().get(Constant.IS_LOGIN, Boolean.class)) {
+            settings.add("Change Password");
+        } else {
+            settings.add("Forgot Password");
+        }
+        if (SharedPrefs.getInstance().get(Constant.IS_LOGIN, Boolean.class)) {
+            settings.add("Logout");
+        } else {
+            settings.add("Login/Register");
+        }
         icLink.add(R.drawable.ic_mylist_colour);
         icLink.add(R.drawable.ic_about);
         icLink.add(R.drawable.ic_rate);
@@ -66,8 +78,8 @@ public class SettingFragment extends Fragment {
         icLink.add(R.drawable.ic_info);
         icLink.add(R.drawable.ic_web);
         icLink.add(R.drawable.ic_privacy);
-        icLink.add(0);
-        icLink.add(0);
+        icLink.add(R.drawable.ic_users);
+        icLink.add(R.drawable.ic_users);
     }
 
     // TODO: Customize parameter initialization
@@ -105,7 +117,7 @@ public class SettingFragment extends Fragment {
                     String tag = "ProductKeywordFragment";
                     FavoriteFragment fragment = new FavoriteFragment();
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
-                }  else if (position == 1) {
+                } else if (position == 1) {
                     String tag = "AboutFragment";
                     AboutFragment fragment = new AboutFragment();
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
@@ -132,7 +144,7 @@ public class SettingFragment extends Fragment {
                         Toast.makeText(getContext(), "No application can handle this request. Please install a web browser", Toast.LENGTH_LONG).show();
                         e.printStackTrace();
                     }
-                }  else if (position == 5) {
+                } else if (position == 5) {
                     try {
                         Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://fussyvegan.com.au"));
                         startActivity(myIntent);
@@ -151,7 +163,11 @@ public class SettingFragment extends Fragment {
                 } else if (position == 7) {
                     startActivityForResult(new Intent(getActivity(), ForgotPasswordActivity.class), forgotPassIntentCODEFromFragment);
                 } else if (position == 8) {
-                    startActivityForResult(new Intent(getActivity(), LoginActivity.class), loginIntentCODE);
+                    if (SharedPrefs.getInstance().get(Constant.IS_LOGIN, Boolean.class)) {
+                        showLogout();
+                    } else {
+                        startActivityForResult(new Intent(getActivity(), LoginActivity.class), loginIntentCODE);
+                    }
                 }
             }
         });
@@ -163,16 +179,23 @@ public class SettingFragment extends Fragment {
     }
 
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnListFragmentInteractionListener) {
-//            mListener = (OnListFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnListFragmentInteractionListener");
-//        }
-//    }
+    private void showLogout() {
+        new AlertDialog.Builder(getActivity())
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Logout")
+                .setMessage("Are you sure you want to logout ?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPrefs.getInstance().put(Constant.IS_LOGIN, false);
+
+
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
 
     @Override
     public void onDetach() {
@@ -187,7 +210,7 @@ public class SettingFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == loginIntentCODE && resultCode == loginIntentCODE && data != null) {
+        if (requestCode == loginIntentCODE && resultCode == loginIntentCODE && data != null) {
             String mess = data.getStringExtra("key");
             Toast.makeText(getActivity(), mess, Toast.LENGTH_SHORT).show();
         } else if (requestCode == forgotPassIntentCODEFromFragment && resultCode == forgotPassIntentCODE && data != null) {

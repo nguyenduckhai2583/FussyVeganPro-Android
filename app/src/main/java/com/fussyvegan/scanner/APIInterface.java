@@ -1,13 +1,15 @@
 package com.fussyvegan.scanner;
 
-import com.fussyvegan.scanner.model.accountFlow.PostReviewResult;
-import com.fussyvegan.scanner.model.accountFlow.ReviewProduct;
-import com.fussyvegan.scanner.model.accountFlow.UserAccount;
-import com.fussyvegan.scanner.model.accountFlow.ForgotPassResult;
+import com.fussyvegan.scanner.model.Resource;
 import com.fussyvegan.scanner.model.accountFlow.Email;
+import com.fussyvegan.scanner.model.accountFlow.ForgotPassResult;
+import com.fussyvegan.scanner.model.accountFlow.PostReviewResult;
 import com.fussyvegan.scanner.model.accountFlow.RequestLogin;
 import com.fussyvegan.scanner.model.accountFlow.RequestRegister;
-import com.fussyvegan.scanner.model.Resource;
+import com.fussyvegan.scanner.model.accountFlow.ReviewProduct;
+import com.fussyvegan.scanner.model.accountFlow.Reviews;
+import com.fussyvegan.scanner.model.accountFlow.UpdateReviewProduct;
+import com.fussyvegan.scanner.model.accountFlow.UserAccount;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -39,25 +41,25 @@ public interface APIInterface {
     Call<Resource> doGetResponseBySearchOnlyVegan(@Query("api_key") String api_key, @Query("search") String search, @Query("vegan_status") String veganStatus);
 
     @GET("get_products.php?")
-    Call<Resource> doGetResponseBySearchPalmFree(@Query("api_key") String api_key, @Query("search") String search, @Query("vegan_status") String veganStatus, @Query("palm") String Palm) ;
+    Call<Resource> doGetResponseBySearchPalmFree(@Query("api_key") String api_key, @Query("search") String search, @Query("vegan_status") String veganStatus, @Query("palm") String Palm);
 
     @GET("get_products.php?")
-    Call<Resource> doGetResponseBySearchGlutenFree(@Query("api_key") String api_key, @Query("search") String search, @Query("vegan_status") String veganStatus, @Query("gluten") String gluten) ;
+    Call<Resource> doGetResponseBySearchGlutenFree(@Query("api_key") String api_key, @Query("search") String search, @Query("vegan_status") String veganStatus, @Query("gluten") String gluten);
 
     @GET("get_products.php?")
-    Call<Resource> doGetResponseBySearchNutFree(@Query("api_key") String api_key, @Query("search") String search, @Query("vegan_status") String veganStatus, @Query("nut") String nut) ;
+    Call<Resource> doGetResponseBySearchNutFree(@Query("api_key") String api_key, @Query("search") String search, @Query("vegan_status") String veganStatus, @Query("nut") String nut);
 
     @GET("get_products.php?")
-    Call<Resource> doGetResponseBySearchSoyFree(@Query("api_key") String api_key, @Query("search") String search, @Query("vegan_status") String veganStatus, @Query("soy") String soy) ;
+    Call<Resource> doGetResponseBySearchSoyFree(@Query("api_key") String api_key, @Query("search") String search, @Query("vegan_status") String veganStatus, @Query("soy") String soy);
 
     @GET("get_products.php?")
-    Call<Resource> doGetResponseBySearchVeganCompany(@Query("api_key") String api_key, @Query("search") String search, @Query("vegan_status") String veganStatus, @Query("company_status") String Manvegan) ;
+    Call<Resource> doGetResponseBySearchVeganCompany(@Query("api_key") String api_key, @Query("search") String search, @Query("vegan_status") String veganStatus, @Query("company_status") String Manvegan);
 
     @GET("get_products.php?")
     Call<Resource> doGetResponseBySearchFastFoodOnlyVegan(@Query("api_key") String api_key, @Query("search") String search, @Query("vegan_status") String veganStatus, @Query("country") String barcode);
 
     @GET("get_products.php?")
-    Call<Resource> doGetResponseBySearchFastFoodOnlyVeganName(@Query("api_key") String api_key, @Query("search") String search, @Query("vegan_status") String veganStatus, @Query("country") String barcode,@Query("name") String name);
+    Call<Resource> doGetResponseBySearchFastFoodOnlyVeganName(@Query("api_key") String api_key, @Query("search") String search, @Query("vegan_status") String veganStatus, @Query("country") String barcode, @Query("name") String name);
 
     @GET("get_products.php?")
     Call<Resource> doGetResponseBySearchFastFood(@Query("api_key") String api_key, @Query("search") String search, @Query("country") String barcode);
@@ -77,5 +79,14 @@ public interface APIInterface {
     @POST("post_rating.php?api_key=45090dcae2aYMK")
     Call<PostReviewResult> postReviewProduct(@Header("access-token") String token,
                                              @Body ReviewProduct reviewProduct);
+
+    @GET("get_rating.php?api_key=45090dcae2aYMK")
+    Call<Reviews> getReviewProduct(@Header("access-token") String token,
+                                   @Query("ratingable_id") int idProduct,
+                                   @Query("ratingable_type") int typeProduct);
+
+    @POST("update_rating.php?api_key=45090dcae2aYMK")
+    Call<PostReviewResult> updateReviewProduct(@Header("access-token") String token,
+                                                  @Body UpdateReviewProduct reviewProduct);
 
 }

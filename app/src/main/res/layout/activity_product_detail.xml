@@ -534,16 +534,12 @@
             <RelativeLayout
                 android:id="@+id/lnReview"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
+                <include
+                    layout="@layout/layout_product_review"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </LinearLayout>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerViewReview"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
 

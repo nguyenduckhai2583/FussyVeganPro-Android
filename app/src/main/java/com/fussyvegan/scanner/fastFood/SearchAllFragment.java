@@ -92,6 +92,7 @@ public class SearchAllFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
                 intent.putExtra("product", mProducts.get(position));
                 intent.putExtra("country", true);
+                intent.putExtra("category", 2);
                 startActivity(intent);
             }
         });

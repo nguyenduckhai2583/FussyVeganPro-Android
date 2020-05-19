@@ -115,6 +115,7 @@ public class SearchFragment extends Fragment {
 
                 Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
                 intent.putExtra("product", products.get(position - 1));
+                intent.putExtra("category", 1);
                 startActivity(intent);
 
 //                ProductFragment fragment = new ProductFragment();

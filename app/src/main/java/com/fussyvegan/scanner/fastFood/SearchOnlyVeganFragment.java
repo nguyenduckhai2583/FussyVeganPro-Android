@@ -106,6 +106,8 @@ public class SearchOnlyVeganFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
                 intent.putExtra("product", mProducts.get(position));
+                intent.putExtra("category", 2);
+
                 startActivity(intent);
             }
         });

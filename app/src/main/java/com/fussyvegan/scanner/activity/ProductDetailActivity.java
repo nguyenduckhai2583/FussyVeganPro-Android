@@ -10,12 +10,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,17 +26,30 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fussyvegan.scanner.APIInterface;
+import com.fussyvegan.scanner.APILoginClient;
 import com.fussyvegan.scanner.R;
+import com.fussyvegan.scanner.adapter.ProductReviewAdapter;
 import com.fussyvegan.scanner.model.Product;
+import com.fussyvegan.scanner.model.ProductReview;
+import com.fussyvegan.scanner.model.accountFlow.Reviews;
+import com.fussyvegan.scanner.utils.Constant;
+import com.fussyvegan.scanner.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import github.nisrulz.screenshott.ScreenShott;
 import io.realm.Realm;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.fussyvegan.scanner.utils.Constant.ACCESS_TOKEN;
 
 
 public class ProductDetailActivity extends AppCompatActivity {
@@ -41,6 +57,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = ProductDetailActivity.class.getSimpleName();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -62,6 +79,14 @@ public class ProductDetailActivity extends AppCompatActivity {
     TextView tvNameCountry;
     TextView textView6;
     TextView tvSpecial;
+    // Review
+    TextView tvWriteReview;
+    TextView tvTotalReview;
+    TextView tvRateFiveStar;
+    TextView tvRateFourStar;
+    TextView tvRateThreeStar;
+    TextView tvRateTwoStar;
+    TextView tvRateOneStar;
     ImageView imgCamera;
     ImageView imgListWish;
     ImageView imgMap;
@@ -71,13 +96,19 @@ public class ProductDetailActivity extends AppCompatActivity {
     ImageView imgSpecial;
     ImageView imgCertified;
     RelativeLayout llCompany;
+    RelativeLayout lnReview;
     LinearLayout lnPrice;
     LinearLayout llSpecial;
     LinearLayout lnActionChange;
+    RecyclerView recyclerViewReview;
+    ProductReviewAdapter mApdater;
     private Bitmap bitmap;
     private final static String[] requestWritePermission =
             {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    private boolean isBarcode;
+    private boolean isReview;
+    private ProductReview reviewProduct;
+
+    int mCategory;
 
 
     @Override
@@ -91,8 +122,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         tvCompanyInfor = findViewById(R.id.tvCompanyInfor);
         txvTitle = findViewById(R.id.txvTitle);
         txvDetail = findViewById(R.id.txvDetail);
+        tvWriteReview = findViewById(R.id.tvWriteReview);
         tvTime = findViewById(R.id.tvTime);
         llCompany = findViewById(R.id.llCompany);
+        lnReview = findViewById(R.id.lnReview);
         tvCompanyName = findViewById(R.id.tvCompanyName);
         tvManInfo = findViewById(R.id.tvManInfo);
         tvReview = findViewById(R.id.tvReview);
@@ -112,6 +145,13 @@ public class ProductDetailActivity extends AppCompatActivity {
         llSpecial = findViewById(R.id.llSpecial);
         tvSpecial = findViewById(R.id.tvSpecial);
         lnActionChange = findViewById(R.id.lnActionChange);
+        recyclerViewReview = findViewById(R.id.recyclerViewReview);
+        tvTotalReview = findViewById(R.id.tvTotalReview);
+        tvRateFiveStar = findViewById(R.id.tvRateFiveStar);
+        tvRateFourStar = findViewById(R.id.tvRateFourStar);
+        tvRateThreeStar = findViewById(R.id.tvRateThreeStar);
+        tvRateTwoStar = findViewById(R.id.tvRateTwoStar);
+        tvRateOneStar = findViewById(R.id.tvRateOneStar);
 
         tvProductInfor.setSelected(true);
         handleOnClick();
@@ -120,6 +160,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         product = intent.getParcelableExtra("product");
+        mCategory = intent.getIntExtra("category", 1);
 
         tvTime.setText(product.getLastUpdate());
         tvCompanyName.setText(product.getCompanyName());
@@ -326,8 +367,50 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         txvDetail.setText(textSpan);
         txvDetail.setMovementMethod(new ScrollingMovementMethod());
+        initRecyclerView();
+        getReview(product.getId(), mCategory);
 
     }
+
+
+    private void initRecyclerView() {
+        mApdater = new ProductReviewAdapter(this);
+        recyclerViewReview.setAdapter(mApdater);
+        recyclerViewReview.setLayoutManager(new LinearLayoutManager(this));
+
+    }
+
+    private void setRating(List<ProductReview> productReviews) {
+        tvTotalReview.setText(getTotalNumberPoint(productReviews));
+        tvRateFiveStar.setText(String.valueOf(getNumberPoint(productReviews, 5)));
+        tvRateFourStar.setText(String.valueOf(getNumberPoint(productReviews, 4)));
+        tvRateThreeStar.setText(String.valueOf(getNumberPoint(productReviews, 3)));
+        tvRateTwoStar.setText(String.valueOf(getNumberPoint(productReviews, 2)));
+        tvRateOneStar.setText(String.valueOf(getNumberPoint(productReviews, 1)));
+    }
+
+    private int getNumberPoint(List<ProductReview> productReviews, int point) {
+        int number = 0;
+        for (int i = 0; i < productReviews.size(); i++) {
+
+            if (productReviews.get(i).getRating() == point) {
+                number++;
+            }
+        }
+        return number;
+
+    }
+
+    private String getTotalNumberPoint(List<ProductReview> productReviews) {
+        float number = 0;
+        for (int i = 0; i < productReviews.size(); i++) {
+            number = number + productReviews.get(i).getRating();
+
+        }
+        return String.format("%.1f", number / productReviews.size());
+
+    }
+
 
     private void handleOnClick() {
         tvProductInfor.setOnClickListener(new View.OnClickListener() {
@@ -335,9 +418,11 @@ public class ProductDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 textView6.setText("Product information");
                 llCompany.setVisibility(View.GONE);
+                lnReview.setVisibility(View.GONE);
                 txvDetail.setVisibility(View.VISIBLE);
                 tvProductInfor.setSelected(true);
                 tvCompanyInfor.setSelected(false);
+                tvReview.setSelected(false);
                 if (product.getSpecialDetail() != null && !product.getSpecialDetail().isEmpty()) {
                     llSpecial.setVisibility(View.VISIBLE);
                     tvSpecial.setText(product.getSpecialDetail());
@@ -355,20 +440,51 @@ public class ProductDetailActivity extends AppCompatActivity {
                 llCompany.setVisibility(View.VISIBLE);
                 llSpecial.setVisibility(View.GONE);
                 txvDetail.setVisibility(View.GONE);
+                lnReview.setVisibility(View.GONE);
+
                 tvProductInfor.setSelected(false);
+                tvReview.setSelected(false);
+
                 tvCompanyInfor.setSelected(true);
             }
         });
 
+        tvWriteReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (SharedPrefs.getInstance().get(Constant.IS_LOGIN,Boolean.class)) {
+                    Intent intentProduct = new Intent(ProductDetailActivity.this, ReviewActivity.class);
+                    intentProduct.putExtra("product", product);
+                    intentProduct.putExtra("category", mCategory);
+
+                    if (isReview) {
+                        intentProduct.putExtra("review", reviewProduct);
+                    }
+                    tvProductInfor.setSelected(false);
+                    tvCompanyInfor.setSelected(false);
+                    tvReview.setSelected(true);
+                    startActivity(intentProduct);
+                } else {
+                    Intent loginScreen = new Intent(ProductDetailActivity.this, LoginActivity.class);
+                    startActivity(loginScreen);
+                }
+
+
+            }
+
+        });
         tvReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentProduct = new Intent(ProductDetailActivity.this, ReviewActivity.class);
-                intentProduct.putExtra("product", product);
+                textView6.setText("Rating and Reviews");
                 tvProductInfor.setSelected(false);
                 tvCompanyInfor.setSelected(false);
                 tvReview.setSelected(true);
-                startActivity(intentProduct);
+                llCompany.setVisibility(View.GONE);
+                llSpecial.setVisibility(View.GONE);
+                txvDetail.setVisibility(View.GONE);
+                lnReview.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -444,6 +560,44 @@ public class ProductDetailActivity extends AppCompatActivity {
         }
     }
 
+    private void getReview(int idProduct, int idType) {
+        String token = SharedPrefs.getInstance().get(ACCESS_TOKEN, String.class);
+        APIInterface apiInterface = APILoginClient.getClient().create(APIInterface.class);
+
+        Call<Reviews> call = apiInterface.getReviewProduct(token, idProduct, idType);
+        call.enqueue(new Callback<Reviews>() {
+            @Override
+            public void onResponse(Call<Reviews> call, Response<Reviews> response) {
+
+                Log.d(TAG, String.valueOf(response.code()));
+                if (!response.body().getData().isEmpty()) {
+                    mApdater.updateData(response.body().getData());
+                    setRating(response.body().getData());
+                    checkIsReview(response.body().getData());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Reviews> call, Throwable t) {
+                Log.d(TAG, t.getMessage());
+            }
+        });
+
+    }
+
+
+    private void checkIsReview(List<ProductReview> productReviews) {
+        for (int i = 0; i < productReviews.size(); i++) {
+
+            if (productReviews.get(i).getUsername().equals(SharedPrefs.getInstance().get(Constant.USER_NAME, String.class))) {
+                isReview = true;
+                reviewProduct = productReviews.get(i);
+                break;
+            }
+        }
+
+    }
 
     public void addToFavorite() {
         Toast.makeText(this, "Added to My List", Toast.LENGTH_SHORT).show();

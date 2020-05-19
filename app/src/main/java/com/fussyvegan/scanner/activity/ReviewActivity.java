@@ -1,38 +1,35 @@
 package com.fussyvegan.scanner.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatRatingBar;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fussyvegan.scanner.APIInterface;
 import com.fussyvegan.scanner.APILoginClient;
 import com.fussyvegan.scanner.R;
-import com.fussyvegan.scanner.model.CurrentUser;
 import com.fussyvegan.scanner.model.Product;
+import com.fussyvegan.scanner.model.ProductReview;
 import com.fussyvegan.scanner.model.accountFlow.PostReviewResult;
 import com.fussyvegan.scanner.model.accountFlow.ReviewProduct;
-import com.fussyvegan.scanner.model.accountFlow.UserAccount;
+import com.fussyvegan.scanner.model.accountFlow.UpdateReviewProduct;
+import com.fussyvegan.scanner.utils.Constant;
 import com.fussyvegan.scanner.utils.SharedPrefs;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.fussyvegan.scanner.activity.LoginActivity.ACCESS_TOKEN;
 
 public class ReviewActivity extends AppCompatActivity {
 
-    private static final String TAG = ReviewActivity.class.getSimpleName() ;
+    private static final String TAG = ReviewActivity.class.getSimpleName();
     ImageView reviewImg_Back;
     TextView reviewTxt_Clear;
     AppCompatRatingBar reviewRatingBar;
@@ -40,12 +37,9 @@ public class ReviewActivity extends AppCompatActivity {
     Button reviewBtn_Submit;
     APIInterface apiInterface;
     int productId;
-    int categoryId = 1;
+    int categoryId;
+    ProductReview mProductReview;
 
-//    const RATE_PRODUCT = 1;
-//  const RATE_FOODCHAIN = 2;
-//  const RATE_RESORT = 3;
-//  const RATE_RESTAURANT = 4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +51,11 @@ public class ReviewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Product product = intent.getParcelableExtra("product");
         productId = product.getId();
-        reviewEdt_Review.setText(String.valueOf(product.getId()));
+         mProductReview = intent.getParcelableExtra("review");
+        categoryId = intent.getIntExtra("category", 1);
+        if (mProductReview != null) {
+            updateUIReview();
+        }
 
     }
 
@@ -80,6 +78,15 @@ public class ReviewActivity extends AppCompatActivity {
         });
     }
 
+    private void updateUIReview() {
+        reviewEdt_Email.setText(mProductReview.getUsername());
+        reviewEdt_Name.setText(mProductReview.getUsername());
+        reviewEdt_Title.setText(mProductReview.getTitle());
+        reviewEdt_Review.setText(mProductReview.getReview());
+        reviewRatingBar.setRating(mProductReview.getRating());
+    }
+
+
     private void addContent() {
         reviewImg_Back = findViewById(R.id.reviewImg_Back);
         reviewTxt_Clear = findViewById(R.id.reviewTxt_Clear);
@@ -92,31 +99,60 @@ public class ReviewActivity extends AppCompatActivity {
         reviewBtn_Submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                postReview();
+                if (mProductReview != null) {
+                    updateReview();
+                } else {
+                    postReview();
+
+                }
             }
         });
     }
 
     private void postReview() {
 
-            String token = SharedPrefs.getInstance().get(ACCESS_TOKEN,String.class);
-            ReviewProduct reviewProduct = new ReviewProduct(String.valueOf(reviewRatingBar.getRating()),
-                    productId,categoryId ,reviewEdt_Review.getText().toString(),reviewEdt_Title.getText().toString());
-            apiInterface = APILoginClient.getClient().create(APIInterface.class);
+        String token = SharedPrefs.getInstance().get(Constant.ACCESS_TOKEN, String.class);
+        ReviewProduct reviewProduct = new ReviewProduct(String.valueOf(reviewRatingBar.getRating()),
+                productId, categoryId, reviewEdt_Review.getText().toString(), reviewEdt_Title.getText().toString());
+        apiInterface = APILoginClient.getClient().create(APIInterface.class);
 
-            Call<PostReviewResult> call = apiInterface.postReviewProduct(token,reviewProduct);
-            call.enqueue(new Callback<PostReviewResult>() {
-                @Override
-                public void onResponse(Call<PostReviewResult> call, Response<PostReviewResult> response) {
-                    Log.d(TAG, String.valueOf(response.code()));
-                    finish();
+        Call<PostReviewResult> call = apiInterface.postReviewProduct(token, reviewProduct);
+        call.enqueue(new Callback<PostReviewResult>() {
+            @Override
+            public void onResponse(Call<PostReviewResult> call, Response<PostReviewResult> response) {
+                Log.d(TAG, String.valueOf(response.code()));
+                finish();
 
-                }
+            }
 
-                @Override
-                public void onFailure(Call<PostReviewResult> call, Throwable t) {
-                    Log.d(TAG, t.getMessage());
-                }
-            });
-        }
+            @Override
+            public void onFailure(Call<PostReviewResult> call, Throwable t) {
+                Log.d(TAG, t.getMessage());
+            }
+        });
+    }
+
+
+    private void updateReview() {
+
+        String token = SharedPrefs.getInstance().get(Constant.ACCESS_TOKEN, String.class);
+        UpdateReviewProduct updateProduct = new UpdateReviewProduct(mProductReview.getRating(),
+                mProductReview.getReview(), mProductReview.getTitle(), mProductReview.getId());
+        apiInterface = APILoginClient.getClient().create(APIInterface.class);
+
+        Call<PostReviewResult> call = apiInterface.updateReviewProduct(token, updateProduct);
+        call.enqueue(new Callback<PostReviewResult>() {
+            @Override
+            public void onResponse(Call<PostReviewResult> call, Response<PostReviewResult> response) {
+                Log.d(TAG, String.valueOf(response.code()));
+                finish();
+
+            }
+
+            @Override
+            public void onFailure(Call<PostReviewResult> call, Throwable t) {
+                Log.d(TAG, t.getMessage());
+            }
+        });
+    }
 }

@@ -20,6 +20,7 @@ import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.model.CurrentUser;
 import com.fussyvegan.scanner.model.accountFlow.UserAccount;
 import com.fussyvegan.scanner.model.accountFlow.RequestLogin;
+import com.fussyvegan.scanner.utils.Constant;
 import com.fussyvegan.scanner.utils.SharedPrefs;
 
 import retrofit2.Call;
@@ -29,7 +30,6 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = LoginActivity.class.getSimpleName();
-    public static final String ACCESS_TOKEN = "access_token";
     public int loginIntentCODE = 0;
 
     public int registerIntentCODE = 1;
@@ -101,7 +101,9 @@ public class LoginActivity extends AppCompatActivity {
 
                     if(response.code() == 200) {
                         CurrentUser.instance = response.body();
-                        SharedPrefs.getInstance().put(ACCESS_TOKEN, response.body().getData().getToken());
+                        SharedPrefs.getInstance().put(Constant.ACCESS_TOKEN, response.body().getData().getToken());
+                        SharedPrefs.getInstance().put(Constant.USER_NAME, response.body().getData().getUser().getName());
+                        SharedPrefs.getInstance().put(Constant.IS_LOGIN, true);
                         Intent loginBack = getIntent();
                         loginBack.putExtra("key", "Login Success");
                         setResult(loginIntentCODE, loginBack);

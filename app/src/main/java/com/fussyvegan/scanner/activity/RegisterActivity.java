@@ -17,13 +17,13 @@ import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.model.CurrentUser;
 import com.fussyvegan.scanner.model.accountFlow.UserAccount;
 import com.fussyvegan.scanner.model.accountFlow.RequestRegister;
+import com.fussyvegan.scanner.utils.Constant;
 import com.fussyvegan.scanner.utils.SharedPrefs;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.fussyvegan.scanner.activity.LoginActivity.ACCESS_TOKEN;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -88,7 +88,9 @@ public class RegisterActivity extends AppCompatActivity {
                     if (response.code() == 200) {
                         CurrentUser.instance = response.body();
                         Log.d(TAG, "register success");
-                        SharedPrefs.getInstance().put(ACCESS_TOKEN, response.body().getData().getToken());
+                        SharedPrefs.getInstance().put(Constant.ACCESS_TOKEN, response.body().getData().getToken());
+                        SharedPrefs.getInstance().put(Constant.USER_NAME, response.body().getData().getUser().getName());
+                        SharedPrefs.getInstance().put(Constant.IS_LOGIN, true);
                         Intent registerBack = getIntent();
                         registerBack.putExtra("key", "Register Success");
                         setResult(registerIntentCODE, registerBack);
