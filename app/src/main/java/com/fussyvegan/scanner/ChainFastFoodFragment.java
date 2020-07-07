@@ -116,12 +116,15 @@ public class ChainFastFoodFragment extends Fragment implements ChainFoodAdapter.
         mChains.add(new ChainFastFood("Bubba Pizza ", "ic_bubba_pizza"));
         mChains.add(new ChainFastFood("Burger Urge ", "ic_burger_urge"));
         mChains.add(new ChainFastFood("Burrito Bar ", "ic_burrito_bar"));
+        mChains.add(new ChainFastFood("Carl’s Jr.", "ic_carls_junior"));
         mChains.add(new ChainFastFood("Chatime ", "ic_chatime"));
+        mChains.add(new ChainFastFood("The Coffee Club ", "ic_coffee_club"));
         mChains.add(new ChainFastFood("Chicken Treat ", "ic_chicken_treat"));
         mChains.add(new ChainFastFood("Cold Rock ", "ic_cold_rock"));
         mChains.add(new ChainFastFood("Crust Gourmet Pizza Bar ", "ic_crust_pizza"));
         mChains.add(new ChainFastFood("Domino’s ", "ic_dominos"));
         mChains.add(new ChainFastFood("Event Cinemas ", "ic_event_cinemas"));
+        mChains.add(new ChainFastFood("Ferguson Plarre Bakehouses ", "ic_ferguson_plarre"));
         mChains.add(new ChainFastFood("Gelatissimo ", "ic_gelatissimo"));
         mChains.add(new ChainFastFood("Gloria Jean’s ", "ic_gloria_jeans"));
         mChains.add(new ChainFastFood("Grill’d ", "ic_grilld"));
@@ -204,6 +207,7 @@ public class ChainFastFoodFragment extends Fragment implements ChainFoodAdapter.
         mChains.add(new ChainFastFood("Pizza Hut ", "ic_pizza_hut"));
         mChains.add(new ChainFastFood("Popeyes ", "ic_popeyes"));
         mChains.add(new ChainFastFood("QDOBA ", "ic_qdoba"));
+        mChains.add(new ChainFastFood("Quiznos ", "ic_quiznos"));
         mChains.add(new ChainFastFood("Rally’s ", "ic_rallys"));
         mChains.add(new ChainFastFood("Starbucks ", "ic_starbucks"));
         mChains.add(new ChainFastFood("Steak ’n Shake ", "ic_steak_shake"));
@@ -253,8 +257,17 @@ public class ChainFastFoodFragment extends Fragment implements ChainFoodAdapter.
 
     void initDataCA() {
         mChains.add(new ChainFastFood("Arby’s ", "ic_arby"));
+        mChains.add(new ChainFastFood("Burger King ", "ic_burger_king"));
+        mChains.add(new ChainFastFood("Dairy Queen ", "ic_dairy_queen"));
+        mChains.add(new ChainFastFood("Harvey’s ", "ic_harveys"));
         mChains.add(new ChainFastFood("McDonald’s ", "ic_mcdonalds"));
+        mChains.add(new ChainFastFood("New York Fries ", "ic_nyf"));
+        mChains.add(new ChainFastFood("Panago Pizza ", "ic_panago_pizza"));
+        mChains.add(new ChainFastFood("Pizza Pizza ", "ic_pizza_pizza"));
+        mChains.add(new ChainFastFood("Quiznos ", "ic_quiznos"));
         mChains.add(new ChainFastFood("Subway ", "ic_subway"));
+        mChains.add(new ChainFastFood("Taco Bell ", "ic_taco_bell"));
+        mChains.add(new ChainFastFood("Tim Hortons ", "ic_tim_hortons"));
         mAdapter.updateData(mChains);
     }
 

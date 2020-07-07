@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -111,17 +109,19 @@ public class SearchFragment extends Fragment {
         ltvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("TAG", position + "  click");
+                if (position > 0) {
+                    Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                    if (isHasFilter) {
+                        intent.putExtra("product", filterProducts.get(position - 1));
+                        intent.putExtra("category", 1);
+                    } else {
+                        intent.putExtra("product", products.get(position - 1));
+                        intent.putExtra("category", 1);
+                    }
 
-                Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
-                intent.putExtra("product", products.get(position - 1));
-                intent.putExtra("category", 1);
-                startActivity(intent);
+                    startActivity(intent);
+                }
 
-//                ProductFragment fragment = new ProductFragment();
-//                fragment.product = products.get(position-1);
-//                String tag = "ProductFragment";
-//                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
             }
         });
 
@@ -225,7 +225,7 @@ public class SearchFragment extends Fragment {
                     ignoreCheck = false;
 
                     if (isNoPalmOil && !ignoreCheck) {
-                        if (products.get(i).getProdpalm().equalsIgnoreCase(filterCondition)) {
+                        if (products.get(i).getProdpalm().equals(filterCondition)) {
                             filterCorrect = true;
                         } else {
                             filterCorrect = false;
@@ -234,7 +234,7 @@ public class SearchFragment extends Fragment {
                     }
 
                     if (isNoGMO && !ignoreCheck) {
-                        if (products.get(i).getGmo().equalsIgnoreCase(filterCondition)) {
+                        if (products.get(i).getGmo().equals(filterCondition)) {
                             filterCorrect = true;
                         } else {
                             filterCorrect = false;
@@ -243,7 +243,7 @@ public class SearchFragment extends Fragment {
                     }
 
                     if (isGlutenFree && !ignoreCheck) {
-                        if (products.get(i).getGluten().equalsIgnoreCase(filterCondition)) {
+                        if (products.get(i).getGluten().equals(filterCondition)) {
                             filterCorrect = true;
                         } else {
                             filterCorrect = false;
@@ -252,7 +252,7 @@ public class SearchFragment extends Fragment {
                     }
 
                     if (isNutFree && !ignoreCheck) {
-                        if (products.get(i).getNut().equalsIgnoreCase(filterCondition)) {
+                        if (products.get(i).getNut().equals(filterCondition)) {
                             filterCorrect = true;
                         } else {
                             filterCorrect = false;
@@ -261,7 +261,7 @@ public class SearchFragment extends Fragment {
                     }
 
                     if (isSoyFree && !ignoreCheck) {
-                        if (products.get(i).getSoy().equalsIgnoreCase(filterCondition)) {
+                        if (products.get(i).getSoy().equals(filterCondition)) {
                             filterCorrect = true;
                         } else {
                             filterCorrect = false;
@@ -270,7 +270,8 @@ public class SearchFragment extends Fragment {
                     }
 
                     if (isVeganCompany && !ignoreCheck) {
-                        if (products.get(i).getVeganStatus().equalsIgnoreCase(filterConditionVegan)) {
+                        if (products.get(i).getVeganStatus().equals(filterConditionVegan)) {
+                            Log.d("vagen status", products.get(i).getVeganStatus() + "------");
                             filterCorrect = true;
                         } else {
                             filterCorrect = false;

@@ -607,4 +607,50 @@ public class Product extends RealmObject implements Parcelable {
     public void setAltName(String AltName) {
         this.AltName = AltName;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", barcode='" + barcode + '\'' +
+                ", description='" + description + '\'' +
+                ", veganStatus='" + veganStatus + '\'' +
+                ", explanation='" + explanation + '\'' +
+                ", linkPhoto='" + linkPhoto + '\'' +
+                ", linkBarcode='" + linkBarcode + '\'' +
+                ", manInfo='" + manInfo + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", Ingredient='" + Ingredient + '\'' +
+                ", Animal='" + Animal + '\'' +
+                ", Manvegan='" + Manvegan + '\'' +
+                ", Palm='" + Palm + '\'' +
+                ", Addinfo='" + Addinfo + '\'' +
+                ", prodpalm='" + prodpalm + '\'' +
+                ", gmo='" + gmo + '\'' +
+                ", gluten='" + gluten + '\'' +
+                ", nut='" + nut + '\'' +
+                ", soy='" + soy + '\'' +
+                ", avgPrice='" + avgPrice + '\'' +
+                ", pricePer='" + pricePer + '\'' +
+                ", priceLevel='" + priceLevel + '\'' +
+                ", priceCompare='" + priceCompare + '\'' +
+                ", linkVegan='" + linkVegan + '\'' +
+                ", linkPalm='" + linkPalm + '\'' +
+                ", linkGmo='" + linkGmo + '\'' +
+                ", linkGluten='" + linkGluten + '\'' +
+                ", linkNut='" + linkNut + '\'' +
+                ", linkSoy='" + linkSoy + '\'' +
+                ", linkSpecial='" + linkSpecial + '\'' +
+                ", linkPrice='" + linkPrice + '\'' +
+                ", SpecialDetail='" + SpecialDetail + '\'' +
+                ", linkMap='" + linkMap + '\'' +
+                ", certified='" + certified + '\'' +
+                ", specialTitle='" + specialTitle + '\'' +
+                ", category='" + category + '\'' +
+                ", LastUpdate='" + LastUpdate + '\'' +
+                ", Country='" + Country + '\'' +
+                ", AltName='" + AltName + '\'' +
+                '}';
+    }
 }

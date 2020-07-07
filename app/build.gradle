@@ -8,8 +8,8 @@ android {
         applicationId "com.fussyvegan.pro"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 13
-        versionName "1.12" +
+        versionCode 24
+        versionName "1.23" +
                 ""
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

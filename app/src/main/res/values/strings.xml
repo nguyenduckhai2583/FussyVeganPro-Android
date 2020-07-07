@@ -42,5 +42,12 @@
     <string name="txt_reviewe">Review</string>
     <string name="txt_submit">Submit</string>
     <string name="txt_rating_and_review">Rating and Reviews</string>
+    <string name="txt_changepass">CHANGE PASSWORD</string>
+    <string name="txt_oldpass">Old password</string>
+    <string name="txt_newpass">New password</string>
+    <string name="txt_confirm_newpass">Confirm new password</string>
+    <string name="message_wrong_length_papss">Password must be longer than 6 characters</string>
+    <string name="message_wrong_confirm_pass">New password must be the same</string>
+
 
 </resources>

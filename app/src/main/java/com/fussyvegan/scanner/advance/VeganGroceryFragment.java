@@ -83,69 +83,82 @@ public class VeganGroceryFragment extends Fragment {
         mDatas.add(new SubCategory("Bread", category));
         List<Category> category1 = new ArrayList<>();
 
-        category1.add(new Category("Cookies & Sweet Biscuits", "ic_cookie"));
-        category1.add(new Category("Chips", "ic_chips"));
-        category1.add(new Category("Chocolate", "ic_chocolate"));
-        category1.add(new Category("Lollies", "ic_lollies"));
-        category1.add(new Category("Savory Biscuits", "ic_biscuits"));
-        category1.add(new Category("Snack Bars", "ic_snackbar"));
-        mDatas.add(new SubCategory("Confectionery & Snacks", category1));
+        category1.add(new Category("BBQ Sauce", "ic_bbq_sauce"));
+        category1.add(new Category("Chilli Sauce", "ic_chilli_sauce"));
+        category1.add(new Category("Ketchup", "ic_ketchup"));
+        category1.add(new Category("Mustard", "ic_mustard"));
+        category1.add(new Category("Mayonnaise", "ic_mayonnaise"));
+        category1.add(new Category("Pasta & Pizza Sauce", "ic_pasta_sauce"));
+        category1.add(new Category("Recipe Bases", "ic_recipe_base"));
+        category1.add(new Category("Soy & Asian Sauce", "ic_soy_sauce"));
+        category1.add(new Category("Stir-fry Sauce", "ic_stirfry_sauce"));
+        category1.add(new Category("Other Sauce", "ic_other_sauce"));
+        mDatas.add(new SubCategory("Condiments & Sauces", category1));
         List<Category> category2 = new ArrayList<>();
 
-        category2.add(new Category("Butter", "ic_butter"));
-        category2.add(new Category("Cheese", "ic_cheese"));
-        category2.add(new Category("Egg", "ic_egg"));
-        category2.add(new Category("Ice Cream", "ic_icecream"));
-        category2.add(new Category("Milk", "ic_milk"));
-        category2.add(new Category("Yoghurt", "ic_yoghurt"));
-        mDatas.add(new SubCategory("Dairy & Egg Replacements", category2));
+        category2.add(new Category("Cookies & Sweet Biscuits", "ic_cookie"));
+        category2.add(new Category("Chips", "ic_chips"));
+        category2.add(new Category("Chocolate", "ic_chocolate"));
+        category2.add(new Category("Lollies", "ic_lollies"));
+        category2.add(new Category("Savory Biscuits", "ic_biscuits"));
+        category2.add(new Category("Snack Bars", "ic_snackbar"));
+        mDatas.add(new SubCategory("Confectionery & Snacks", category2));
         List<Category> category3 = new ArrayList<>();
 
-        category3.add(new Category("Apple Juice", "ic_apple_juice"));
-        category3.add(new Category("Orange Juice", "ic_orange_juice"));
-        category3.add(new Category("Vegetable Juice", "ic_vegetable_juice"));
-        category3.add(new Category("Other Juice", "ic_other_juice"));
-        mDatas.add(new SubCategory("Juices", category3));
+        category3.add(new Category("Butter", "ic_butter"));
+        category3.add(new Category("Cheese", "ic_cheese"));
+        category3.add(new Category("Egg", "ic_egg"));
+        category3.add(new Category("Ice Cream", "ic_icecream"));
+        category3.add(new Category("Milk", "ic_milk"));
+        category3.add(new Category("Yoghurt", "ic_yoghurt"));
+        mDatas.add(new SubCategory("Dairy & Egg Replacements", category3));
         List<Category> category4 = new ArrayList<>();
 
-        category4.add(new Category("Household Cleaners", "ic_clean"));
-        category4.add(new Category("Laundry", "ic_laundry"));
-        mDatas.add(new SubCategory("Laundry & Cleaning", category4));
+        category4.add(new Category("Protein Powder", "ic_protein"));
+        category4.add(new Category("Vitamins & Supplements", "ic_vitamin"));
+        mDatas.add(new SubCategory("Health & Fitness", category4));
         List<Category> category5 = new ArrayList<>();
 
-        category5.add(new Category("Beef", "ic_beef"));
-        category5.add(new Category("Chicken", "ic_chicken"));
-        category5.add(new Category("Fish & Seafood", "ic_fish"));
-        category5.add(new Category("Pork", "ic_pork"));
-        mDatas.add(new SubCategory("Meat Replacements", category5));
+        category5.add(new Category("Apple Juice", "ic_apple_juice"));
+        category5.add(new Category("Orange Juice", "ic_orange_juice"));
+        category5.add(new Category("Vegetable Juice", "ic_vegetable_juice"));
+        category5.add(new Category("Other Juice", "ic_other_juice"));
+        mDatas.add(new SubCategory("Juices", category5));
         List<Category> category6 = new ArrayList<>();
 
-        category6.add(new Category("Baking & Cake Mixes", "ic_cake_mix"));
-        category6.add(new Category("Cereals", "ic_cereal"));
-        category6.add(new Category("Gravy", "ic_gravy"));
-        category6.add(new Category("Noodles", "ic_noodles"));
-        category6.add(new Category("Ready Made Meals", "ic_readymade"));
-        mDatas.add(new SubCategory("Other Grocery", category6));
+        category6.add(new Category("Household Cleaners", "ic_clean"));
+        category6.add(new Category("Laundry", "ic_laundry"));
+        mDatas.add(new SubCategory("Laundry & Cleaning", category6));
         List<Category> category7 = new ArrayList<>();
 
-        category7.add(new Category("Body Wash & Soap", "ic_soap"));
-        category7.add(new Category("Deodorant", "ic_deodorant"));
-        category7.add(new Category("Hair Care", "ic_hair"));
-        category7.add(new Category("Oral Hygiene", "ic_toothbrush"));
-        category7.add(new Category("Shaving", "ic_shave"));
-        mDatas.add(new SubCategory("Personal Hygiene", category7));
+        category7.add(new Category("Beef", "ic_beef"));
+        category7.add(new Category("Chicken", "ic_chicken"));
+        category7.add(new Category("Fish & Seafood", "ic_fish"));
+        category7.add(new Category("Pork", "ic_pork"));
+        mDatas.add(new SubCategory("Meat Replacements", category7));
         List<Category> category8 = new ArrayList<>();
 
-        category8.add(new Category("BBQ Sauce", "ic_bbq_sauce"));
-        category8.add(new Category("Chilli Sauce", "ic_chilli_sauce"));
-        category8.add(new Category("Ketchup", "ic_ketchup"));
-        category8.add(new Category("Mustard", "ic_mustard"));
-        category8.add(new Category("Pasta & Pizza Sauce", "ic_pasta_sauce"));
-        category8.add(new Category("Recipe Bases", "ic_recipe_base"));
-        category8.add(new Category("Soy & Asian Sauce", "ic_soy_sauce"));
-        category8.add(new Category("Stir-fry Sauce", "ic_stirfry_sauce"));
-        category8.add(new Category("Other Sauce", "ic_other_sauce"));
-        mDatas.add(new SubCategory("Sauces", category8));
+        category8.add(new Category("Baking & Cake Mixes", "ic_cake_mix"));
+        category8.add(new Category("Cereals", "ic_cereal"));
+        category8.add(new Category("Dessert Pies", "ic_dessertpie"));
+        category8.add(new Category("Frozen Party Food", "ic_springrolls"));
+        category8.add(new Category("Frozen Potatoes", "ic_frozenchips"));
+        category8.add(new Category("Gravy", "ic_gravy"));
+        category8.add(new Category("Noodles", "ic_noodles"));
+        category8.add(new Category("Ready Made Meals", "ic_readymade"));
+        category8.add(new Category("Soup", "ic_soup"));
+        mDatas.add(new SubCategory("Other Grocery", category8));
+        List<Category> category9 = new ArrayList<>();
+
+        category9.add(new Category("Body Wash & Soap", "ic_soap"));
+        category9.add(new Category("Deodorant", "ic_deodorant"));
+        category9.add(new Category("Hair Care", "ic_hair"));
+        category9.add(new Category("Oral Hygiene", "ic_toothbrush"));
+        category9.add(new Category("Shaving", "ic_shave"));
+        mDatas.add(new SubCategory("Personal Hygiene", category9));
+
+
+
 
 
 

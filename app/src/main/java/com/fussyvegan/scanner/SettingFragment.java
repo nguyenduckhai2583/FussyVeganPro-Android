@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.fussyvegan.scanner.activity.ChangePasswordActivity;
 import com.fussyvegan.scanner.activity.ForgotPasswordActivity;
 import com.fussyvegan.scanner.activity.LoginActivity;
 import com.fussyvegan.scanner.activity.MainActivity;
@@ -38,6 +39,7 @@ public class SettingFragment extends Fragment {
     public int forgotPassIntentCODE = 2;
 
     public int forgotPassIntentCODEFromFragment = 3;
+    public int changePasswordCODEFromFragment = 4;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -61,6 +63,7 @@ public class SettingFragment extends Fragment {
         settings.add("App Support");
         settings.add("Website");
         settings.add("Privacy Policy");
+        settings.add("Terms & Conditions");
         if (SharedPrefs.getInstance().get(Constant.IS_LOGIN, Boolean.class)) {
             settings.add("Change Password");
         } else {
@@ -75,11 +78,12 @@ public class SettingFragment extends Fragment {
         icLink.add(R.drawable.ic_about);
         icLink.add(R.drawable.ic_rate);
         icLink.add(R.drawable.ic_email);
-        icLink.add(R.drawable.ic_info);
+        icLink.add(R.drawable.ic_support);
         icLink.add(R.drawable.ic_web);
         icLink.add(R.drawable.ic_privacy);
-        icLink.add(R.drawable.ic_users);
-        icLink.add(R.drawable.ic_users);
+        icLink.add(R.drawable.ic_terms);
+        icLink.add(R.drawable.ic_password);
+        icLink.add(R.drawable.ic_login);
     }
 
     // TODO: Customize parameter initialization
@@ -161,8 +165,21 @@ public class SettingFragment extends Fragment {
                         e.printStackTrace();
                     }
                 } else if (position == 7) {
-                    startActivityForResult(new Intent(getActivity(), ForgotPasswordActivity.class), forgotPassIntentCODEFromFragment);
+                    try {
+                        Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.fussyvegan.com.au/app_terms"));
+                        startActivity(myIntent);
+                    } catch (ActivityNotFoundException e) {
+                        Toast.makeText(getContext(), "No application can handle this request. Please install a web browser", Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
                 } else if (position == 8) {
+                    if(SharedPrefs.getInstance().get(Constant.IS_LOGIN, Boolean.class)){
+                        startActivityForResult(new Intent(getActivity(), ChangePasswordActivity.class), changePasswordCODEFromFragment);
+                    } else {
+                        startActivityForResult(new Intent(getActivity(), ForgotPasswordActivity.class), forgotPassIntentCODEFromFragment);
+                    }
+
+                } else if (position == 9) {
                     if (SharedPrefs.getInstance().get(Constant.IS_LOGIN, Boolean.class)) {
                         showLogout();
                     } else {
@@ -215,7 +232,9 @@ public class SettingFragment extends Fragment {
             Toast.makeText(getActivity(), mess, Toast.LENGTH_SHORT).show();
         } else if (requestCode == forgotPassIntentCODEFromFragment && resultCode == forgotPassIntentCODE && data != null) {
             String mess = data.getStringExtra("key");
-            Log.d("alo", "back");
+            Toast.makeText(getActivity(), mess, Toast.LENGTH_SHORT).show();
+        } else if(requestCode == changePasswordCODEFromFragment && resultCode == changePasswordCODEFromFragment && data!= null) {
+            String mess = data.getStringExtra("key");
             Toast.makeText(getActivity(), mess, Toast.LENGTH_SHORT).show();
         }
     }

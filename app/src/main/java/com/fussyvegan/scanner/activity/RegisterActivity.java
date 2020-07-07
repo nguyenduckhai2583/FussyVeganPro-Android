@@ -87,17 +87,17 @@ public class RegisterActivity extends AppCompatActivity {
 
                     if (response.code() == 200) {
                         CurrentUser.instance = response.body();
-                        Log.d(TAG, "register success");
+                        Log.d(TAG, "Registration successfull");
                         SharedPrefs.getInstance().put(Constant.ACCESS_TOKEN, response.body().getData().getToken());
                         SharedPrefs.getInstance().put(Constant.USER_NAME, response.body().getData().getUser().getName());
                         SharedPrefs.getInstance().put(Constant.IS_LOGIN, true);
                         Intent registerBack = getIntent();
-                        registerBack.putExtra("key", "Register Success");
+                        registerBack.putExtra("key", "Registration successfull");
                         setResult(registerIntentCODE, registerBack);
                         finish();
                     } else {
 
-                        Toast.makeText(RegisterActivity.this, "Register Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
                     }
                 }
 

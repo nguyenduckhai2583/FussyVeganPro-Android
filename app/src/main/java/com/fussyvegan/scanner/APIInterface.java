@@ -4,6 +4,7 @@ import com.fussyvegan.scanner.model.Resource;
 import com.fussyvegan.scanner.model.accountFlow.Email;
 import com.fussyvegan.scanner.model.accountFlow.ForgotPassResult;
 import com.fussyvegan.scanner.model.accountFlow.PostReviewResult;
+import com.fussyvegan.scanner.model.accountFlow.RequestChangePassword;
 import com.fussyvegan.scanner.model.accountFlow.RequestLogin;
 import com.fussyvegan.scanner.model.accountFlow.RequestRegister;
 import com.fussyvegan.scanner.model.accountFlow.ReviewProduct;
@@ -21,6 +22,9 @@ import retrofit2.http.Query;
 public interface APIInterface {
     @GET("get_product.php?")
     Call<Resource> doGetResponseByName(@Query("api_key") String api_key, @Query("name") String name);
+
+    @GET("get_product.php?")
+    Call<Resource> doGetResponseBySearchNoS(@Query("api_key") String api_key, @Query("search") String search);
 
     @GET("get_products.php?")
     Call<Resource> doGetResponseBySearch(@Query("api_key") String api_key, @Query("search") String search);
@@ -88,5 +92,10 @@ public interface APIInterface {
     @POST("update_rating.php?api_key=45090dcae2aYMK")
     Call<PostReviewResult> updateReviewProduct(@Header("access-token") String token,
                                                   @Body UpdateReviewProduct reviewProduct);
+
+    @POST("change_password.php?api_key=45090dcae2aYMK")
+    Call<UserAccount> requestChangePassword(@Header("access-token") String token,
+                                            @Body RequestChangePassword requestChangePassword);
+
 
 }

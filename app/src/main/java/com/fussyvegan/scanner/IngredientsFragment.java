@@ -166,7 +166,7 @@ public class IngredientsFragment extends Fragment {
         apiInterface = API7Client.getClient().create(APIInterface.class);
         Call<Resource> call = null;
         if(searchScope.equals("search")) {
-            call = apiInterface.doGetResponseBySearch(Constant.API_KEY, keyword);
+            call = apiInterface.doGetResponseBySearchNoS(Constant.API_KEY, keyword);
         } else if(searchScope.equals("barcode")) {
             call = apiInterface.doGetResponseByBarcode(Constant.API_KEY, keyword);
         }
@@ -174,8 +174,8 @@ public class IngredientsFragment extends Fragment {
             @Override
             public void onResponse(Call<Resource> call, Response<Resource> response) {
                 Log.d("TAG","status: " + response.code());
+
                 Resource resource = response.body();
-                Status status = resource.getStatus();
                 products.clear();
                 products = resource.getProducts();
                 Collections.sort(products, new Comparator<Product>(){
