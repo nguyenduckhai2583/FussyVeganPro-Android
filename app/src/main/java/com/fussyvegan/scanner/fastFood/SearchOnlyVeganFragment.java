@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.fussyvegan.scanner.API2Client;
 import com.fussyvegan.scanner.APIInterface;
+import com.fussyvegan.scanner.APILoginClient;
 import com.fussyvegan.scanner.Constant;
 import com.fussyvegan.scanner.OnListFragmentInteractionListener;
 import com.fussyvegan.scanner.ProductFragment;
@@ -22,7 +23,11 @@ import com.fussyvegan.scanner.activity.ProductDetailActivity;
 import com.fussyvegan.scanner.adapter.ProductSearchAdapter;
 import com.fussyvegan.scanner.model.KeySearch;
 import com.fussyvegan.scanner.model.Product;
+import com.fussyvegan.scanner.model.ProductReview;
+import com.fussyvegan.scanner.model.Rate;
 import com.fussyvegan.scanner.model.Resource;
+import com.fussyvegan.scanner.model.accountFlow.Reviews;
+import com.fussyvegan.scanner.utils.SharedPrefs;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -36,6 +41,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.fussyvegan.scanner.utils.Constant.ACCESS_TOKEN;
 
 /**
  * A fragment representing a list of Items.

@@ -199,7 +199,7 @@ public class SearchEthicalFragment extends Fragment {
                     }
                 });
                 //Log.d("TAG","name:" + products.get(2).getName());
-                ProductAdapter adapter = new ProductAdapter(products, false);
+                ProductAdapter adapter = new ProductAdapter( products, false);
                 ltvProduct.setAdapter(adapter);
                 TextView txvResult = header.findViewById(R.id.txvResult);
                 txvResult.setText("Search Result: " + products.size() + " products");

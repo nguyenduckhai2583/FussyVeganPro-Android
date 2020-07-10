@@ -4,9 +4,11 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +28,7 @@ public class ChainFoodAdapter extends RecyclerView.Adapter {
     public ChainFoodAdapter(Context context, IChainListener iChainListener) {
         this.context = context;
         this.iChainListener = iChainListener;
+        Log.e("recent", " recent");
     }
 
     public void updateData(List<ChainFastFood> chains){
@@ -77,6 +80,7 @@ public class ChainFoodAdapter extends RecyclerView.Adapter {
         }
 
     }
+
 
     public static class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
 

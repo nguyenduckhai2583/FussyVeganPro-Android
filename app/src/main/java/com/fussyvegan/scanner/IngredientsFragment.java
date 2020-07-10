@@ -44,6 +44,7 @@ public class IngredientsFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     public String searchScope = "search";
     APIInterface apiInterface;
+    final private String InfredientsFragment = "IngredientsFragment";
     List<Product> products;
     MainActivity activity;
     ListView ltvProduct;
@@ -79,6 +80,7 @@ public class IngredientsFragment extends Fragment {
         if(activity.searchScope.equals("barcode")) {
             fetchProducts(activity.keyword);
         }
+        Log.e("FragmentInfre", "here");
     }
 
     @Override
@@ -86,7 +88,7 @@ public class IngredientsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         header = getLayoutInflater().inflate(R.layout.search_header, null);
         ltvProduct = view.findViewById(R.id.ltvProduct);
-        final ProductAdapter adapter = new ProductAdapter(products, false);
+        final ProductAdapter adapter = new ProductAdapter(true ,products, false);
         ltvProduct.setAdapter(adapter);
         ltvProduct.addHeaderView( header );
         ltvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -99,6 +101,7 @@ public class IngredientsFragment extends Fragment {
                 }
             }
         });
+        //adapter.setVisibilityRate();
 
         searchView = view.findViewById(R.id.searchView);
         searchView.setIconified(false);
@@ -184,7 +187,7 @@ public class IngredientsFragment extends Fragment {
                     }
                 });
                 //Log.d("TAG","name:" + products.get(2).getName());
-                ProductAdapter adapter =  new ProductAdapter(products, false);
+                ProductAdapter adapter =  new ProductAdapter(true, products, false);
                 ltvProduct.setAdapter(adapter);
                 TextView txvResult = header.findViewById( R.id.txvResult );
                 txvResult.setText( "Search Result: " + products.size() + " products" );

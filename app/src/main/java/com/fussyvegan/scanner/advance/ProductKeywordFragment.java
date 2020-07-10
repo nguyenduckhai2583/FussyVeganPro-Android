@@ -4,16 +4,19 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fussyvegan.scanner.API2Client;
 import com.fussyvegan.scanner.APIInterface;
+import com.fussyvegan.scanner.APILoginClient;
 import com.fussyvegan.scanner.Constant;
 import com.fussyvegan.scanner.OnListFragmentInteractionListener;
 import com.fussyvegan.scanner.ProductFragment;
@@ -23,7 +26,11 @@ import com.fussyvegan.scanner.activity.ProductDetailActivity;
 import com.fussyvegan.scanner.adapter.ProductSearchAdapter;
 import com.fussyvegan.scanner.model.KeySearch;
 import com.fussyvegan.scanner.model.Product;
+import com.fussyvegan.scanner.model.ProductReview;
+import com.fussyvegan.scanner.model.Rate;
 import com.fussyvegan.scanner.model.Resource;
+import com.fussyvegan.scanner.model.accountFlow.Reviews;
+import com.fussyvegan.scanner.utils.SharedPrefs;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -37,6 +44,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.fussyvegan.scanner.utils.Constant.ACCESS_TOKEN;
 
 /**
  * A fragment representing a list of Items.
@@ -59,7 +68,12 @@ public class ProductKeywordFragment extends Fragment {
     TextView tvKeySearch;
     private String mKeySearch;
     private String mNameCountry;
+    private SearchView searchView;
     ProductSearchAdapter mAdapter;
+    ArrayList<Product> products = new ArrayList<>();
+    final ArrayList<Rate> rates = new ArrayList<>();
+    Reviews review= new Reviews();
+
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
@@ -91,17 +105,66 @@ public class ProductKeywordFragment extends Fragment {
         mAdapter = new ProductSearchAdapter(mProducts, false);
         ltvProduct.setAdapter(mAdapter);
         tvKeySearch.setText(mKeySearch);
+        Log.e("key search", mKeySearch);
         ltvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("TAG", position + "  click");
-                    Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
-                    intent.putExtra("product", mProducts.get(position ));
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
+                intent.putExtra("product", mProducts.get(position));
+                startActivity(intent);
+            }
         });
 
+        fetchProducts(mKeySearch);
+
+        searchView = view.findViewById(R.id.searchView);
+        searchView.setIconified(false);
+        searchView.setQuery(activity.keyword, false);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                String keyword = query.replace("'", "’");
+                //fetchProducts(keyword);
+                ArrayList<Product> listProducts = filter(keyword);
+                Log.e("listProduct", listProducts.size() + ", produc: " + products.size() + ", " + keyword);
+                mProducts.clear();
+                mAdapter.updateData(listProducts);
+                mProducts.addAll(listProducts);
+
+                Log.e("Product1", String.valueOf(mProducts.size()));
+
+
+                //Log.e("Product", String.valueOf(mProducts.size()));
+                Log.d("TAG", query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //mAdapter.updateData(mProducts);
+//                ArrayList<Product> products = filter(newText);
+//                mAdapter.updateData(products);;
+                //mAdapter.getFilter().filter(newText);
+                Log.d("TAG", newText);
+                //mAdapter.notifyDataSetChanged();
+                return false;
+            }
+        });
+
+        //ltvProduct.setAdapter(mAdapter);
         return view;
+    }
+
+
+    private ArrayList<Product> filter(String text) {
+        ArrayList<Product> list = new ArrayList<>();
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getName().toLowerCase().contains(text.toLowerCase())||text.length()==0) {
+                list.add(products.get(i));
+            }
+        }
+        return list;
     }
 
     @Override
@@ -117,7 +180,7 @@ public class ProductKeywordFragment extends Fragment {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(KeySearch search) {
-        fetchProducts(search.getKey());
+        //fetchProducts(search.getKey());
     }
 
     @Override
@@ -129,7 +192,9 @@ public class ProductKeywordFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-            fetchProducts(mKeySearch);
+        fetchProducts(mKeySearch);
+//        searchView.clearFocus();
+//        searchView.setQuery("", false);
     }
 
     @Override
@@ -148,10 +213,13 @@ public class ProductKeywordFragment extends Fragment {
         call.enqueue(new Callback<Resource>() {
             @Override
             public void onResponse(Call<Resource> call, Response<Resource> response) {
+                mProducts.clear();
+                products.clear();
                 Log.d("TAG", "status: " + response.code());
                 dialog.dismiss();
                 Resource resource = response.body();
-                if(resource.getProducts()!=null){
+                if (resource.getProducts() != null) {
+                    products.addAll(resource.getProducts());
                     mProducts.addAll(resource.getProducts());
                     if (mProducts != null &&
                             !mProducts.isEmpty()) {
@@ -161,7 +229,18 @@ public class ProductKeywordFragment extends Fragment {
                             }
                         });
                     }
+
                     mAdapter.updateData(mProducts);
+                    if(review == null) {
+                        getReview(mProducts.get(0).getId(), 1);
+                    }
+                    Log.e("rate", String.valueOf(rates.size()));
+                    //products = deepClone();
+                    //mProducts.clear();
+                    Log.e("Product2", String.valueOf(mProducts.size()));
+
+//                    ProductSearchAdapter adapter =  new ProductSearchAdapter( mProducts, false);
+//                    ltvProduct.setAdapter(adapter);
                 }
 
             }
@@ -171,5 +250,49 @@ public class ProductKeywordFragment extends Fragment {
                 call.cancel();
             }
         });
+    }
+
+    private void getReview(final int idProduct, final int idType) {
+        String token = SharedPrefs.getInstance().get(ACCESS_TOKEN, String.class);
+        //Log.e("count", String.valueOf(count));
+        APIInterface apiInterface = APILoginClient.getClient().create(APIInterface.class);
+        Call<Reviews> call = apiInterface.getReviewProduct(token, idProduct, idType);
+        final ProgressDialog dialog = ProgressDialog.show(getActivity(), "Loading...", "Please wait...", true);
+        dialog.show();
+        call.enqueue(new Callback<Reviews>() {
+            @Override
+            public void onResponse(Call<Reviews> call, Response<Reviews> response) {
+                dialog.dismiss();
+                if(response.body() == null) getReview(idProduct, idType);
+                //Log.d(TAG, String.valueOf(response.code()));
+                if (!response.body().getData().isEmpty()) {
+                    review = response.body();
+                    setOverallRatingReview(response.body().getData());
+                    //productReviews.addAll(response.body().getData());
+                    Log.e("idProduct", String.valueOf(idProduct));
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Reviews> call, Throwable t) {
+                Log.d("ProductAdapter", t.getMessage());
+            }
+        });
+
+    }
+
+    private void setOverallRatingReview(List<ProductReview> data) {
+        int numReview = data.size();
+
+        float number = 0;
+        for (int i = 0; i < data.size(); i++) {
+            number = number + data.get(i).getRating();
+        }
+
+        float aveRating = number / data.size();
+
+        rates.add(new Rate(aveRating, numReview));
+        Log.e("setOverallRatingReview", numReview + ", " + aveRating);
     }
 }

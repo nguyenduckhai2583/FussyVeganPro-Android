@@ -97,7 +97,7 @@ public class FavoriteFragment extends Fragment {
 
     public void edit(){
         isEdit = !isEdit;
-        ProductAdapter adapter = new ProductAdapter(products, isEdit );
+        ProductAdapter adapter = new ProductAdapter( products, isEdit );
         ltvProduct.setAdapter(adapter);
     }
 

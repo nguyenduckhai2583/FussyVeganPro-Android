@@ -1,25 +1,41 @@
 package com.fussyvegan.scanner.advance;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.fussyvegan.scanner.APIClient;
 import com.fussyvegan.scanner.APIInterface;
+import com.fussyvegan.scanner.Constant;
 import com.fussyvegan.scanner.OnListFragmentInteractionListener;
 import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.activity.MainActivity;
+import com.fussyvegan.scanner.activity.ProductDetailActivity;
 import com.fussyvegan.scanner.adapter.ChainFoodAdapter;
 import com.fussyvegan.scanner.model.ChainFastFood;
+import com.fussyvegan.scanner.model.Product;
+import com.fussyvegan.scanner.model.Resource;
+import com.fussyvegan.scanner.model.Status;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.fussyvegan.scanner.Constant.ARG_NAME_SEARCH;
 
@@ -59,6 +75,7 @@ public class RecentAddFragment extends Fragment implements ChainFoodAdapter.ICha
             mNameOfCountry = getArguments().getString(NAME_OF_COUNTRY);
         }
         activity = (MainActivity) this.getActivity();
+        Log.e("add fragment", "add");
 
     }
 
@@ -69,6 +86,26 @@ public class RecentAddFragment extends Fragment implements ChainFoodAdapter.ICha
         mAdapter = new ChainFoodAdapter(getActivity(), this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(mAdapter);
+        searchView.setVisibility(View.VISIBLE);
+        searchView = view.findViewById(R.id.searchView);
+        searchView.setIconified(true);
+        searchView.setQuery(activity.keyword, false);
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                String keyword = query.replace("'", "’");
+//                fetchProducts(keyword);
+//                Log.d("TAG",query);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                //adapter.getFilter().filter(newText);
+//                Log.d("TAG",newText);
+//                return false;
+//            }
+//        });
         return view;
     }
 
@@ -116,4 +153,42 @@ public class RecentAddFragment extends Fragment implements ChainFoodAdapter.ICha
         String tag = "ProductFragment";
         activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
     }
+
+//    public void fetchProducts(String keyword) {
+//        apiInterface = APIClient.getClient().create(APIInterface.class);
+//        Call<Resource> call = null;
+//
+//        if (searchScope.equals("search")) {
+//            call = apiInterface.doGetResponseBySearch(Constant.API_KEY, keyword);
+//        } else if (searchScope.equals("barcode")) {
+//            call = apiInterface.doGetResponseByBarcode(Constant.API_KEY, keyword);
+//        }
+//
+//        final ProgressDialog dialog = ProgressDialog.show(getActivity(), "Loading...", "Please wait...", true);
+//        dialog.show();
+//        call.enqueue(new Callback<Resource>() {
+//            @Override
+//            public void onResponse(Call<Resource> call, Response<Resource> response) {
+//                dialog.dismiss();
+//                Resource resource = response.body();
+//                Status status = resource.getStatus();
+//                products.clear();
+//                products = resource.getProducts();
+//                Collections.sort(products, new Comparator<Product>() {
+//                    public int compare(Product p1, Product p2) {
+//                        return p1.getName().compareToIgnoreCase(p2.getName()); // To compare string values
+//                    }
+//                });
+//
+//                //updateFilter(isClear, isNoPalmOil, isNoGMO, isGlutenFree, isNutFree, isSoyFree, isVeganCompany);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Resource> call, Throwable t) {
+//                call.cancel();
+//                dialog.dismiss();
+//                Log.d("Filter", "Filter size when fail -> " + t.getMessage());
+//            }
+//        });
+//    }
 }

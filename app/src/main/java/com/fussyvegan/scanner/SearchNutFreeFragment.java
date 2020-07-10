@@ -87,7 +87,7 @@ public class SearchNutFreeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_searchnutfree, container, false);
         header = getLayoutInflater().inflate(R.layout.search_header, null);
         ltvProduct = view.findViewById(R.id.ltvProduct);
-        final ProductAdapter adapter = new ProductAdapter(products, false);
+        final ProductAdapter adapter = new ProductAdapter( products, false);
         ltvProduct.setAdapter(adapter);
         ltvProduct.addHeaderView(header);
         ltvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -189,7 +189,7 @@ public class SearchNutFreeFragment extends Fragment {
                     }
                 });
                 //Log.d("TAG","name:" + products.get(2).getName());
-                ProductAdapter adapter = new ProductAdapter(products, false);
+                ProductAdapter adapter = new ProductAdapter( products, false);
                 ltvProduct.setAdapter(adapter);
                 TextView txvResult = header.findViewById(R.id.txvResult);
                 txvResult.setText("Search Result: " + products.size() + " products");

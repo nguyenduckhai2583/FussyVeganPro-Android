@@ -84,7 +84,7 @@ public class FastfoodAUFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_fastfood_au, container, false);
         header = getLayoutInflater().inflate(R.layout.search_header, null);
         ltvProduct = view.findViewById(R.id.ltvProduct);
-        final ProductAdapter adapter = new ProductAdapter(products, false);
+        final ProductAdapter adapter = new ProductAdapter( products, false);
         ltvProduct.setAdapter(adapter);
         ltvProduct.addHeaderView( header );
         ltvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {

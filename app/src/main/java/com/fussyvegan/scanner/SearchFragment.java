@@ -55,13 +55,13 @@ public class SearchFragment extends Fragment {
     private ProductAdapter adapter;
     private TextView txvResult;
 
-    private boolean isNoPalmOil = false;
-    private boolean isNoGMO = false;
-    private boolean isGlutenFree = false;
-    private boolean isNutFree = false;
-    private boolean isSoyFree = false;
-    private boolean isVeganCompany = false;
-    private boolean isClear = true;
+//    private boolean isNoPalmOil = false;
+//    private boolean isNoGMO = false;
+//    private boolean isGlutenFree = false;
+//    private boolean isNutFree = false;
+//    private boolean isSoyFree = false;
+//    private boolean isVeganCompany = false;
+//    private boolean isClear = true;
     private boolean isHasFilter = false;
 
     /**
@@ -103,7 +103,7 @@ public class SearchFragment extends Fragment {
         header = getLayoutInflater().inflate(R.layout.search_header, null);
         txvResult = header.findViewById(R.id.txvResult);
         ltvProduct = view.findViewById(R.id.ltvProduct);
-        adapter = new ProductAdapter(products, false);
+        adapter = new ProductAdapter( products, false);
         ltvProduct.setAdapter(adapter);
         ltvProduct.addHeaderView(header);
         ltvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -112,10 +112,10 @@ public class SearchFragment extends Fragment {
                 if (position > 0) {
                     Intent intent = new Intent(getActivity(), ProductDetailActivity.class);
                     if (isHasFilter) {
-                        intent.putExtra("product", filterProducts.get(position - 1));
+                        intent.putExtra("product", filterProducts.get(position-1));
                         intent.putExtra("category", 1);
                     } else {
-                        intent.putExtra("product", products.get(position - 1));
+                        intent.putExtra("product", products.get(position-1));
                         intent.putExtra("category", 1);
                     }
 
@@ -204,13 +204,13 @@ public class SearchFragment extends Fragment {
         boolean filterCorrect = false;
         boolean ignoreCheck = false;
 
-        this.isClear = isClear;
-        this.isNoPalmOil = isNoPalmOil;
-        this.isNoGMO = isNoGMO;
-        this.isGlutenFree = isGlutenFree;
-        this.isNutFree = isNutFree;
-        this.isSoyFree = isSoyFree;
-        this.isVeganCompany = isVeganCompany;
+//        this.isClear = isClear;
+//        this.isNoPalmOil = isNoPalmOil;
+//        this.isNoGMO = isNoGMO;
+//        this.isGlutenFree = isGlutenFree;
+//        this.isNutFree = isNutFree;
+//        this.isSoyFree = isSoyFree;
+//        this.isVeganCompany = isVeganCompany;
 
         if (products.size() > 0) {
             if (isClear) {
@@ -224,60 +224,60 @@ public class SearchFragment extends Fragment {
                     filterCorrect = false;
                     ignoreCheck = false;
 
-                    if (isNoPalmOil && !ignoreCheck) {
-                        if (products.get(i).getProdpalm().equals(filterCondition)) {
-                            filterCorrect = true;
-                        } else {
-                            filterCorrect = false;
-                            ignoreCheck = true;
-                        }
-                    }
-
-                    if (isNoGMO && !ignoreCheck) {
-                        if (products.get(i).getGmo().equals(filterCondition)) {
-                            filterCorrect = true;
-                        } else {
-                            filterCorrect = false;
-                            ignoreCheck = true;
-                        }
-                    }
-
-                    if (isGlutenFree && !ignoreCheck) {
-                        if (products.get(i).getGluten().equals(filterCondition)) {
-                            filterCorrect = true;
-                        } else {
-                            filterCorrect = false;
-                            ignoreCheck = true;
-                        }
-                    }
-
-                    if (isNutFree && !ignoreCheck) {
-                        if (products.get(i).getNut().equals(filterCondition)) {
-                            filterCorrect = true;
-                        } else {
-                            filterCorrect = false;
-                            ignoreCheck = true;
-                        }
-                    }
-
-                    if (isSoyFree && !ignoreCheck) {
-                        if (products.get(i).getSoy().equals(filterCondition)) {
-                            filterCorrect = true;
-                        } else {
-                            filterCorrect = false;
-                            ignoreCheck = true;
-                        }
-                    }
-
-                    if (isVeganCompany && !ignoreCheck) {
-                        if (products.get(i).getVeganStatus().equals(filterConditionVegan)) {
-                            Log.d("vagen status", products.get(i).getVeganStatus() + "------");
-                            filterCorrect = true;
-                        } else {
-                            filterCorrect = false;
-                            ignoreCheck = true;
-                        }
-                    }
+//                    if (isNoPalmOil && !ignoreCheck) {
+//                        if (products.get(i).getProdpalm().equals(filterCondition)) {
+//                            filterCorrect = true;
+//                        } else {
+//                            filterCorrect = false;
+//                            ignoreCheck = true;
+//                        }
+//                    }
+//
+//                    if (isNoGMO && !ignoreCheck) {
+//                        if (products.get(i).getGmo().equals(filterCondition)) {
+//                            filterCorrect = true;
+//                        } else {
+//                            filterCorrect = false;
+//                            ignoreCheck = true;
+//                        }
+//                    }
+//
+//                    if (isGlutenFree && !ignoreCheck) {
+//                        if (products.get(i).getGluten().equals(filterCondition)) {
+//                            filterCorrect = true;
+//                        } else {
+//                            filterCorrect = false;
+//                            ignoreCheck = true;
+//                        }
+//                    }
+//
+//                    if (isNutFree && !ignoreCheck) {
+//                        if (products.get(i).getNut().equals(filterCondition)) {
+//                            filterCorrect = true;
+//                        } else {
+//                            filterCorrect = false;
+//                            ignoreCheck = true;
+//                        }
+//                    }
+//
+//                    if (isSoyFree && !ignoreCheck) {
+//                        if (products.get(i).getSoy().equals(filterCondition)) {
+//                            filterCorrect = true;
+//                        } else {
+//                            filterCorrect = false;
+//                            ignoreCheck = true;
+//                        }
+//                    }
+//
+//                    if (isVeganCompany && !ignoreCheck) {
+//                        if (products.get(i).getVeganStatus().equals(filterConditionVegan)) {
+//                            Log.d("vagen status", products.get(i).getVeganStatus() + "------");
+//                            filterCorrect = true;
+//                        } else {
+//                            filterCorrect = false;
+//                            ignoreCheck = true;
+//                        }
+//                    }
 
                     if (filterCorrect) {
                         filterProducts.add(products.get(i));
@@ -324,7 +324,7 @@ public class SearchFragment extends Fragment {
                     }
                 });
 
-                updateFilter(isClear, isNoPalmOil, isNoGMO, isGlutenFree, isNutFree, isSoyFree, isVeganCompany);
+                adapter.updateData(products);
             }
 
             @Override
@@ -336,28 +336,5 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    public boolean getIsNoPalmOi() {
-        return isNoPalmOil;
-    }
-
-    public boolean getIsNoGMO() {
-        return isNoGMO;
-    }
-
-    public boolean getIsGlutenFree() {
-        return isGlutenFree;
-    }
-
-    public boolean getIsNutFree() {
-        return isNutFree;
-    }
-
-    public boolean getIsSoyFree() {
-        return isSoyFree;
-    }
-
-    public boolean getIsVeganCompany() {
-        return isVeganCompany;
-    }
 
 }

@@ -17,11 +17,62 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginTop="15dp"
-        android:paddingLeft="5dp"
         android:layout_toEndOf="@+id/btnDelete"
         android:layout_toRightOf="@+id/btnDelete"
+        android:paddingLeft="5dp"
         app:srcCompat="@drawable/ic_app_150" />
 
+
+    <RelativeLayout
+        android:id="@+id/linearLayoutVeganStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="50dp"
+        android:layout_toRightOf="@+id/imgProduct"
+        android:gravity="left"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imgVeganstatus"
+            android:layout_width="60dp"
+            android:layout_height="36dp"
+            android:layout_marginHorizontal="8dp"
+            android:src="@drawable/vegan" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutRate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imgVeganstatus"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <android.support.v7.widget.AppCompatRatingBar
+                android:id="@+id/rb_AveRating"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:layout_toRightOf="@+id/imgVeganstatus"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:scaleX="1.2"
+                android:scaleY="1.5"
+                android:theme="@style/RatingBar" />
+
+            <TextView
+                android:id="@+id/tvSumRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rb_AveRating"
+                android:layout_marginLeft="64dp"
+                android:layout_toRightOf="@+id/imgVeganstatus"
+                android:text="No Ratings"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/lnrContent"
@@ -41,36 +92,42 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:singleLine="false"
+            android:layout_marginTop="8dp"
             android:text="product name"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>
 
+
     <LinearLayout
+        android:id="@+id/iconsProductInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="8dp"
         android:layout_toRightOf="@+id/imgProduct"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:paddingTop="8dp">
+        android:visibility="gone">
+
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="35dp"
+            android:layout_weight="1"
+            android:gravity="left"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/imgPalm"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-
                 android:src="@drawable/ic_palm_unknown" />
 
         </LinearLayout>
@@ -79,9 +136,9 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="35dp"
+            android:layout_weight="1"
             android:gravity="left"
             android:orientation="vertical">
 
@@ -97,9 +154,9 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="35dp"
+            android:layout_weight="1"
             android:gravity="left"
             android:orientation="vertical">
 
@@ -114,9 +171,9 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="35dp"
+            android:layout_weight="1"
             android:gravity="left"
             android:orientation="vertical">
 
@@ -131,9 +188,9 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="35dp"
+            android:layout_weight="1"
             android:gravity="left"
             android:orientation="vertical">
 
@@ -147,7 +204,6 @@
 
 
     </LinearLayout>
-
 
 
 </RelativeLayout>

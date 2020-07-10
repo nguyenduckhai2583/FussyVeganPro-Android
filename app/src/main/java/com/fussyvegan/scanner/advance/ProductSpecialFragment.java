@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.fussyvegan.scanner.API2Client;
 import com.fussyvegan.scanner.APIInterface;
+import com.fussyvegan.scanner.APILoginClient;
 import com.fussyvegan.scanner.Constant;
 import com.fussyvegan.scanner.OnListFragmentInteractionListener;
 import com.fussyvegan.scanner.ProductFragment;
@@ -23,7 +25,11 @@ import com.fussyvegan.scanner.activity.ProductDetailActivity;
 import com.fussyvegan.scanner.adapter.ProductSearchAdapter;
 import com.fussyvegan.scanner.model.KeySearch;
 import com.fussyvegan.scanner.model.Product;
+import com.fussyvegan.scanner.model.ProductReview;
+import com.fussyvegan.scanner.model.Rate;
 import com.fussyvegan.scanner.model.Resource;
+import com.fussyvegan.scanner.model.accountFlow.Reviews;
+import com.fussyvegan.scanner.utils.SharedPrefs;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -37,6 +43,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.fussyvegan.scanner.utils.Constant.ACCESS_TOKEN;
 
 /**
  * A fragment representing a list of Items.
@@ -60,6 +68,10 @@ public class ProductSpecialFragment extends Fragment {
     private String mKeySearch;
     private String mNameCountry;
     ProductSearchAdapter mAdapter;
+    private SearchView searchView;
+    ArrayList<Product> products = new ArrayList<>();
+
+
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
@@ -100,7 +112,53 @@ public class ProductSpecialFragment extends Fragment {
             }
         });
 
+        fetchProducts(mKeySearch);
+
+        searchView = view.findViewById(R.id.searchView);
+        searchView.setIconified(false);
+        searchView.setQuery(activity.keyword, false);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                String keyword = query.replace("'", "’");
+                //fetchProducts(keyword);
+                ArrayList<Product> listProducts = filter(keyword);
+                Log.e("listProduct", listProducts.size() + ", produc: " + products.size() + ", " + keyword);
+                mProducts.clear();
+                mAdapter.updateData(listProducts);
+                mProducts.addAll(listProducts);
+                Log.e("Product1", String.valueOf(mProducts.size()));
+
+
+                //Log.e("Product", String.valueOf(mProducts.size()));
+                Log.d("TAG", query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //mAdapter.updateData(mProducts);
+//                ArrayList<Product> products = filter(newText);
+//                mAdapter.updateData(products);;
+                //mAdapter.getFilter().filter(newText);
+                Log.d("TAG", newText);
+                //mAdapter.notifyDataSetChanged();
+                return false;
+            }
+        });
+
+        Log.e("produc special", "here");
         return view;
+    }
+
+    private ArrayList<Product> filter(String text) {
+        ArrayList<Product> list = new ArrayList<>();
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getName().toLowerCase().contains(text.toLowerCase())||text.length()==0) {
+                list.add(products.get(i));
+            }
+        }
+        return list;
     }
 
     @Override
@@ -151,7 +209,10 @@ public class ProductSpecialFragment extends Fragment {
                 dialog.dismiss();
                 Resource resource = response.body();
                 if(resource.getProducts()!=null){
+                    mProducts.clear();
+                    products.clear();
                     mProducts.addAll(resource.getProducts());
+                    products.addAll(resource.getProducts());
                     if (mProducts != null &&
                             !mProducts.isEmpty()) {
                         Collections.sort(mProducts, new Comparator<Product>() {

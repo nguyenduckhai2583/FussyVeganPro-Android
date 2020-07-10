@@ -105,10 +105,13 @@ public class ProductDetailActivity extends AppCompatActivity {
     ImageView imgWebsite;
     ImageView imgSpecial;
     ImageView imgCertified;
+    LinearLayout detail;
+    LinearLayout llCountry;
+    LinearLayout llCountryName;
+    LinearLayout llCertified;
+    LinearLayout llSpecial;
     LinearLayout llCompany;
     RelativeLayout lnReview;
-    LinearLayout lnPrice;
-    LinearLayout llSpecial;
     LinearLayout llProduct;
     LinearLayout lnActionChange;
     RecyclerView recyclerViewReview;
@@ -136,11 +139,13 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ImageView imgSoyInfo;
     private ImageView imgCertifiedInfo;
 
+    private View viewCompanyName;
     private View viewBarcode;
     private View viewSpecial;
     private View viewInfo;
     private View viewIngredients;
     private View viewCountry;
+    private View viewCountryName;
     private View viewPalm;
     private View viewGluten;
     private View viewNut;
@@ -182,10 +187,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         tvCompanyName = findViewById(R.id.txvDetailCompanyName);
         // tvManInfo = findViewById(R.id.tvManInfo);
         tvReview = findViewById(R.id.tvReview);
-        lnPrice = findViewById(R.id.lnPrice);
-        tvPrice = findViewById(R.id.tvPrice);
         textView6 = findViewById(R.id.textView6);
-        tvPricePer = findViewById(R.id.tvPricePer);
         tvNameCountry = findViewById(R.id.tvNameCountry);
         imgCamera = findViewById(R.id.imgCamera);
         imgListWish = findViewById(R.id.imgListWish);
@@ -196,7 +198,12 @@ public class ProductDetailActivity extends AppCompatActivity {
         imgWebsite = findViewById(R.id.imgWebsite);
         imgSpecial = findViewById(R.id.imgSpecial);
         imgCertified = findViewById(R.id.imgCertified);
-        // llSpecial = findViewById(R.id.llSpecial);
+        llSpecial = findViewById(R.id.linearLayoutSpecial);
+        llCertified= findViewById(R.id.linearLayoutCertified);
+        llCountry = findViewById(R.id.linearLayoutCountry);
+        llCountryName = findViewById(R.id.linearLayoutCountryName);
+
+
         llProduct = findViewById(R.id.llProduct);
         tvBarCode = findViewById(R.id.tvBarcode);
         tvSpecial = findViewById(R.id.tvSpecial);
@@ -219,11 +226,14 @@ public class ProductDetailActivity extends AppCompatActivity {
         imgSoyInfo = findViewById(R.id.imgSoyInfo);
         imgCertifiedInfo = findViewById(R.id.imgCertifiedInfo);
 
+        detail = findViewById(R.id.linearLayoutDetail);
+        viewCompanyName = findViewById(R.id.view_company_name);
         viewBarcode = findViewById(R.id.view_barcode);
         viewCertified = findViewById(R.id.view_certified);
         viewIngredients = findViewById(R.id.view_ingredients);
         viewInfo = findViewById(R.id.view_info);
         viewCountry = findViewById(R.id.view_country);
+        viewCountryName = findViewById(R.id.view_country_name);
         viewPalm = findViewById(R.id.view_palm);
         viewGluten = findViewById(R.id.view_gluten);
         viewNut = findViewById(R.id.view_nut);
@@ -260,22 +270,16 @@ public class ProductDetailActivity extends AppCompatActivity {
         setProductInfo();
 
 
-        llProduct.setVisibility(View.GONE);
+        //llProduct.setVisibility(View.GONE);
         tvTime.setText(product.getLastUpdate());
         // tvManInfo.setText(product.getMainInfo());
-        tvCompanyName.setText(product.getCompanyName());
-
-
-        if (product.getavgPrice() != null && !product.getavgPrice().isEmpty()) {
-            lnPrice.setVisibility(View.VISIBLE);
-
-            tvPrice.setText(product.getavgPrice());
-            tvPricePer.setText(product.getpricePer());
-        } else {
-            lnPrice.setVisibility(View.GONE);
-
-
+        if(product.getCompanyName()!= null&& !product.getCompanyName().isEmpty())
+            tvCompanyName.setText(product.getCompanyName());
+        else{
+            tvCompanyName.setVisibility(View.GONE);
+            viewCompanyName.setVisibility(View.GONE);
         }
+
 
         txvTitle.setText(product.getName().toUpperCase());
 
@@ -286,13 +290,13 @@ public class ProductDetailActivity extends AppCompatActivity {
                     .into(imgProduct);
         }
 
-        ImageView imgBarcode = findViewById(R.id.imgBarcode);
-        if (product.getLinkBarcode() != null && !product.getLinkBarcode().isEmpty()) {
-            Picasso.get()
-                    .load(product.getLinkBarcode())
-                    .placeholder(R.drawable.ic_blank_barcode)
-                    .into(imgBarcode);
-        }
+//        ImageView imgBarcode = findViewById(R.id.imgBarcode);
+//        if (product.getLinkBarcode() != null && !product.getLinkBarcode().isEmpty()) {
+//            Picasso.get()
+//                    .load(product.getLinkBarcode())
+//                    .placeholder(R.drawable.ic_blank_barcode)
+//                    .into(imgBarcode);
+//        }
 
         ImageView imgVeganstatus = findViewById(R.id.imgVeganstatus);
         if (product.getlinkVegan() != null && !product.getlinkVegan().isEmpty()) {
@@ -300,47 +304,12 @@ public class ProductDetailActivity extends AppCompatActivity {
                     .load(product.getlinkVegan())
                     .placeholder(R.drawable.ic_app_150)
                     .into(imgVeganstatus);
-        }
+        } else if(product.getVeganStatus().equals("VEGAN")){
+          imgVeganstatus.setImageResource(R.drawable.vegan);
+        } else imgVeganstatus.setImageResource(R.drawable.notvegan);
 
-        ImageView imgPalm = findViewById(R.id.imgPalm);
-        if (!product.getlinkPalm().isEmpty()) {
-            Picasso.get()
-                    .load(product.getlinkPalm())
-                    .placeholder(R.drawable.ic_palm_unknown)
-                    .into(imgPalm);
-        }
 
-        ImageView imgGmo = findViewById(R.id.imgGmo);
-        if (!product.getlinkGmo().isEmpty()) {
-            Picasso.get()
-                    .load(product.getlinkGmo())
-                    .placeholder(R.drawable.ic_gmo_unknown)
-                    .into(imgGmo);
-        }
 
-        ImageView imgGluten = findViewById(R.id.imgGluten);
-        if (!product.getlinkGluten().isEmpty()) {
-            Picasso.get()
-                    .load(product.getlinkGluten())
-                    .placeholder(R.drawable.ic_gluten_unknown)
-                    .into(imgGluten);
-        }
-
-        ImageView imgNut = findViewById(R.id.imgNut);
-        if (!product.getlinkNut().isEmpty()) {
-            Picasso.get()
-                    .load(product.getlinkNut())
-                    .placeholder(R.drawable.ic_nut_unknown)
-                    .into(imgNut);
-        }
-
-        ImageView imgSoy = findViewById(R.id.imgSoy);
-        if (!product.getlinkSoy().isEmpty()) {
-            Picasso.get()
-                    .load(product.getlinkSoy())
-                    .placeholder(R.drawable.ic_soy_unknown)
-                    .into(imgSoy);
-        }
 
         if (product.getSpecialTitle() != null && product.getSpecialTitle().contains("special")) {
             imgSpecial.setVisibility(View.VISIBLE);
@@ -441,7 +410,12 @@ public class ProductDetailActivity extends AppCompatActivity {
         setProductInfo();
 
         // company info
-        setFlagForCompanyInfo();
+        if(product.getMainInfo() == null && product.getCountry() == null){
+            llCountryName.setVisibility(View.GONE);
+            viewCountryName.setVisibility(View.GONE);
+        } else if(product.getCountry() != null) setFlagForCountry();
+        else if(product.getMainInfo() != null && product.getCountry() == null)setFlagForCompanyInfo();
+
         setManvegan();
         setAnimalTesting();
 
@@ -493,14 +467,23 @@ public class ProductDetailActivity extends AppCompatActivity {
             imgInfo.setVisibility(View.GONE);
             viewInfo.setVisibility(View.GONE);
         } else tvInfor.setText(product.getExplanation());
+
+        if(product.getVeganStatus().equals("VEGAN")) {
+            imgIngredients.setImageResource(R.drawable.ic_ingredient_vegan);
+            imgInfo.setImageResource(R.drawable.ic_explanation_vegan);
+
+        }
+        if(product.getVeganStatus().equals("NOT VEGAN")) {
+            imgIngredients.setImageResource(R.drawable.ic_ingredients_notvegan);
+            imgInfo.setImageResource(R.drawable.ic_explanation_notvegan);
+        }
+
         if (product.getIngredient() == null || product.getIngredient().isEmpty()) {
-            tvIngredients.setVisibility(View.GONE);
-            imgIngredients.setVisibility(View.GONE);
-            viewIngredients.setVisibility(View.GONE);
+            tvIngredients.setText("Ingredients not available");
+            imgIngredients.setImageResource(R.drawable.ic_ingredients_unknown);
         } else tvIngredients.setText(product.getIngredient());
         if (product.getDescription() == null) {
-            tvCountry.setVisibility(View.GONE);
-            imgCountryInfor.setVisibility(View.GONE);
+            llCountry.setVisibility(View.GONE);
             viewCountry.setVisibility(View.GONE);
         } else tvCountry.setText(product.getDescription());
 
@@ -508,9 +491,8 @@ public class ProductDetailActivity extends AppCompatActivity {
             tvPalm.setText("This product, menu item or ingredient does not contain palm oil.");
         }else tvPalm.setText("CONTAINS PALM OIL.");
         if (product.getProdpalm().isEmpty()) {
-            imgPalmInfo.setVisibility(View.GONE);
-            tvPalm.setVisibility(View.GONE);
-            viewPalm.setVisibility(View.GONE);
+            imgPalmInfo.setImageResource(R.drawable.ic_palm_unknown);
+            tvPalm.setText("Palm oil status has not yet been verified.");
         } else if (product.getlinkPalm().contains("palm_free"))
             imgPalmInfo.setImageResource(R.drawable.ic_palm_free);
         else imgPalmInfo.setImageResource(R.drawable.ic_palm);
@@ -518,9 +500,8 @@ public class ProductDetailActivity extends AppCompatActivity {
         if(product.getGluten().equals("NO"))tvGluten.setText("This product, menu item or ingredient does not contain gluten. Any potential cross contamination has not been considered in determining the gluten status.");
         else tvGluten.setText("CONTAINS GLUTEN.");
         if (product.getGluten().isEmpty()) {
-            imgGlutenInfo.setVisibility(View.GONE);
-            tvGluten.setVisibility(View.GONE);
-            viewGluten.setVisibility(View.GONE);
+            imgGlutenInfo.setImageResource(R.drawable.ic_gluten_unknown);
+            tvGluten.setText("Gluten status has not yet been verified.");
         } else if (product.getlinkGluten().contains("gluten_free")) {
             imgGlutenInfo.setImageResource(R.drawable.ic_gluten_free);
         } else imgGlutenInfo.setImageResource(R.drawable.ic_gluten);
@@ -528,18 +509,17 @@ public class ProductDetailActivity extends AppCompatActivity {
             tvNut.setText("This product, menu item or ingredient does not contain peanuts or tree nuts. Any potential cross contamination has not been considered in determining the nut status.");
         }else tvNut.setText("CONTAINS PEANUTS AND OR TREE NUTS.");
         if (product.getNut().isEmpty()) {
-            imgNutInfo.setVisibility(View.GONE);
-            tvNut.setVisibility(View.GONE);
-            viewNut.setVisibility(View.GONE);
+            imgNutInfo.setImageResource(R.drawable.ic_nut_unknown);
+            tvNut.setText("Nut status has not yet been verified.");
         } else if (product.getlinkNut().contains("nut_free")) {
             imgNutInfo.setImageResource(R.drawable.ic_nut_free);
         } else imgNutInfo.setImageResource(R.drawable.ic_nut);
+
         if(product.getSoy().equals("NO")) tvSoy.setText("This product, menu item or ingredient does not contain soy. Any potential cross contamination has not been considered in determining the soy status.");
         else tvSoy.setText("CONTAINS SOY.");
         if (product.getSoy().isEmpty()) {
-            imgSoyInfo.setVisibility(View.GONE);
-            tvSoy.setVisibility(View.GONE);
-            viewSoy.setVisibility(View.GONE);
+            imgSoyInfo.setImageResource(R.drawable.ic_soy_unknown);
+            tvSoy.setText("Soy status has not yet been verified.");
         } else if (product.getlinkSoy().contains("soy_free")) {
             imgSoyInfo.setImageResource(R.drawable.ic_soy_free);
         } else imgSoyInfo.setImageResource(R.drawable.ic_soy);
@@ -547,15 +527,13 @@ public class ProductDetailActivity extends AppCompatActivity {
         if(product.getCertified()!= null && product.getCertified().equals("vegan_australia")){
             tvCertified.setText("This product is registered with the Vegan Australia Certified program and meets the criteria set out in the Vegan Australia Certified standard.");
         } else {
-            imgCertifiedInfo.setVisibility(View.GONE);
-            tvCertified.setVisibility(View.GONE);
+            llCertified.setVisibility(View.GONE);
             viewCertified.setVisibility(View.GONE);
 
         }
 
         if(product.getSpecialDetail() == null|| product.getSpecialDetail().isEmpty()){
-            tvSpecial.setVisibility(View.GONE);
-            imgSpecialInfo.setVisibility(View.GONE);
+            llSpecial.setVisibility(View.GONE);
             viewSpecial.setVisibility(View.GONE);
         } else {
             tvSpecial.setText(product.getSpecialDetail());
@@ -577,132 +555,316 @@ public class ProductDetailActivity extends AppCompatActivity {
         } else if (product.getMainInfo().contains("Bermuda") && product.getMainInfo() != null) {
             imgCountry.setImageResource(R.drawable.ic_bermuda);
             tvNameCountry.setText("Bermuda");
-        } else if (product.getMainInfo().contains("Botswana") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Belgium") && product.getMainInfo() != null)
+            {
+            imgCountry.setImageResource(R.drawable.ic_belgium);
+            tvNameCountry.setText("Belgium");
+        } else if (product.getMainInfo().contains("Botswana") && product.getMainInfo() != null)
+                {
             imgCountry.setImageResource(R.drawable.ic_botswana);
             tvNameCountry.setText("Botswana");
-        } else if (product.getMainInfo().contains("Brazil") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Brazil") && product.getMainInfo() != null)
+                {
             imgCountry.setImageResource(R.drawable.ic_brazil);
             tvNameCountry.setText("Brazil");
-        } else if (product.getMainInfo().contains("China") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("China") && product.getMainInfo() != null)
+                {
             imgCountry.setImageResource(R.drawable.ic_china);
-            tvNameCountry.setText("Czech Republic");
-        } else if (product.getMainInfo().contains("Canada") && product.getMainInfo() != null) {
-            imgCountry.setImageResource(R.drawable.ic_czech);
-            tvNameCountry.setText("Czech Republic");
-        } else if (product.getMainInfo().contains("Denmark") && product.getMainInfo() != null) {
-            imgCountry.setImageResource(R.drawable.ic_denmark);
-            tvNameCountry.setText("Denmark");
-        } else if (product.getMainInfo().contains("Ethiopia") && product.getMainInfo() != null) {
-            imgCountry.setImageResource(R.drawable.ic_ethiopia);
-            tvNameCountry.setText("Ethiopia");
-        } else if (product.getMainInfo().contains("Fiji") && product.getMainInfo() != null) {
-            imgCountry.setImageResource(R.drawable.ic_fiji);
-            tvNameCountry.setText("Fiji");
-        } else if (product.getMainInfo().contains("France") && product.getMainInfo() != null) {
-            imgCountry.setImageResource(R.drawable.ic_france);
-            tvNameCountry.setText("France");
-        } else if (product.getMainInfo().contains("Germany") && product.getMainInfo() != null) {
-            imgCountry.setImageResource(R.drawable.ic_germany);
-            tvNameCountry.setText("Germany");
-        } else if (product.getMainInfo().contains("Greece") && product.getMainInfo() != null) {
-            imgCountry.setImageResource(R.drawable.ic_greece);
-            tvNameCountry.setText("Greece");
-        } else if (product.getMainInfo().contains("India") && product.getMainInfo() != null) {
-            imgCountry.setImageResource(R.drawable.ic_india);
-            tvNameCountry.setText("India");
-        } else if (product.getMainInfo().contains("Indonesia") && product.getMainInfo() != null) {
-            imgCountry.setImageResource(R.drawable.ic_indonesia);
-            tvNameCountry.setText("Indonesia");
-        } else if (product.getMainInfo().contains("Canada") && product.getMainInfo() != null) {
+            tvNameCountry.setText("China");
+        } else if (product.getMainInfo().contains("Canada") && product.getMainInfo() != null)
+               {
             imgCountry.setImageResource(R.drawable.ic_canada);
             tvNameCountry.setText("Canada");
-        } else if (product.getMainInfo().contains("Ireland") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Denmark") && product.getMainInfo() != null)
+                {
+            imgCountry.setImageResource(R.drawable.ic_denmark);
+            tvNameCountry.setText("Denmark");
+        } else if (product.getMainInfo().contains("Ethiopia") && product.getMainInfo() != null)
+                {
+            imgCountry.setImageResource(R.drawable.ic_ethiopia);
+            tvNameCountry.setText("Ethiopia");
+        } else if (product.getMainInfo().contains("Fiji") && product.getMainInfo() != null)
+               {
+            imgCountry.setImageResource(R.drawable.ic_fiji);
+            tvNameCountry.setText("Fiji");
+        } else if (product.getMainInfo().contains("France") && product.getMainInfo() != null)
+                {
+            imgCountry.setImageResource(R.drawable.ic_france);
+            tvNameCountry.setText("France");
+        } else if (product.getMainInfo().contains("Germany") && product.getMainInfo() != null)
+                {
+            imgCountry.setImageResource(R.drawable.ic_germany);
+            tvNameCountry.setText("Germany");
+        } else if (product.getMainInfo().contains("Greece") && product.getMainInfo() != null)
+                {
+            imgCountry.setImageResource(R.drawable.ic_greece);
+            tvNameCountry.setText("Greece");
+        } else if (product.getMainInfo().contains("India") && product.getMainInfo() != null)
+                {
+            imgCountry.setImageResource(R.drawable.ic_india);
+            tvNameCountry.setText("India");
+        } else if (product.getMainInfo().contains("Indonesia") && product.getMainInfo() != null)
+                {
+            imgCountry.setImageResource(R.drawable.ic_indonesia);
+            tvNameCountry.setText("Indonesia");
+        } else if (product.getMainInfo().contains("Ireland") && product.getMainInfo() != null)
+                 {
             imgCountry.setImageResource(R.drawable.ic_ireland);
             tvNameCountry.setText("Ireland");
-        } else if (product.getMainInfo().contains("Italy") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Italy") && product.getMainInfo() != null)
+                 {
             imgCountry.setImageResource(R.drawable.ic_italy);
             tvNameCountry.setText("Italy");
-        } else if (product.getMainInfo().contains("Japan") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Japan") && product.getMainInfo() != null)
+                 {
             imgCountry.setImageResource(R.drawable.ic_japan);
             tvNameCountry.setText("Japan");
-        } else if (product.getMainInfo().contains("Kenya") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Kenya") && product.getMainInfo() != null)
+                {
             imgCountry.setImageResource(R.drawable.ic_kenya);
             tvNameCountry.setText("Kenya");
-        } else if (product.getMainInfo().contains("Malaysia") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Malaysia") && product.getMainInfo() != null)
+               {
             imgCountry.setImageResource(R.drawable.ic_malaysia);
             tvNameCountry.setText("Malaysia");
-        } else if (product.getMainInfo().contains("Mexico") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Mexico") && product.getMainInfo() != null)
+               {
             imgCountry.setImageResource(R.drawable.ic_mexico);
             tvNameCountry.setText("Mexico");
-        } else if (product.getMainInfo().contains("Netherlands") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Netherlands") && product.getMainInfo() != null)
+                {
             imgCountry.setImageResource(R.drawable.ic_netherlands);
             tvNameCountry.setText("Netherlands");
-        } else if (product.getMainInfo().contains("New Zealand") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("New Zealand") && product.getMainInfo() != null)
+                {
             imgCountry.setImageResource(R.drawable.ic_newzealand);
             tvNameCountry.setText("New Zealand");
-        } else if (product.getMainInfo().contains("Norway") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Norway") && product.getMainInfo() != null)
+               {
             imgCountry.setImageResource(R.drawable.ic_norway);
             tvNameCountry.setText("Norway");
-        } else if (product.getMainInfo().contains("Philippines") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Philippines") && product.getMainInfo() != null)
+               {
             imgCountry.setImageResource(R.drawable.ic_philippines);
             tvNameCountry.setText("Philippines");
-        } else if (product.getMainInfo().contains("Papua New Guinea") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Papua New Guinea") && product.getMainInfo() != null)
+                 {
             imgCountry.setImageResource(R.drawable.ic_papua_new_guinea);
             tvNameCountry.setText("Papua New Guinea");
-        } else if (product.getMainInfo().contains("Samoa") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Samoa") && product.getMainInfo() != null)
+                {
             imgCountry.setImageResource(R.drawable.ic_samoa);
             tvNameCountry.setText("Samoa");
-        } else if (product.getMainInfo().contains("Seychelles") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Seychelles") && product.getMainInfo() != null)
+                {
             imgCountry.setImageResource(R.drawable.ic_seychelles);
             tvNameCountry.setText("Seychelles");
-        } else if (product.getMainInfo().contains("Singapore") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Singapore") && product.getMainInfo() != null)
+               {
             imgCountry.setImageResource(R.drawable.ic_singapore);
             tvNameCountry.setText("Singapore");
-        } else if (product.getMainInfo().contains("South Africa") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("South Africa") && product.getMainInfo() != null)
+                 {
             imgCountry.setImageResource(R.drawable.ic_south_africa);
             tvNameCountry.setText("South Africa");
-        } else if (product.getMainInfo().contains("South Korea") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("South Korea") && product.getMainInfo() != null)
+                 {
             imgCountry.setImageResource(R.drawable.ic_south_korea);
             tvNameCountry.setText("South Korea");
-        } else if (product.getMainInfo().contains("Spain") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Spain") && product.getMainInfo() != null)
+                {
             imgCountry.setImageResource(R.drawable.ic_spain);
             tvNameCountry.setText("Spain");
-        } else if (product.getMainInfo().contains("Sweden") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Sweden") && product.getMainInfo() != null)
+                {
             imgCountry.setImageResource(R.drawable.ic_sweden);
             tvNameCountry.setText("Sweden");
-        } else if (product.getMainInfo().contains("Switzerland") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Switzerland") && product.getMainInfo() != null)
+                {
             imgCountry.setImageResource(R.drawable.ic_switzerland);
             tvNameCountry.setText("Switzerland");
-        } else if (product.getMainInfo().contains("Taiwan") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Taiwan") && product.getMainInfo() != null)
+                {
             imgCountry.setImageResource(R.drawable.ic_taiwan);
             tvNameCountry.setText("Taiwan");
-        } else if (product.getMainInfo().contains("Tanzania") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Tanzania") && product.getMainInfo() != null)
+                {
             imgCountry.setImageResource(R.drawable.ic_tanzania);
             tvNameCountry.setText("Tanzania");
-        } else if (product.getMainInfo().contains("Thailand") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Thailand") && product.getMainInfo() != null)
+                 {
             imgCountry.setImageResource(R.drawable.ic_thailand);
             tvNameCountry.setText("Thailand");
-        } else if (product.getMainInfo().contains("Tonga") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Tonga") && product.getMainInfo() != null)
+                {
             imgCountry.setImageResource(R.drawable.ic_tonga);
             tvNameCountry.setText("Tonga");
-        } else if (product.getMainInfo().contains("Uganda") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Uganda") && product.getMainInfo() != null)
+                 {
             imgCountry.setImageResource(R.drawable.ic_uganda);
             tvNameCountry.setText("Uganda");
-        } else if (product.getMainInfo().contains("United Kingdom") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("United Kingdom") && product.getMainInfo() != null)
+                 {
             imgCountry.setImageResource(R.drawable.ic_uk);
             tvNameCountry.setText("United Kingdom");
-        } else if (product.getMainInfo().contains("USA") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("USA") && product.getMainInfo() != null)
+               {
             imgCountry.setImageResource(R.drawable.ic_usa);
             tvNameCountry.setText("USA");
-        } else if (product.getMainInfo().contains("Vanuatu") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Vanuatu") && product.getMainInfo() != null)
+               {
             imgCountry.setImageResource(R.drawable.ic_vanuatu);
             tvNameCountry.setText("Vanuatu");
-        } else if (product.getMainInfo().contains("Vietnam") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Vietnam") && product.getMainInfo() != null)
+                 {
             imgCountry.setImageResource(R.drawable.ic_vietnam);
             tvNameCountry.setText("Vietnam");
-        } else if (product.getMainInfo().contains("Zambia") && product.getMainInfo() != null) {
+        } else if (product.getMainInfo().contains("Zambia") && product.getMainInfo() != null)
+               {
             imgCountry.setImageResource(R.drawable.ic_zambia);
             tvNameCountry.setText("Zambia");
+        } else {
+            llCountryName.setVisibility(View.GONE);
+            viewCountryName.setVisibility(View.GONE);
+        }
+    }
+
+    private void setFlagForCountry(){
+        if (product.getCountry().equals("Australia")) {
+            imgCountry.setImageResource(R.drawable.ic_australia);
+            tvNameCountry.setText("Australia");
+        } else if ( product.getCountry().equals("Bermuda")) {
+            imgCountry.setImageResource(R.drawable.ic_bermuda);
+            tvNameCountry.setText("Bermuda");
+        } else if ( product.getCountry().equals("Belgium")) {
+            imgCountry.setImageResource(R.drawable.ic_belgium);
+            tvNameCountry.setText("Belgium");
+        } else if (product.getCountry().equals("Botswana")) {
+            imgCountry.setImageResource(R.drawable.ic_botswana);
+            tvNameCountry.setText("Botswana");
+        } else if ( product.getCountry().equals("Brazil")) {
+            imgCountry.setImageResource(R.drawable.ic_brazil);
+            tvNameCountry.setText("Brazil");
+        } else if ( product.getCountry().equals("China")) {
+            imgCountry.setImageResource(R.drawable.ic_china);
+            tvNameCountry.setText("China");
+        } else if ( product.getCountry().equals("Canada")) {
+            imgCountry.setImageResource(R.drawable.ic_canada);
+            tvNameCountry.setText("Canada");
+        } else if ( product.getCountry().equals("Denmark")) {
+            imgCountry.setImageResource(R.drawable.ic_denmark);
+            tvNameCountry.setText("Denmark");
+        } else if ( product.getCountry().equals("Ethiopia")) {
+            imgCountry.setImageResource(R.drawable.ic_ethiopia);
+            tvNameCountry.setText("Ethiopia");
+        } else if ( product.getCountry().equals("Fiji")){
+            imgCountry.setImageResource(R.drawable.ic_fiji);
+            tvNameCountry.setText("Fiji");
+        } else if ( product.getCountry().equals("France")) {
+            imgCountry.setImageResource(R.drawable.ic_france);
+            tvNameCountry.setText("France");
+        } else if ( product.getCountry().equals("Germany")) {
+            imgCountry.setImageResource(R.drawable.ic_germany);
+            tvNameCountry.setText("Germany");
+        } else if ( product.getCountry().equals("Greece")) {
+            imgCountry.setImageResource(R.drawable.ic_greece);
+            tvNameCountry.setText("Greece");
+        } else if ( product.getCountry().equals("India")) {
+            imgCountry.setImageResource(R.drawable.ic_india);
+            tvNameCountry.setText("India");
+        } else if ( product.getCountry().equals("Indonesia")) {
+            imgCountry.setImageResource(R.drawable.ic_indonesia);
+            tvNameCountry.setText("Indonesia");
+        } else if ( product.getCountry().equals("Ireland")) {
+            imgCountry.setImageResource(R.drawable.ic_ireland);
+            tvNameCountry.setText("Ireland");
+        } else if ( product.getCountry().equals("Italy")) {
+            imgCountry.setImageResource(R.drawable.ic_italy);
+            tvNameCountry.setText("Italy");
+        } else if ( product.getCountry().equals("Japan")) {
+            imgCountry.setImageResource(R.drawable.ic_japan);
+            tvNameCountry.setText("Japan");
+        } else if (product.getCountry().equals("Kenya")) {
+            imgCountry.setImageResource(R.drawable.ic_kenya);
+            tvNameCountry.setText("Kenya");
+        } else if ( product.getCountry().equals("Malaysia")) {
+            imgCountry.setImageResource(R.drawable.ic_malaysia);
+            tvNameCountry.setText("Malaysia");
+        } else if ( product.getCountry().equals("Mexico")) {
+            imgCountry.setImageResource(R.drawable.ic_mexico);
+            tvNameCountry.setText("Mexico");
+        } else if ( product.getCountry().equals("Netherlands")) {
+            imgCountry.setImageResource(R.drawable.ic_netherlands);
+            tvNameCountry.setText("Netherlands");
+        } else if ( product.getCountry().equals("New Zealand")) {
+            imgCountry.setImageResource(R.drawable.ic_newzealand);
+            tvNameCountry.setText("New Zealand");
+        } else if ( product.getCountry().equals("Norway")) {
+            imgCountry.setImageResource(R.drawable.ic_norway);
+            tvNameCountry.setText("Norway");
+        } else if ( product.getCountry().equals("Philippines")) {
+            imgCountry.setImageResource(R.drawable.ic_philippines);
+            tvNameCountry.setText("Philippines");
+        } else if ( product.getCountry().equals("Papua New Guinea")) {
+            imgCountry.setImageResource(R.drawable.ic_papua_new_guinea);
+            tvNameCountry.setText("Papua New Guinea");
+        } else if ( product.getCountry().equals("Samoa")) {
+            imgCountry.setImageResource(R.drawable.ic_samoa);
+            tvNameCountry.setText("Samoa");
+        } else if ( product.getCountry().equals("Seychelles")) {
+            imgCountry.setImageResource(R.drawable.ic_seychelles);
+            tvNameCountry.setText("Seychelles");
+        } else if ( product.getCountry().equals("Singapore")) {
+            imgCountry.setImageResource(R.drawable.ic_singapore);
+            tvNameCountry.setText("Singapore");
+        } else if ( product.getCountry().equals("South Africa")) {
+            imgCountry.setImageResource(R.drawable.ic_south_africa);
+            tvNameCountry.setText("South Africa");
+        } else if ( product.getCountry().equals("South Korea")) {
+            imgCountry.setImageResource(R.drawable.ic_south_korea);
+            tvNameCountry.setText("South Korea");
+        } else if ( product.getCountry().equals("Spain")) {
+            imgCountry.setImageResource(R.drawable.ic_spain);
+            tvNameCountry.setText("Spain");
+        } else if (product.getCountry().equals("Sweden")) {
+            imgCountry.setImageResource(R.drawable.ic_sweden);
+            tvNameCountry.setText("Sweden");
+        } else if ( product.getCountry().equals("Switzerland")) {
+            imgCountry.setImageResource(R.drawable.ic_switzerland);
+            tvNameCountry.setText("Switzerland");
+        } else if ( product.getCountry().equals("Taiwan")) {
+            imgCountry.setImageResource(R.drawable.ic_taiwan);
+            tvNameCountry.setText("Taiwan");
+        } else if ( product.getCountry().equals("Tanzania")) {
+            imgCountry.setImageResource(R.drawable.ic_tanzania);
+            tvNameCountry.setText("Tanzania");
+        } else if ( product.getCountry().equals("Thailand")) {
+            imgCountry.setImageResource(R.drawable.ic_thailand);
+            tvNameCountry.setText("Thailand");
+        } else if ( product.getCountry().equals("Tonga")) {
+            imgCountry.setImageResource(R.drawable.ic_tonga);
+            tvNameCountry.setText("Tonga");
+        } else if ( product.getCountry().equals("Uganda")) {
+            imgCountry.setImageResource(R.drawable.ic_uganda);
+            tvNameCountry.setText("Uganda");
+        } else if ( product.getCountry().equals("United Kingdom")) {
+            imgCountry.setImageResource(R.drawable.ic_uk);
+            tvNameCountry.setText("United Kingdom");
+        } else if (product.getCountry().equals("USA")) {
+            imgCountry.setImageResource(R.drawable.ic_usa);
+            tvNameCountry.setText("USA");
+        } else if ( product.getCountry().equals("Vanuatu")) {
+            imgCountry.setImageResource(R.drawable.ic_vanuatu);
+            tvNameCountry.setText("Vanuatu");
+        } else if ( product.getCountry().equals("Vietnam")) {
+            imgCountry.setImageResource(R.drawable.ic_vietnam);
+            tvNameCountry.setText("Vietnam");
+        } else if (product.getCountry().equals("Zambia")) {
+            imgCountry.setImageResource(R.drawable.ic_zambia);
+            tvNameCountry.setText("Zambia");
+        } else {
+            llCountryName.setVisibility(View.GONE);
+            viewCountryName.setVisibility(View.GONE);
         }
     }
 
@@ -936,7 +1098,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         float aveRating = number / data.size();
 
-        tvSumRating.setText("(" + String.valueOf(numReview) + ")");
+        tvSumRating.setText(numReview + " Rating");
         rb_AveRating.setRating(aveRating);
     }
 
