@@ -65,7 +65,6 @@ public class FilterSearchDialogFragment extends DialogFragment implements View.O
         imgBack = view.findViewById(R.id.imgBack);
 
         cbNoPalmOil = view.findViewById(R.id.cb_no_palm_oil);
-        cbNoGMO = view.findViewById(R.id.cb_no_gmo);
         cbGlutenFree = view.findViewById(R.id.cb_gluten);
         cbNutFree = view.findViewById(R.id.cb_nut_free);
         cbSoyFree = view.findViewById(R.id.cb_soy_free);
@@ -75,14 +74,12 @@ public class FilterSearchDialogFragment extends DialogFragment implements View.O
         btnApplyFilter.setOnClickListener(this);
 
         cbNoPalmOil.setChecked(isNoPalmOil);
-        cbNoGMO.setChecked(isNoGMO);
         cbGlutenFree.setChecked(isGlutenFree);
         cbNutFree.setChecked(isNutFree);
         cbSoyFree.setChecked(isSoyFree);
         cbVegan.setChecked(isVeganCompany);
 
         cbNoPalmOil.setOnCheckedChangeListener(this);
-        cbNoGMO.setOnCheckedChangeListener(this);
         cbGlutenFree.setOnCheckedChangeListener(this);
         cbNutFree.setOnCheckedChangeListener(this);
         cbSoyFree.setOnCheckedChangeListener(this);
@@ -129,7 +126,6 @@ public class FilterSearchDialogFragment extends DialogFragment implements View.O
 
     private void setCheckboxClear() {
         cbNoPalmOil.setChecked(false);
-        cbNoGMO.setChecked(false);
         cbGlutenFree.setChecked(false);
         cbNutFree.setChecked(false);
         cbSoyFree.setChecked(false);
@@ -138,7 +134,6 @@ public class FilterSearchDialogFragment extends DialogFragment implements View.O
         isClear = true;
 
         isNoPalmOil = false;
-        isNoGMO = false;
         isGlutenFree = false;
         isNutFree = false;
         isSoyFree = false;
@@ -147,7 +142,6 @@ public class FilterSearchDialogFragment extends DialogFragment implements View.O
 
     private void updateCheckbox() {
         isNoPalmOil = cbNoPalmOil.isChecked();
-        isNoGMO = cbNoGMO.isChecked();
         isGlutenFree = cbGlutenFree.isChecked();
         isNutFree = cbNutFree.isChecked();
         isSoyFree = cbSoyFree.isChecked();
@@ -155,7 +149,7 @@ public class FilterSearchDialogFragment extends DialogFragment implements View.O
     }
 
     private void checkCheckboxStatus() {
-        if (!isNoPalmOil && !isNoGMO && !isGlutenFree && !isNutFree && !isSoyFree && !isVeganCompany) {
+        if (!isNoPalmOil && !isGlutenFree && !isNutFree && !isSoyFree && !isVeganCompany) {
             isClear = true;
         }
     }

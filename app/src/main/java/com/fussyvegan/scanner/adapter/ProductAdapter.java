@@ -132,7 +132,10 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
             btnDelete.setVisibility(View.GONE);
         }
         txvName.setText(products.get(position).getName());
-
+        if((int)products.get(position).getCountRatting()==0) tvSumRating.setText("No" + " Rating");
+        else if((int)products.get(position).getCountRatting()==1)tvSumRating.setText("1" + " Rating");
+        else tvSumRating.setText((int)products.get(position).getCountRatting() + " Ratings");
+        rb_AveRating.setRating(products.get(position).getAvgRating());
 
         Picasso.get().cancelRequest(imgProduct);
         if (!products.get(position).getLinkPhoto().isEmpty()) {
@@ -142,52 +145,10 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
                     .placeholder(R.drawable.ic_app_150)
                     .into(imgProduct);
         }
-        int id = products.get(position).getId();
-        getReview(id ,1);
-        Log.e("ID", String.valueOf(products.get(position).getId()));
 
         return rowView;
     }
 
-
-    private void getReview(final int idProduct, int idType) {
-        String token = SharedPrefs.getInstance().get(ACCESS_TOKEN, String.class);
-        APIInterface apiInterface = APILoginClient.getClient().create(APIInterface.class);
-
-        Call<Reviews> call = apiInterface.getReviewProduct(token, idProduct, idType);
-        call.enqueue(new Callback<Reviews>() {
-            @Override
-            public void onResponse(Call<Reviews> call, Response<Reviews> response) {
-
-                //Log.d(TAG, String.valueOf(response.code()));
-                if (!response.body().getData().isEmpty()) {
-                    setOverallRatingReview(response.body().getData());
-                    Log.e("productAdapter id prod", String.valueOf(idProduct));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Reviews> call, Throwable t) {
-                Log.d("ProductAdapter", t.getMessage());
-            }
-        });
-
-    }
-
-    private void setOverallRatingReview(List<ProductReview> data) {
-        int numReview = data.size();
-
-        float number = 0;
-        for (int i = 0; i < data.size(); i++) {
-            number = number + data.get(i).getRating();
-        }
-
-        float aveRating = number / data.size();
-
-        tvSumRating.setText(numReview + " Rating");
-        rb_AveRating.setRating(aveRating);
-        Log.e("productAdapter",numReview + ", "+ aveRating );
-    }
 
     public void delete(int position) {
         Realm realm = Realm.getDefaultInstance();

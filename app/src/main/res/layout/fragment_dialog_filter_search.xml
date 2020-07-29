@@ -108,19 +108,6 @@
                 android:textSize="@dimen/text_size_filer_search" />
 
             <CheckBox
-                android:id="@+id/cb_no_gmo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="@dimen/margin_rd_filter_search"
-                android:background="@android:color/transparent"
-                android:button="@null"
-                android:checked="false"
-                android:drawableRight="@drawable/selector_ic_filter"
-                android:text="@string/txt_filter_search_no_gmo"
-                android:textSize="@dimen/text_size_filer_search" />
-
-            <CheckBox
                 android:id="@+id/cb_gluten"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

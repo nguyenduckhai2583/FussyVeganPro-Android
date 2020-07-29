@@ -174,7 +174,6 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         rb_AveRating = findViewById(R.id.rb_AveRating);
         tvSumRating = findViewById(R.id.tvSumRating);
-
         ImageView imgProduct = findViewById(R.id.imgProductDetail);
         tvProductInfor = findViewById(R.id.tvProductInfor);
         tvCompanyInfor = findViewById(R.id.tvCompanyInfor);
@@ -299,14 +298,13 @@ public class ProductDetailActivity extends AppCompatActivity {
 //        }
 
         ImageView imgVeganstatus = findViewById(R.id.imgVeganstatus);
-        if (product.getlinkVegan() != null && !product.getlinkVegan().isEmpty()) {
-            Picasso.get()
-                    .load(product.getlinkVegan())
-                    .placeholder(R.drawable.ic_app_150)
-                    .into(imgVeganstatus);
-        } else if(product.getVeganStatus().equals("VEGAN")){
+
+        if(product.getVeganStatus().equals("VEGAN")){
           imgVeganstatus.setImageResource(R.drawable.vegan);
-        } else imgVeganstatus.setImageResource(R.drawable.notvegan);
+        } else if(product.getVeganStatus().equals("NOT VEGAN")){
+            imgVeganstatus.setImageResource(R.drawable.notvegan);
+        } else imgVeganstatus.setImageResource(R.drawable.caution);
+
 
 
 
@@ -341,9 +339,13 @@ public class ProductDetailActivity extends AppCompatActivity {
         }
         if (product.getCategory().equals("ingredient")) {
             lnActionChange.setVisibility(View.GONE);
+            tvSumRating.setVisibility(View.GONE);
+            rb_AveRating.setVisibility(View.GONE);
+
         } else {
             tvNameCountry.setVisibility(View.VISIBLE);
         }
+
 
         TextView txvDetail = findViewById(R.id.txvDetail);
         String titleExpl = "Explanation";
@@ -413,8 +415,12 @@ public class ProductDetailActivity extends AppCompatActivity {
         if(product.getMainInfo() == null && product.getCountry() == null){
             llCountryName.setVisibility(View.GONE);
             viewCountryName.setVisibility(View.GONE);
-        } else if(product.getCountry() != null) setFlagForCountry();
-        else if(product.getMainInfo() != null && product.getCountry() == null)setFlagForCompanyInfo();
+        } else if(product.getCountry() != null) {
+            setFlagForCountry();
+        }
+        else if(product.getMainInfo() != null && product.getCountry() == null){
+            setFlagForCompanyInfo();
+        }
 
         setManvegan();
         setAnimalTesting();
@@ -468,6 +474,11 @@ public class ProductDetailActivity extends AppCompatActivity {
             viewInfo.setVisibility(View.GONE);
         } else tvInfor.setText(product.getExplanation());
 
+        if (product.getIngredient() == null || product.getIngredient().isEmpty() || product.getVeganStatus().equals("CAUTION")) {
+            tvIngredients.setText("Ingredients not available");
+            imgIngredients.setImageResource(R.drawable.ic_ingredients_unknown);
+        } else tvIngredients.setText(product.getIngredient());
+
         if(product.getVeganStatus().equals("VEGAN")) {
             imgIngredients.setImageResource(R.drawable.ic_ingredient_vegan);
             imgInfo.setImageResource(R.drawable.ic_explanation_vegan);
@@ -478,51 +489,57 @@ public class ProductDetailActivity extends AppCompatActivity {
             imgInfo.setImageResource(R.drawable.ic_explanation_notvegan);
         }
 
-        if (product.getIngredient() == null || product.getIngredient().isEmpty()) {
-            tvIngredients.setText("Ingredients not available");
-            imgIngredients.setImageResource(R.drawable.ic_ingredients_unknown);
-        } else tvIngredients.setText(product.getIngredient());
+
         if (product.getDescription() == null) {
             llCountry.setVisibility(View.GONE);
             viewCountry.setVisibility(View.GONE);
         } else tvCountry.setText(product.getDescription());
 
         if(product.getProdpalm().equals("NO")){
+            imgPalmInfo.setImageResource(R.drawable.ic_palm_free);
             tvPalm.setText("This product, menu item or ingredient does not contain palm oil.");
-        }else tvPalm.setText("CONTAINS PALM OIL.");
-        if (product.getProdpalm().isEmpty()) {
+        } else if(product.getProdpalm().equals("YES")){
+            imgPalmInfo.setImageResource(R.drawable.ic_palm);
+            tvPalm.setText("CONTAINS PALM OIL.");
+        }else {
             imgPalmInfo.setImageResource(R.drawable.ic_palm_unknown);
             tvPalm.setText("Palm oil status has not yet been verified.");
-        } else if (product.getlinkPalm().contains("palm_free"))
-            imgPalmInfo.setImageResource(R.drawable.ic_palm_free);
-        else imgPalmInfo.setImageResource(R.drawable.ic_palm);
+        }
 
-        if(product.getGluten().equals("NO"))tvGluten.setText("This product, menu item or ingredient does not contain gluten. Any potential cross contamination has not been considered in determining the gluten status.");
-        else tvGluten.setText("CONTAINS GLUTEN.");
-        if (product.getGluten().isEmpty()) {
+        if(product.getGluten().equals("NO")){
+            imgGlutenInfo.setImageResource(R.drawable.ic_gluten_free);
+            tvGluten.setText("This product, menu item or ingredient does not contain gluten. Any potential cross contamination has not been considered in determining the gluten status.");
+        } else if(product.getGluten().equals("YES")){
+            imgGlutenInfo.setImageResource(R.drawable.ic_gluten);
+            tvGluten.setText("CONTAINS GLUTEN.");
+        }else {
             imgGlutenInfo.setImageResource(R.drawable.ic_gluten_unknown);
             tvGluten.setText("Gluten status has not yet been verified.");
-        } else if (product.getlinkGluten().contains("gluten_free")) {
-            imgGlutenInfo.setImageResource(R.drawable.ic_gluten_free);
-        } else imgGlutenInfo.setImageResource(R.drawable.ic_gluten);
-        if(product.getNut().equals("NO")) {
+        }
+
+        if(product.getNut().equals("NO")){
+            imgNutInfo.setImageResource(R.drawable.ic_nut_free);
             tvNut.setText("This product, menu item or ingredient does not contain peanuts or tree nuts. Any potential cross contamination has not been considered in determining the nut status.");
-        }else tvNut.setText("CONTAINS PEANUTS AND OR TREE NUTS.");
-        if (product.getNut().isEmpty()) {
+        } else if(product.getNut().equals("YES")){
+            imgNutInfo.setImageResource(R.drawable.ic_nut);
+            tvNut.setText("CONTAINS PEANUTS AND OR TREE NUTS.");
+        }else {
             imgNutInfo.setImageResource(R.drawable.ic_nut_unknown);
             tvNut.setText("Nut status has not yet been verified.");
-        } else if (product.getlinkNut().contains("nut_free")) {
-            imgNutInfo.setImageResource(R.drawable.ic_nut_free);
-        } else imgNutInfo.setImageResource(R.drawable.ic_nut);
+        }
 
-        if(product.getSoy().equals("NO")) tvSoy.setText("This product, menu item or ingredient does not contain soy. Any potential cross contamination has not been considered in determining the soy status.");
-        else tvSoy.setText("CONTAINS SOY.");
-        if (product.getSoy().isEmpty()) {
+        if(product.getSoy().equals("NO")){
+            imgSoyInfo.setImageResource(R.drawable.ic_soy_free);
+            tvSoy.setText("This product, menu item or ingredient does not contain soy. Any potential cross contamination has not been considered in determining the soy status.");
+        } else if(product.getSoy().equals("YES")){
+            imgSoyInfo.setImageResource(R.drawable.ic_soy);
+            tvSoy.setText("CONTAINS SOY.");
+        }else {
             imgSoyInfo.setImageResource(R.drawable.ic_soy_unknown);
             tvSoy.setText("Soy status has not yet been verified.");
-        } else if (product.getlinkSoy().contains("soy_free")) {
-            imgSoyInfo.setImageResource(R.drawable.ic_soy_free);
-        } else imgSoyInfo.setImageResource(R.drawable.ic_soy);
+        }
+
+
 
         if(product.getCertified()!= null && product.getCertified().equals("vegan_australia")){
             tvCertified.setText("This product is registered with the Vegan Australia Certified program and meets the criteria set out in the Vegan Australia Certified standard.");
@@ -549,7 +566,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void setFlagForCompanyInfo() {
-        if (product.getMainInfo().contains("Australia") && product.getMainInfo() != null) {
+        if ( product.getMainInfo() != null && product.getMainInfo().contains("Australia") ) {
             imgCountry.setImageResource(R.drawable.ic_australia);
             tvNameCountry.setText("Australia");
         } else if (product.getMainInfo().contains("Bermuda") && product.getMainInfo() != null) {
@@ -1098,7 +1115,9 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         float aveRating = number / data.size();
 
-        tvSumRating.setText(numReview + " Rating");
+        if(numReview == 0) tvSumRating.setText("No" + " Rating");
+        else if(numReview==1)tvSumRating.setText("1" + " Rating");
+        else tvSumRating.setText(numReview + " Ratings");
         rb_AveRating.setRating(aveRating);
     }
 

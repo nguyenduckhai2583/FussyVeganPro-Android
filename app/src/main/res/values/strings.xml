@@ -18,7 +18,6 @@
     <string name="txt_clear_filter_search">Clear</string>
     <string name="txt_apply_filter_search">Apply</string>
     <string name="txt_filter_search_no_palm">No Palm Oil</string>
-    <string name="txt_filter_search_no_gmo">No GMO</string>
     <string name="txt_filter_search_gluten_free">Gluten Free</string>
     <string name="txt_filter_search_nut_free">Nut Free</string>
     <string name="txt_filter_search_soy_free">Soy Free</string>

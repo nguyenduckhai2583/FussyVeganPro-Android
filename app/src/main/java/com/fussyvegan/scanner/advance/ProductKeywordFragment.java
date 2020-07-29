@@ -229,12 +229,7 @@ public class ProductKeywordFragment extends Fragment {
                             }
                         });
                     }
-
                     mAdapter.updateData(mProducts);
-                    if(review == null) {
-                        getReview(mProducts.get(0).getId(), 1);
-                    }
-                    Log.e("rate", String.valueOf(rates.size()));
                     //products = deepClone();
                     //mProducts.clear();
                     Log.e("Product2", String.valueOf(mProducts.size()));

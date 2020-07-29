@@ -126,14 +126,20 @@ public class Product extends RealmObject implements Parcelable {
     @SerializedName("last_update")
     @Expose
     private String LastUpdate;
-    @SerializedName("country")
+    @SerializedName("company_country")
     @Expose
     private String Country;
     @SerializedName("alt_name")
     @Expose
     private String AltName;
+    @SerializedName("avg_rating")
+    @Expose
+    private float avgRating;
+    @SerializedName("count_rating")
+    @Expose
+    private float countRatting;
 
-    public Product(){
+    public Product() {
 
     }
 
@@ -257,7 +263,7 @@ public class Product extends RealmObject implements Parcelable {
         }
     };
 
-    public void copy(Product p){
+    public void copy(Product p) {
         this.id = p.id;
         this.name = p.name;
         this.description = p.description;
@@ -289,15 +295,15 @@ public class Product extends RealmObject implements Parcelable {
         this.linkNut = p.linkNut;
         this.linkSoy = p.linkSoy;
         this.linkSpecial = p.linkSpecial;
-        this.linkPrice= p.linkPrice;
-        this.SpecialDetail= p.SpecialDetail;
-        this.linkMap= p.linkMap;
-        this.certified= p.certified;
-        this.specialTitle= p.specialTitle;
-        this.category= p.category;
-        this.LastUpdate= p.LastUpdate;
-        this.Country= p.Country;
-        this.AltName= p.AltName;
+        this.linkPrice = p.linkPrice;
+        this.SpecialDetail = p.SpecialDetail;
+        this.linkMap = p.linkMap;
+        this.certified = p.certified;
+        this.specialTitle = p.specialTitle;
+        this.category = p.category;
+        this.LastUpdate = p.LastUpdate;
+        this.Country = p.Country;
+        this.AltName = p.AltName;
     }
 
     public Integer getId() {
@@ -332,9 +338,13 @@ public class Product extends RealmObject implements Parcelable {
         this.description = description;
     }
 
-    public String getSpecialDetail() { return SpecialDetail; }
+    public String getSpecialDetail() {
+        return SpecialDetail;
+    }
 
-    public void setSpecialDetail(String SpecialDetail) { this.SpecialDetail = SpecialDetail; }
+    public void setSpecialDetail(String SpecialDetail) {
+        this.SpecialDetail = SpecialDetail;
+    }
 
     public String getVeganStatus() {
         return veganStatus;
@@ -402,7 +412,9 @@ public class Product extends RealmObject implements Parcelable {
         this.Manvegan = Manvegan;
     }
 
-    public String getPalm() { return Palm; }
+    public String getPalm() {
+        return Palm;
+    }
 
     public void setPalm(String Palm) {
         this.Palm = Palm;
@@ -528,9 +540,13 @@ public class Product extends RealmObject implements Parcelable {
         this.linkNut = linkNut;
     }
 
-    public String getlinkSoy() { return linkSoy; }
+    public String getlinkSoy() {
+        return linkSoy;
+    }
 
-    public void setlinkSoy(String linkSoy) { this.linkSoy = linkSoy; }
+    public void setlinkSoy(String linkSoy) {
+        this.linkSoy = linkSoy;
+    }
 
     public String getlinkPrice() {
         return linkPrice;
@@ -606,6 +622,22 @@ public class Product extends RealmObject implements Parcelable {
 
     public void setAltName(String AltName) {
         this.AltName = AltName;
+    }
+
+    public float getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(float avgRating) {
+        this.avgRating = avgRating;
+    }
+
+    public float getCountRatting() {
+        return countRatting;
+    }
+
+    public void setCountRatting(float countRatting) {
+        this.countRatting = countRatting;
     }
 
     @Override
