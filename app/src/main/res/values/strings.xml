@@ -53,6 +53,7 @@
     <string name="txt_vegan_restaurant">Vegan Restaurants</string>
     <string name="txt_choose_country">CHOOSE COUNTRY</string>
     <string name="txt_title_city">MAJOR CITIES AND REGIONS</string>
+    <string name="choose_airline">CHOOSE AIRLINE</string>
 
 
 </resources>

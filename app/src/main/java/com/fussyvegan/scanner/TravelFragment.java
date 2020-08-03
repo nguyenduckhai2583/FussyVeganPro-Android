@@ -77,7 +77,7 @@ public class TravelFragment extends Fragment {
             Fragment fragment = new Fragment();
             switch (type) {
                 case 0:
-                    fragment = new FastfoodFragment();
+                    fragment = new AirlineVeganOptions();
                     tag = "AirlineFragment";
                     break;
                 case 1:
