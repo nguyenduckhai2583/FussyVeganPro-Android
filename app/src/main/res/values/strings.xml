@@ -47,6 +47,12 @@
     <string name="txt_confirm_newpass">Confirm new password</string>
     <string name="message_wrong_length_papss">Password must be longer than 6 characters</string>
     <string name="message_wrong_confirm_pass">New password must be the same</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_travel">Travel</string>
+    <string name="txt_vegan_restaurant">Vegan Restaurants</string>
+    <string name="txt_choose_country">CHOOSE COUNTRY</string>
+    <string name="txt_title_city">MAJOR CITIES AND REGIONS</string>
 
 
 </resources>
