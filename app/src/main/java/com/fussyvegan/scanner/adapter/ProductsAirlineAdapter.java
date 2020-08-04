@@ -1,26 +1,31 @@
 package com.fussyvegan.scanner.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.fussyvegan.scanner.R;
-import com.fussyvegan.scanner.model.ProductAriline;
+import com.fussyvegan.scanner.model.ProductAirline;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductsArilineAdapter extends BaseAdapter {
+public class ProductsAirlineAdapter extends BaseAdapter {
     private LayoutInflater inflater;
-    List<ProductAriline> mList = new ArrayList<>();
+    List<ProductAirline> mList = new ArrayList<>();
+    Integer imageAirline;
 
-    public ProductsArilineAdapter(List<ProductAriline> mList){
+    public ProductsAirlineAdapter(List<ProductAirline> mList, Integer imageAirline) {
         this.mList = mList;
+        this.imageAirline = imageAirline;
     }
 
     @Override
@@ -43,18 +48,13 @@ public class ProductsArilineAdapter extends BaseAdapter {
         if (inflater == null) {
             inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
-        View rowView = inflater.inflate(R.layout.item_products_ari_line, parent, false);
+        @SuppressLint("ViewHolder") View rowView = inflater.inflate(R.layout.item_products_ari_line, parent, false);
         TextView nameProduct = rowView.findViewById(R.id.tv_name_product);
         TextView mealCode = rowView.findViewById(R.id.tv_meal_code);
         ImageView imgIcon = rowView.findViewById(R.id.img_ari_line);
         nameProduct.setText(mList.get(position).getMealName());
         mealCode.setText(mList.get(position).getMealCode());
-        if (!mList.get(position).getAirlineLogo().isEmpty()) {
-            Picasso.get()
-                    .load(mList.get(position).getAirlineLogo())
-                    .placeholder(R.drawable.ic_app_150)
-                    .into(imgIcon);
-        }
-        return  rowView;
+        imgIcon.setImageResource(imageAirline);
+        return rowView;
     }
 }

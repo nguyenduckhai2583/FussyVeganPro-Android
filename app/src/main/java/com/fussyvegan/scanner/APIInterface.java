@@ -1,6 +1,7 @@
 package com.fussyvegan.scanner;
 
 import com.fussyvegan.scanner.model.Resource;
+import com.fussyvegan.scanner.model.ResourceProductAirline;
 import com.fussyvegan.scanner.model.accountFlow.Email;
 import com.fussyvegan.scanner.model.accountFlow.ForgotPassResult;
 import com.fussyvegan.scanner.model.accountFlow.PostReviewResult;
@@ -96,6 +97,9 @@ public interface APIInterface {
     @POST("change_password.php?api_key=45090dcae2aYMK")
     Call<UserAccount> requestChangePassword(@Header("access-token") String token,
                                             @Body RequestChangePassword requestChangePassword);
+
+    @GET("get_product.php?api_key=45090dcae2aYMK")
+    Call<ResourceProductAirline> getProductAirline(@Query("airline") String typeAirline);
 
 
 }

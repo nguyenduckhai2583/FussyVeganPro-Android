@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
 
-public class ProductAriline extends RealmObject implements Parcelable {
+public class ProductAirline extends RealmObject implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -30,7 +30,7 @@ public class ProductAriline extends RealmObject implements Parcelable {
     private String mealName;
     @SerializedName("vegan_options")
     @Expose
-    private Integer veganOptions;
+    private String veganOptions;
     @SerializedName("phone")
     @Expose
     private String phone;
@@ -53,9 +53,9 @@ public class ProductAriline extends RealmObject implements Parcelable {
     @Expose
     private String search;
 
-    public ProductAriline(){}
+    public ProductAirline(){}
 
-    protected ProductAriline(Parcel in) {
+    protected ProductAirline(Parcel in) {
         if (in.readByte() == 0) {
             id = null;
         } else {
@@ -66,11 +66,7 @@ public class ProductAriline extends RealmObject implements Parcelable {
         lastUpdate = in.readString();
         mealCode = in.readString();
         mealName = in.readString();
-        if (in.readByte() == 0) {
-            veganOptions = null;
-        } else {
-            veganOptions = in.readInt();
-        }
+        veganOptions = in.readString();
         phone = in.readString();
         airlineLogo = in.readString();
         linkWebsite = in.readString();
@@ -80,15 +76,15 @@ public class ProductAriline extends RealmObject implements Parcelable {
         search = in.readString();
     }
 
-    public static final Creator<ProductAriline> CREATOR = new Creator<ProductAriline>() {
+    public static final Creator<ProductAirline> CREATOR = new Creator<ProductAirline>() {
         @Override
-        public ProductAriline createFromParcel(Parcel in) {
-            return new ProductAriline(in);
+        public ProductAirline createFromParcel(Parcel in) {
+            return new ProductAirline(in);
         }
 
         @Override
-        public ProductAriline[] newArray(int size) {
-            return new ProductAriline[size];
+        public ProductAirline[] newArray(int size) {
+            return new ProductAirline[size];
         }
     };
 
@@ -110,12 +106,7 @@ public class ProductAriline extends RealmObject implements Parcelable {
         dest.writeString(lastUpdate);
         dest.writeString(mealCode);
         dest.writeString(mealName);
-        if (veganOptions == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(veganOptions);
-        }
+        dest.writeString(veganOptions);
         dest.writeString(phone);
         dest.writeString(airlineLogo);
         dest.writeString(linkWebsite);
@@ -173,11 +164,11 @@ public class ProductAriline extends RealmObject implements Parcelable {
         this.mealName = mealName;
     }
 
-    public Integer getVeganOptions() {
+    public String getVeganOptions() {
         return veganOptions;
     }
 
-    public void setVeganOptions(Integer veganOptions) {
+    public void setVeganOptions(String veganOptions) {
         this.veganOptions = veganOptions;
     }
 
@@ -237,7 +228,27 @@ public class ProductAriline extends RealmObject implements Parcelable {
         this.search = search;
     }
 
-    public static Creator<ProductAriline> getCREATOR() {
+    public static Creator<ProductAirline> getCREATOR() {
         return CREATOR;
     }
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", category='" + category + '\'' +
+                ", airline='" + airline + '\'' +
+                ", last_update='" + lastUpdate + '\'' +
+                ", meal_code='" + mealCode + '\'' +
+                ", meal_name='" + mealName + '\'' +
+                ", vegan_options='" + veganOptions + '\'' +
+                ", phone='" + phone + '\'' +
+                ", airline_logo='" + airline + '\'' +
+                ", link_website='" + linkWebsite + '\'' +
+                ", email='" + email + '\'' +
+                ", facebook_link='" + facebookLink + '\'' +
+                ", country='" + country + '\'' +
+                ", search='" + search + '\'' +
+                '}';
+    }
+
 }

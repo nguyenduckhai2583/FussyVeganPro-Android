@@ -54,6 +54,13 @@
     <string name="txt_choose_country">CHOOSE COUNTRY</string>
     <string name="txt_title_city">MAJOR CITIES AND REGIONS</string>
     <string name="choose_airline">CHOOSE AIRLINE</string>
+    <string name="vegan_option">Vegan Option</string>
+    <string name="last_updated">Last updated</string>
+    <string name="major_airports">MAJOR AIRPORTS</string>
+    <string name="australian_capital_territory">AUSTRALIAN CAPITAL TERRITORY</string>
+    <string name="new_south_wales">NEW SOUTH WALES</string>
+    <string name="norfolk_island">NORFOLK ISLAND</string>
+    <string name="northern_territory">NORTHERN TERRITORY</string>
 
 
 </resources>

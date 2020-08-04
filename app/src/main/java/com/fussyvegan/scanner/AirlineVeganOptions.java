@@ -15,22 +15,12 @@ import com.fussyvegan.scanner.adapter.AirlineAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AirlineVeganOptions#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AirlineVeganOptions extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_COLUMN_COUNT = "column-count";
     private static final String NAME_AIRLINE_GET_PRODUCT= "name airline get products";
     private static final String NAME_OF_AIRLINE= "name airline";
 
-
-    // TODO: Rename and change types of parameters
     List<String> nameAirline = new ArrayList<>();
     List<Integer> icLink = new ArrayList<>();
     private int mColumnCount = 1;
@@ -98,7 +88,7 @@ public class AirlineVeganOptions extends Fragment {
             case 0:
                 return "canada";
             case 1:
-                return "china";
+                return "air_china";
             case 2:
                 return "france";
             case 3:
@@ -140,10 +130,6 @@ public class AirlineVeganOptions extends Fragment {
             case 21:
                 return "united";
             case 22:
-                return "american";
-            case 23:
-                return "virgin_atlantic";
-            case 24:
                 return "virgin_atlantic";
             default:
                 return "virgin_australia";
@@ -152,13 +138,6 @@ public class AirlineVeganOptions extends Fragment {
 
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment AirlineVeganOptions.
-     */
-    // TODO: Rename and change types and number of parameters
     public static AirlineVeganOptions newInstance(int mColumnCount) {
         AirlineVeganOptions fragment = new AirlineVeganOptions();
         Bundle args = new Bundle();

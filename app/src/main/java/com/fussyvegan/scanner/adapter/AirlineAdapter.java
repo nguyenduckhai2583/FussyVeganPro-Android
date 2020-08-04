@@ -14,22 +14,22 @@ import java.util.List;
 
 public class AirlineAdapter extends BaseAdapter {
     private LayoutInflater inflater;
-    List<String> nameAriline;
+    List<String> nameAirline;
     List<Integer> icLink;
 
-    public AirlineAdapter(List<String> nameAriline, List<Integer> icLink){
-        this.nameAriline = nameAriline;
+    public AirlineAdapter(List<String> nameAirline, List<Integer> icLink) {
+        this.nameAirline = nameAirline;
         this.icLink = icLink;
     }
 
     @Override
     public int getCount() {
-        return nameAriline.size();
+        return nameAirline.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return nameAriline.get(position);
+        return nameAirline.get(position);
     }
 
     @Override
@@ -45,8 +45,10 @@ public class AirlineAdapter extends BaseAdapter {
         View rowView = inflater.inflate(R.layout.item_choose_airline, parent, false);
         TextView textView = rowView.findViewById(R.id.tv_name_airline);
         ImageView imgIcon = rowView.findViewById(R.id.img_ari_line);
-        textView.setText(nameAriline.get(position));
+        if (nameAirline.get(position).equals("Australia") || nameAirline.get(position).equals("New Zealand") || nameAirline.get(position).equals("USA"))
+            textView.setTextSize(18);
+        textView.setText(nameAirline.get(position));
         imgIcon.setImageResource(icLink.get(position));
-        return  rowView;
+        return rowView;
     }
 }
