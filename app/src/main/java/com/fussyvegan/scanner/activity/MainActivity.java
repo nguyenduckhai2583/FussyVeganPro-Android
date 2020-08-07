@@ -35,6 +35,7 @@ import com.fussyvegan.scanner.ScanFragment;
 import com.fussyvegan.scanner.SettingFragment;
 import com.fussyvegan.scanner.ProductFragment;
 import com.fussyvegan.scanner.search.FilterSearchDialogFragment;
+import com.fussyvegan.scanner.search.FilterSearchResortFragment;
 
 public class MainActivity extends AppCompatActivity implements FavoriteFragment.OnFragmentInteractionListener {
 
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
     public ImageView imgFavorite;
     public ImageView imgFlash;
     public ImageView imgFilterSearch;
+    public ImageView imgFilterSearchResort;
     public TextView tvEdit;
     String tag = "";
     //    public ActionBar actionBar;
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         imgFavorite = findViewById(R.id.imgFavorite);
         imgFlash = findViewById(R.id.imgFlash);
         imgFilterSearch = findViewById(R.id.imgFilter);
+        imgFilterSearchResort = findViewById(R.id.imgFilterResort);
         tvEdit = findViewById(R.id.tvEdit);
         imgFavorite.setOnClickListener(
                 new View.OnClickListener() {
@@ -133,6 +136,14 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
                 showFilterSearchDialog();
             }
         });
+
+        imgFilterSearchResort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFilterSearchResortDialog();
+            }
+        });
+
 
         tvEdit.setOnClickListener(new View.OnClickListener() {
                                       @Override
@@ -208,6 +219,21 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         showFilterSearch = true;
     }
 
+    public void showFilterSearchResortOnly() {
+        imgFlash.setVisibility(View.GONE);
+        imgFavorite.setVisibility(View.GONE);
+        imgMenu.setVisibility(View.GONE);
+        imgFilterSearch.setVisibility(View.GONE);
+        imgFilterSearchResort.setVisibility(View.VISIBLE);
+
+        tvEdit.setVisibility(View.GONE);
+        showEditItem = false;
+        showFavoriteItem = false;
+        showFlash = false;
+        showFilterSearch = true;
+    }
+
+
     public void showOnlyEdit() {
         imgFlash.setVisibility(View.GONE);
         imgFavorite.setVisibility(View.GONE);
@@ -255,6 +281,12 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
     private void showFilterSearchDialog() {
         filterSearchDialogFragment = FilterSearchDialogFragment.newInstance();
         filterSearchDialogFragment.show(fm, "");
+    }
+
+    FilterSearchResortFragment filterSearchResortFragment;
+    private void showFilterSearchResortDialog() {
+        filterSearchResortFragment = FilterSearchResortFragment.newInstance();
+        filterSearchResortFragment.show(fm, "");
     }
 
     @Override

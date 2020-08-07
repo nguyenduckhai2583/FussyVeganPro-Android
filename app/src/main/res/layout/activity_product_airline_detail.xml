@@ -235,14 +235,6 @@
             android:padding="10dp"
             android:src="@drawable/ic_list" />
 
-        <ImageView
-            android:id="@+id/imgMap"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:padding="10dp"
-            android:src="@drawable/ic_map_search" />
 
         <ImageView
             android:id="@+id/imgWebsite"

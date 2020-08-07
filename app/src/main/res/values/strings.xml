@@ -61,6 +61,14 @@
     <string name="new_south_wales">NEW SOUTH WALES</string>
     <string name="norfolk_island">NORFOLK ISLAND</string>
     <string name="northern_territory">NORTHERN TERRITORY</string>
+    <string name="queensland">QUEENSLAND</string>
+    <string name="south_australia">SOUTH AUSTRALIA</string>
+    <string name="tasmania">TASMANIA</string>
+    <string name="victoria">VICTORIA</string>
+    <string name="western_australia">WESTERN AUSTRALIA</string>
+    <string name="location_information">location information</string>
+    <string name="details">Details</string>
+    <string name="map">Map</string>
 
 
 </resources>

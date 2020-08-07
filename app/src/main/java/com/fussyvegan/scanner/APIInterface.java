@@ -1,7 +1,9 @@
 package com.fussyvegan.scanner;
 
 import com.fussyvegan.scanner.model.Resource;
+import com.fussyvegan.scanner.model.ResourceLocationAirport;
 import com.fussyvegan.scanner.model.ResourceProductAirline;
+import com.fussyvegan.scanner.model.ResourceResort;
 import com.fussyvegan.scanner.model.accountFlow.Email;
 import com.fussyvegan.scanner.model.accountFlow.ForgotPassResult;
 import com.fussyvegan.scanner.model.accountFlow.PostReviewResult;
@@ -90,9 +92,11 @@ public interface APIInterface {
                                    @Query("ratingable_id") int idProduct,
                                    @Query("ratingable_type") int typeProduct);
 
+
+
     @POST("update_rating.php?api_key=45090dcae2aYMK")
     Call<PostReviewResult> updateReviewProduct(@Header("access-token") String token,
-                                                  @Body UpdateReviewProduct reviewProduct);
+                                               @Body UpdateReviewProduct reviewProduct);
 
     @POST("change_password.php?api_key=45090dcae2aYMK")
     Call<UserAccount> requestChangePassword(@Header("access-token") String token,
@@ -101,5 +105,9 @@ public interface APIInterface {
     @GET("get_product.php?api_key=45090dcae2aYMK")
     Call<ResourceProductAirline> getProductAirline(@Query("airline") String typeAirline);
 
+    @GET("get_products.php?api_key=45090dcae2aYMK")
+    Call<ResourceLocationAirport> getLocationAirport(@Query("search") String search, @Query("airport_code") String airportCode);
 
+    @GET("get_products.php?api_key=45090dcae2aYMK")
+    Call<ResourceResort> getResorts(@Query("search") String search, @Query("country") String country);
 }

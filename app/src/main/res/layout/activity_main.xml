@@ -77,7 +77,16 @@
                 android:layout_marginRight="16dp"
                 android:src="@drawable/ic_filter"
                 android:visibility="gone" />
-
+            <ImageView
+                android:id="@+id/imgFilterResort"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/ic_filter"
+                android:visibility="gone" />
             <TextView
                 android:id="@+id/tvEdit"
                 android:textColor="#ffffff"
