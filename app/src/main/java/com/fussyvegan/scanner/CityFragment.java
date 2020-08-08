@@ -1,6 +1,7 @@
 package com.fussyvegan.scanner;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -16,13 +17,15 @@ import com.fussyvegan.scanner.activity.RestaurantActivity;
 import com.fussyvegan.scanner.adapter.CityAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CityFragment extends Fragment {
 
-    private static final String NAME_CITY = "Country";
+    private static final String NAME_CITY = "City";
+    private static final String NAME_COUNTRY = "Country";
 
-    private String city;
+    private String country;
 
     private TextView tvSearchCity;
     private CardView lyAllCities;
@@ -34,23 +37,6 @@ public class CityFragment extends Fragment {
     private MainActivity activity;
 
     public CityFragment() {
-        listCity.add("Adelaide");
-        listCity.add("Brisbane");
-        listCity.add("Canberra");
-        listCity.add("Gold Coast");
-        listCity.add("Melbourne");
-        listCity.add("Perth");
-        listCity.add("Sunshine Coast");
-        listCity.add("Sydney");
-
-        listDes.add("South Australia");
-        listDes.add("Queensland");
-        listDes.add("Australia Capital Territory");
-        listDes.add("Queensland");
-        listDes.add("Victoria");
-        listDes.add("Western Australia");
-        listDes.add("Queensland");
-        listDes.add("New South Wales");
     }
 
     public static CityFragment newInstance() {
@@ -61,7 +47,21 @@ public class CityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            city = getArguments().getString(NAME_CITY);
+            country = getArguments().getString(NAME_COUNTRY);
+            if (country != null) {
+                Resources res = getResources();
+                switch (country) {
+                    case "Australia":
+                        listCity.addAll(Arrays.asList(res.getStringArray(R.array.AUS_cities)));
+                        listDes.addAll(Arrays.asList(res.getStringArray(R.array.AUS_cities_des)));
+                        break;
+
+                    case "New Zealand":
+                        listCity.addAll(Arrays.asList(res.getStringArray(R.array.NEW_cities)));
+                        listDes.addAll(Arrays.asList(res.getStringArray(R.array.NEW_cities_des)));
+                        break;
+                }
+            }
         }
 
         activity = (MainActivity) this.getActivity();
@@ -74,7 +74,7 @@ public class CityFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_city, container, false);
 
         tvSearchCity = view.findViewById(R.id.tvSearchCity);
-        String text = "Search All " + city;
+        String text = "Search All " + country;
         tvSearchCity.setText(text);
 
         lyAllCities = view.findViewById(R.id.lyAllCities);
@@ -82,7 +82,8 @@ public class CityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity, RestaurantActivity.class);
-                intent.putExtra(NAME_CITY, "all");
+                intent.putExtra(NAME_CITY, "");
+                intent.putExtra(NAME_COUNTRY, country);
                 startActivity(intent);
             }
         });
@@ -96,6 +97,7 @@ public class CityFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(activity, RestaurantActivity.class);
                 intent.putExtra(NAME_CITY, listCity.get(position));
+                intent.putExtra(NAME_COUNTRY, "");
                 startActivity(intent);
             }
         });
