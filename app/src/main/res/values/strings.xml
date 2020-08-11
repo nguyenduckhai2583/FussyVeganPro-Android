@@ -69,6 +69,7 @@
     <string name="location_information">location information</string>
     <string name="details">Details</string>
     <string name="map">Map</string>
+    <string name="todo">TODO</string>
 
 
 </resources>

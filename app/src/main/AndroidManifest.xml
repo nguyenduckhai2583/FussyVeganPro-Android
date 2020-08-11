@@ -17,7 +17,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.LocationAirportDetailActivity"></activity>
+        <activity android:name=".activity.ResortDetailActivity"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_key" />
+
+        <activity android:name=".activity.LocationAirportDetailActivity" />
         <activity android:name=".activity.ProductAirlineDetailActivity" />
         <activity android:name=".activity.RestaurantActivity" />
         <activity android:name=".activity.ReviewActivity" />

@@ -15,8 +15,10 @@ import android.widget.TextView;
 import com.fussyvegan.scanner.APIInterface;
 import com.fussyvegan.scanner.APILoginClient;
 import com.fussyvegan.scanner.R;
+import com.fussyvegan.scanner.model.LocationAirport;
 import com.fussyvegan.scanner.model.Product;
 import com.fussyvegan.scanner.model.ProductReview;
+import com.fussyvegan.scanner.model.Resort;
 import com.fussyvegan.scanner.model.accountFlow.PostReviewResult;
 import com.fussyvegan.scanner.model.accountFlow.ReviewProduct;
 import com.fussyvegan.scanner.model.accountFlow.UpdateReviewProduct;
@@ -50,10 +52,15 @@ public class ReviewActivity extends AppCompatActivity {
         addEvent();
 
         Intent intent = getIntent();
-        Product product = intent.getParcelableExtra("product");
-        productId = product.getId();
-         mProductReview = intent.getParcelableExtra("review");
         categoryId = intent.getIntExtra("category", 1);
+        if (categoryId == 1) {
+            Product product = intent.getParcelableExtra("product");
+            productId = product.getId();
+        } else if (categoryId == 3) {
+            Resort resort = intent.getParcelableExtra("resort");
+            productId = resort.getId();
+        }
+        mProductReview = intent.getParcelableExtra("review");
 
         reviewEdt_Email.setText(SharedPrefs.getInstance().get(Constant.EMAIL, String.class));
         reviewEdt_Name.setText(SharedPrefs.getInstance().get(Constant.USER_NAME, String.class));
@@ -149,7 +156,7 @@ public class ReviewActivity extends AppCompatActivity {
             public void onResponse(Call<PostReviewResult> call, Response<PostReviewResult> response) {
                 Log.d(TAG, String.valueOf(response.code()));
                 Intent returnIntent = new Intent();
-                setResult(Activity.RESULT_OK,returnIntent);
+                setResult(Activity.RESULT_OK, returnIntent);
                 finish();
 
             }

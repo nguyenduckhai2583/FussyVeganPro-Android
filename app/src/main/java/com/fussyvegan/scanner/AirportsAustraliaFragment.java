@@ -1,12 +1,11 @@
 package com.fussyvegan.scanner;
 
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -14,8 +13,10 @@ import android.widget.TextView;
 
 import com.fussyvegan.scanner.activity.MainActivity;
 import com.fussyvegan.scanner.adapter.AirportsAdapter;
+import com.google.android.gms.common.api.ApiException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AirportsAustraliaFragment extends Fragment {
@@ -153,7 +154,7 @@ public class AirportsAustraliaFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 LocationAirportFragment fragment = new LocationAirportFragment();
-                String tag = "AirportsAustraliaFragment";
+                String tag = "LocationAirportFragment";
                 Bundle args = new Bundle();
                 args.putString("name location airport", nameMajorAirports.get(position));
                 args.putString("code location airport", codeMajorAirports.get(position));
@@ -161,6 +162,7 @@ public class AirportsAustraliaFragment extends Fragment {
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
             }
         });
+
         activity.showNothing();
         activity.visibleBackItem(false);
         activity.invalidateOptionsMenu();
@@ -206,5 +208,21 @@ public class AirportsAustraliaFragment extends Fragment {
         TextView nameAirPort = view.findViewById(R.id.tv_name_airport);
         nameAirPort.setText(mNameAirport);
 
-    }
+//        String placeId = "INSERT_PLACE_ID_HERE";
+//        List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+//        FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeId, placeFields);
+//
+//        placesClient.fetchPlace(request).addOnSuccessListener((response) -> {
+//            Place place = response.getPlace();
+//            textView.append("Place found: " + place.getName());
+//            textView.append("Attributions: " + place.getAttributions());
+//        }).addOnFailureListener((exception) -> {
+//            if (exception instanceof ApiException) {
+//                // Handle the error.
+//            }
+////        });
+
+        }
+
+
 }

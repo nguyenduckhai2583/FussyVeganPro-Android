@@ -1,9 +1,19 @@
 package com.fussyvegan.scanner;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -17,23 +27,27 @@ import android.widget.TextView;
 import com.fussyvegan.scanner.activity.LocationAirportDetailActivity;
 import com.fussyvegan.scanner.activity.MainActivity;
 import com.fussyvegan.scanner.adapter.LocationAirlineAdapter;
-import com.fussyvegan.scanner.adapter.ProductsAirlineAdapter;
 import com.fussyvegan.scanner.model.LocationAirport;
-import com.fussyvegan.scanner.model.Product;
 import com.fussyvegan.scanner.model.ResourceLocationAirport;
-import com.fussyvegan.scanner.model.ResourceProductAirline;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class LocationAirportFragment extends Fragment {
+
+public class LocationAirportFragment extends Fragment  {
 
     private static final String NAME_LOCATION_AIRPORT = "name location airport";
     private static final String CODE_LOCATION_AIRPORT = "code location airport";
@@ -46,14 +60,22 @@ public class LocationAirportFragment extends Fragment {
 
     List<LocationAirport> locationAirports;
 
+    FusedLocationProviderClient fusedLocationProviderClient;
+
+    private double latitudeCurrent;
+    private double longitudeCurrent;
+    List<Integer> distanceList;
+
     APIInterface apiInterface;
 
     MainActivity activity;
 
     SearchView searchView;
 
+
     public LocationAirportFragment() {
         locationAirports = new ArrayList<>();
+        distanceList = new ArrayList<>();
     }
 
 
@@ -73,8 +95,9 @@ public class LocationAirportFragment extends Fragment {
             mNameLocationAirport = getArguments().getString(NAME_LOCATION_AIRPORT);
             mCodeLocationAirport = getArguments().getString(CODE_LOCATION_AIRPORT);
         }
-        fetchLocationAirlines("",mCodeLocationAirport);
         activity = (MainActivity) this.getActivity();
+        getCurrentLocation();
+        fetchLocationAirlines("",mCodeLocationAirport);
     }
 
     @SuppressLint("SetTextI18n")
@@ -87,7 +110,7 @@ public class LocationAirportFragment extends Fragment {
         nameAirport.setText(mNameLocationAirport+" " + mCodeLocationAirport);
         numberLocation = view.findViewById(R.id.tvNumProductFound);
         lvLocation = view.findViewById(R.id.ltvLocation);
-        final LocationAirlineAdapter adapter = new LocationAirlineAdapter(locationAirports);
+        final LocationAirlineAdapter adapter = new LocationAirlineAdapter(locationAirports, distanceList);
         lvLocation.setAdapter(adapter);
         lvLocation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -127,6 +150,53 @@ public class LocationAirportFragment extends Fragment {
         searchView.clearFocus();
     }
 
+    private void getCurrentLocation() {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity);
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                Location location = task.getResult();
+                Log.e("Location", location.getLatitude() +", "+ location.getLongitude());
+                latitudeCurrent = location.getLatitude();
+                longitudeCurrent = location.getLongitude();
+            }
+        });
+    }
+
+    private List<Integer> distance(double lat1, double long1,List<LocationAirport> locationAirports) {
+        List<Integer> distanceList= new ArrayList<>();
+        for(LocationAirport locationAirport:locationAirports) {
+            double distance = 0;
+
+            double lat2 = Double.parseDouble(locationAirport.getLatitude());
+            double long2 = Double.parseDouble(locationAirport.getLongitude());
+
+            Location locationCurrent = new Location("Current");
+            locationCurrent.setLatitude(lat1);
+            locationCurrent.setLongitude(long1);
+
+            Location locationCome = new Location("Come");
+            locationCome.setLatitude(lat2);
+            locationCome.setLongitude(long2);
+
+            distance = locationCurrent.distanceTo(locationCome)/1000;
+            distanceList.add((int) distance);
+        }
+        return distanceList;
+
+    }
+
+
     public void fetchLocationAirlines(String search,String keyword) {
         Log.e("Keyword", keyword);
         apiInterface = APILocationAirports.getClient().create(APIInterface.class);
@@ -141,7 +211,6 @@ public class LocationAirportFragment extends Fragment {
                 Log.d("TAG","status: " + response.code());
 
                 ResourceLocationAirport resource = response.body();
-                // Log.d("TAG","body: " + response.body().toString());
                 locationAirports.clear();
                 locationAirports = resource.getProducts();
                 Collections.sort(locationAirports, new Comparator<LocationAirport>(){
@@ -149,9 +218,10 @@ public class LocationAirportFragment extends Fragment {
                         return p1.getName().compareToIgnoreCase(p2.getName()); // To compare string values
                     }
                 });
-                Log.e("TAG", locationAirports.toString());
+                distanceList.clear();
+                distanceList = distance(latitudeCurrent, longitudeCurrent, locationAirports);
                 numberLocation.setText(String.valueOf(locationAirports.size()));
-                LocationAirlineAdapter adapter = new LocationAirlineAdapter(locationAirports);
+                LocationAirlineAdapter adapter = new LocationAirlineAdapter(locationAirports, distanceList);
                 lvLocation.setAdapter(adapter);
             }
             @Override
@@ -161,5 +231,6 @@ public class LocationAirportFragment extends Fragment {
 
         });
     }
+
 
 }

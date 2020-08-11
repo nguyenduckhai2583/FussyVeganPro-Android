@@ -3,21 +3,13 @@ package com.fussyvegan.scanner.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,12 +27,10 @@ import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.adapter.ProductReviewAdapter;
 import com.fussyvegan.scanner.model.LocationAirport;
 import com.fussyvegan.scanner.model.ProductReview;
+import com.fussyvegan.scanner.model.Resort;
 import com.fussyvegan.scanner.model.accountFlow.Reviews;
 import com.fussyvegan.scanner.utils.Constant;
 import com.fussyvegan.scanner.utils.SharedPrefs;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -50,18 +40,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import github.nisrulz.screenshott.ScreenShott;
 import io.realm.Realm;
@@ -71,15 +56,14 @@ import retrofit2.Response;
 
 import static com.fussyvegan.scanner.utils.Constant.ACCESS_TOKEN;
 
-public class LocationAirportDetailActivity extends AppCompatActivity {
+public class ResortDetailActivity extends AppCompatActivity {
 
-    private static final String TAG = LocationAirportDetailActivity.class.getSimpleName();
+    private static final String TAG = ResortDetailActivity.class.getSimpleName();
 
-    private ImageView imgLocation;
-    private TextView tvNameLocation;
+    private ImageView imgResort;
+    private TextView tvNameResort;
     private TextView tvLocation;
     private TextView tvDescription;
-    private TextView tvHours;
 
     private TextView tvDetails;
     private TextView tvMap;
@@ -104,7 +88,7 @@ public class LocationAirportDetailActivity extends AppCompatActivity {
     AppCompatRatingBar rb_AveRating;
     TextView tvSumRating;
 
-    private LocationAirport locationAirport;
+    private Resort resort;
 
     RecyclerView recyclerViewReview;
     ProductReviewAdapter mApdater;
@@ -112,54 +96,63 @@ public class LocationAirportDetailActivity extends AppCompatActivity {
     ImageView imgCamera;
     ImageView imgListWish;
     ImageView imgWebsite;
+    ImageView imgPhone;
 
-    private boolean isReview;
-    private ProductReview reviewProduct;
+    ImageView imgBtBook;
+    ImageView imgBtExpedia;
+    ImageView imgBtHotels;
 
     private Bitmap bitmap;
     private final static String[] requestWritePermission =
             {Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
 
+
+    private boolean isReview;
+    private ProductReview reviewProduct;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_location_airport_detail);
+        setContentView(R.layout.activity_resort_detail);
         initView(savedInstanceState);
         handOnClick();
     }
 
     private void initView(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        locationAirport = intent.getParcelableExtra("location");
+        resort = intent.getParcelableExtra("resort");
         recyclerViewReview = findViewById(R.id.recyclerViewReview);
         initRecyclerView();
-        getReview(locationAirport.getId(), 2);
+        getReview(resort.getId(), 3);
 
 
-        imgLocation = findViewById(R.id.imgLocation);
-        if (!locationAirport.getLink_photo().isEmpty()) {
+        imgResort = findViewById(R.id.imgResort);
+        if (!resort.getLink_photo().isEmpty()) {
             Picasso.get()
-                    .load(locationAirport.getLink_photo())
+                    .load(resort.getLink_photo())
                     .placeholder(R.drawable.ic_app_150)
-                    .into(imgLocation);
+                    .into(imgResort);
         }
 
-        tvNameLocation = findViewById(R.id.txvName);
-        tvNameLocation.setText(locationAirport.getName());
+        tvNameResort = findViewById(R.id.txvName);
+        tvNameResort.setText(resort.getName());
 
         tvLocation = findViewById(R.id.txvLocation);
-        tvLocation.setText(locationAirport.getLocation());
+        tvLocation.setText(resort.getLocation());
 
         tvDescription = findViewById(R.id.tvInfo);
-        tvDescription.setText(locationAirport.getDescription());
+        tvDescription.setText(resort.getDescription());
 
-        tvHours = findViewById(R.id.tvHours);
-        tvHours.setText(locationAirport.getHours());
 
         imgCamera = findViewById(R.id.imgCamera);
         imgListWish = findViewById(R.id.imgListWish);
         imgWebsite = findViewById(R.id.imgWebsite);
+        imgPhone = findViewById(R.id.imgPhone);
+
+        imgBtBook = findViewById(R.id.imgBtBooking);
+        imgBtHotels = findViewById(R.id.imgBtHotels);
+        imgBtExpedia = findViewById(R.id.imgBtExpedia);
 
         tvCustom = findViewById(R.id.textView6);
 
@@ -193,8 +186,8 @@ public class LocationAirportDetailActivity extends AppCompatActivity {
 //                googleMap.setMyLocationEnabled(true);
 
                 // For dropping a marker at a point on the Map
-                LatLng location = new LatLng(Double.parseDouble(locationAirport.getLatitude()), Double.parseDouble(locationAirport.getLongitude()));
-                googleMap.addMarker(new MarkerOptions().position(location).title("Marker Title").icon(getBitmap(LocationAirportDetailActivity.this, R.drawable.ic_restaurant)));
+                LatLng location = new LatLng(Double.parseDouble(resort.getLatitude()), Double.parseDouble(resort.getLongitude()));
+                googleMap.addMarker(new MarkerOptions().position(location).title("Marker Title").icon(getBitmap(ResortDetailActivity.this, R.drawable.ic_restaurant)));
 
                 // For zooming automatically to the location of the marker
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(location).zoom(12).build();
@@ -203,7 +196,6 @@ public class LocationAirportDetailActivity extends AppCompatActivity {
         });
 
     }
-
     private BitmapDescriptor getBitmap(Context context, int vectorID) {
         Drawable drawable = ContextCompat.getDrawable(context, vectorID);
         drawable.setBounds(0, 0, 72, 92);
@@ -212,7 +204,6 @@ public class LocationAirportDetailActivity extends AppCompatActivity {
         drawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
-
 
     private void handOnClick(){
 
@@ -263,9 +254,9 @@ public class LocationAirportDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (SharedPrefs.getInstance().get(Constant.IS_LOGIN, Boolean.class)) {
-                    Intent intentLocation = new Intent(LocationAirportDetailActivity.this, ReviewActivity.class);
-                    intentLocation.putExtra("location airport", locationAirport);
-                    intentLocation.putExtra("category", "10");
+                    Intent intentLocation = new Intent(ResortDetailActivity.this, ReviewActivity.class);
+                    intentLocation.putExtra("resort", resort);
+                    intentLocation.putExtra("category", "3");
 
                     if (isReview) {
                         intentLocation.putExtra("review", reviewProduct);
@@ -273,7 +264,7 @@ public class LocationAirportDetailActivity extends AppCompatActivity {
 
                     startActivityForResult(intentLocation, Constant.LAUNCH_REVIEW_ACTIVITY);
                 } else {
-                    Intent loginScreen = new Intent(LocationAirportDetailActivity.this, LoginActivity.class);
+                    Intent loginScreen = new Intent(ResortDetailActivity.this, LoginActivity.class);
                     startActivity(loginScreen);
                 }
 
@@ -286,13 +277,13 @@ public class LocationAirportDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 bitmap = ScreenShott.getInstance().takeScreenShotOfRootView(view);
-                final boolean hasWritePermission = RuntimePermissionUtil.checkPermissonGranted(LocationAirportDetailActivity.this,
+                final boolean hasWritePermission = RuntimePermissionUtil.checkPermissonGranted(ResortDetailActivity.this,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 if (bitmap != null) {
                     if (hasWritePermission) {
                         saveScreenshot();
                     } else {
-                        RuntimePermissionUtil.requestPermission(LocationAirportDetailActivity.this, requestWritePermission, 100);
+                        RuntimePermissionUtil.requestPermission(ResortDetailActivity.this, requestWritePermission, 100);
 
                     }
                 }
@@ -304,18 +295,56 @@ public class LocationAirportDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addToFavorite();
-
             }
         });
 
         imgWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (locationAirport.getLink_website() != null && locationAirport.getLink_website().contains("http")) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(locationAirport.getLink_website()));
+                if (resort.getLink_website() != null && resort.getLink_website().contains("http")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(resort.getLink_website()));
                     startActivity(intent);
                 } else {
-                    Toast.makeText(LocationAirportDetailActivity.this, "Weblink Not Available", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ResortDetailActivity.this, "Weblink Not Available", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        imgBtBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (resort.getBooking_com() != null && resort.getBooking_com().contains("http")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(resort.getBooking_com()));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(ResortDetailActivity.this, "Weblink Not Available", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        imgBtExpedia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (resort.getExpedia_com() != null && resort.getExpedia_com().contains("http")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(resort.getExpedia_com()));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(ResortDetailActivity.this, "Weblink Not Available", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        imgBtHotels.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (resort.getHotels_com() != null && resort.getHotels_com().contains("http")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(resort.getHotels_com()));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(ResortDetailActivity.this, "Weblink Not Available", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -330,9 +359,9 @@ public class LocationAirportDetailActivity extends AppCompatActivity {
 
         try {
             File file = ScreenShott.getInstance()
-                    .saveScreenshotToPicturesFolder(LocationAirportDetailActivity.this, bitmap, "date");
+                    .saveScreenshotToPicturesFolder(ResortDetailActivity.this, bitmap, "date");
             // Display a toast
-            Toast.makeText(LocationAirportDetailActivity.this, "Bitmap Saved at " + file.getAbsolutePath(),
+            Toast.makeText(ResortDetailActivity.this, "Bitmap Saved at " + file.getAbsolutePath(),
                     Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -342,12 +371,12 @@ public class LocationAirportDetailActivity extends AppCompatActivity {
     public void addToFavorite() {
         Toast.makeText(this, "Added to My List", Toast.LENGTH_SHORT).show();
         Realm realm = Realm.getDefaultInstance();
-        LocationAirport p = realm.where(LocationAirport.class).equalTo("id", locationAirport.getId()).findFirst();
+        Resort p = realm.where(Resort.class).equalTo("id", resort.getId()).findFirst();
         realm.beginTransaction();
         if (p == null) {
-            p = realm.createObject(LocationAirport.class); // Create a new object
+            p = realm.createObject(Resort.class); // Create a new object
         }
-        p.copy(locationAirport);
+        p.copy(resort);
         realm.commitTransaction();
     }
 
@@ -443,4 +472,6 @@ public class LocationAirportDetailActivity extends AppCompatActivity {
         });
 
     }
+
+
 }

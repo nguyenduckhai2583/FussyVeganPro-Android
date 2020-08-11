@@ -94,8 +94,8 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundImage" value="$USER_HOME$/Downloads/fussy vegan scan pro app icon.png" />
-                                      <entry key="foregroundImage" value="$USER_HOME$/Downloads/proicon.png" />
+                                      <entry key="backgroundImage" value="$PROJECT_DIR$/../Downloads/fussy vegan scan pro app icon.png" />
+                                      <entry key="foregroundImage" value="$PROJECT_DIR$/../Downloads/proicon.png" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -168,7 +168,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_clear_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/phone/baseline_phone_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -179,7 +179,7 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="55aa44" />
-                            <entry key="outputName" value="ic_clear" />
+                            <entry key="outputName" value="ic_baseline_phone_24" />
                             <entry key="sourceFile" value="C:\Users\DELL" />
                           </map>
                         </option>

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fussyvegan.scanner.R;
+import com.fussyvegan.scanner.ResortsFragment;
 import com.fussyvegan.scanner.SearchFragment;
 
 
@@ -24,18 +26,16 @@ public class FilterSearchResortFragment extends DialogFragment implements View.O
     private ImageView imgBack;
 
     private CheckBox cbNoPalmOil;
-    private CheckBox cbNoGMO;
     private CheckBox cbGlutenFree;
     private CheckBox cbNutFree;
     private CheckBox cbSoyFree;
     private CheckBox cbVegan;
 
-    private boolean isNoPalmOil = false;
-    private boolean isNoGMO = false;
-    private boolean isGlutenFree = false;
-    private boolean isNutFree = false;
-    private boolean isSoyFree = false;
-    private boolean isVeganCompany = false;
+    private boolean isHostel = false;
+    private boolean isBedAndBreakfast = false;
+    private boolean isBushCamp = false;
+    private boolean isResort = false;
+    private boolean isSafariLodge = false;
     private boolean isClear = false;
 
     public static FilterSearchResortFragment filterSearchResortFragment;
@@ -73,11 +73,11 @@ public class FilterSearchResortFragment extends DialogFragment implements View.O
         tvClearFilter.setOnClickListener(this);
         btnApplyFilter.setOnClickListener(this);
 
-        cbNoPalmOil.setChecked(isNoPalmOil);
-        cbGlutenFree.setChecked(isGlutenFree);
-        cbNutFree.setChecked(isNutFree);
-        cbSoyFree.setChecked(isSoyFree);
-        cbVegan.setChecked(isVeganCompany);
+        cbVegan.setChecked(isHostel);
+        cbNoPalmOil.setChecked(isBedAndBreakfast);
+        cbGlutenFree.setChecked(isBushCamp);
+        cbNutFree.setChecked(isResort);
+        cbSoyFree.setChecked(isSafariLodge);
 
         cbNoPalmOil.setOnCheckedChangeListener(this);
         cbGlutenFree.setOnCheckedChangeListener(this);
@@ -108,13 +108,14 @@ public class FilterSearchResortFragment extends DialogFragment implements View.O
                 setCheckboxClear();
                 break;
             case R.id.btnApplyFilterSearch:
+                Log.e("thanh cong","thanh cong");
                 if (getFragmentManager() != null) {
-                    SearchFragment searchFragment = null;
-                    searchFragment = (SearchFragment) getFragmentManager().findFragmentByTag("SearchFragment");
-                    if (searchFragment != null) {
+                    ResortsFragment resortsFragment = null;
+                    resortsFragment = (ResortsFragment) getFragmentManager().findFragmentByTag("ResortsFragment");
+                    if (resortsFragment != null) {
                         updateCheckbox();
                         checkCheckboxStatus();
-                        searchFragment.updateFilter(isClear, isNoPalmOil, isNoGMO, isGlutenFree, isNutFree, isSoyFree, isVeganCompany);
+                        resortsFragment.updateFilter(isClear, isHostel, isBedAndBreakfast, isBushCamp, isResort, isSafariLodge);
                     }
                 }
                 getDialog().dismiss();
@@ -134,24 +135,25 @@ public class FilterSearchResortFragment extends DialogFragment implements View.O
 
         isClear = true;
 
-        isNoPalmOil = false;
-        isGlutenFree = false;
-        isNutFree = false;
-        isSoyFree = false;
-        isVeganCompany = false;
+        isHostel = false;
+        isBedAndBreakfast = false;
+        isBushCamp = false;
+        isResort = false;
+        isSafariLodge = false;
     }
 
 
     private void updateCheckbox() {
-        isNoPalmOil = cbNoPalmOil.isChecked();
-        isGlutenFree = cbGlutenFree.isChecked();
-        isNutFree = cbNutFree.isChecked();
-        isSoyFree = cbSoyFree.isChecked();
-        isVeganCompany = cbVegan.isChecked();
+        isHostel = cbVegan.isChecked();
+        isBedAndBreakfast = cbNoPalmOil.isChecked();
+        isBushCamp = cbGlutenFree.isChecked();
+        isResort = cbNutFree.isChecked();
+        isSafariLodge = cbSoyFree.isChecked();
+
     }
 
     private void checkCheckboxStatus() {
-        if (!isNoPalmOil && !isGlutenFree && !isNutFree && !isSoyFree && !isVeganCompany) {
+        if (!isHostel && !isBedAndBreakfast && !isBushCamp && !isResort && !isSafariLodge) {
             isClear = true;
         }
     }
