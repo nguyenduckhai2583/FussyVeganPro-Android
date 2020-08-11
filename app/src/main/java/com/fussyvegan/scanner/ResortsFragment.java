@@ -220,6 +220,7 @@ public class ResortsFragment extends Fragment {
                 });
                 Log.e("TAG", resorts.toString());
                 numberResorts.setText(String.valueOf(resorts.size()));
+                distanceList = distance(latitudeCurrent, longitudeCurrent, resorts);
                 ResortAdapter adapter = new ResortAdapter(resorts,distanceList);
                 lvResorts.setAdapter(adapter);
             }

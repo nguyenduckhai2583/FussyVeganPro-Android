@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -65,6 +66,32 @@ public class AirportsNewZealandFragment extends Fragment {
         AirportsAdapter adapter = new AirportsAdapter(nameAllAirports, codeAllAirports);
         ListView lvAllAirports = view.findViewById(R.id.lvAllAirports);
         lvAllAirports.setAdapter(adapter);
+
+        lvAllAirports.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 2) {
+                    MapLocationAirportFragment fragment = new MapLocationAirportFragment();
+                    String tag = "MapLocationAirportFragment";
+                    Bundle args = new Bundle();
+                    args.putString("name location airport", nameAllAirports.get(position));
+                    args.putString("code location airport", codeAllAirports.get(position));
+                    args.putString("place", "NZL");
+                    fragment.setArguments(args);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                } else {
+                    LocationAirportFragment fragment = new LocationAirportFragment();
+                    String tag = "LocationAirportFragment";
+                    Bundle args = new Bundle();
+                    args.putString("name location airport", nameAllAirports.get(position));
+                    args.putString("code location airport", codeAllAirports.get(position));
+                    fragment.setArguments(args);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+
+
+                }
+            }
+        });
 
         activity.showNothing();
         activity.visibleBackItem(false);

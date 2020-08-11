@@ -88,7 +88,6 @@ public class LocationAirportFragment extends Fragment {
             mNameLocationAirport = getArguments().getString(NAME_LOCATION_AIRPORT);
             mCodeLocationAirport = getArguments().getString(CODE_LOCATION_AIRPORT);
         }
-        fetchLocationAirlines("", mCodeLocationAirport);
         activity = (MainActivity) this.getActivity();
         getCurrentLocation();
         fetchLocationAirlines("", mCodeLocationAirport);
@@ -215,7 +214,9 @@ public class LocationAirportFragment extends Fragment {
                 });
                 Log.e("TAG", locationAirports.toString());
                 numberLocation.setText(String.valueOf(locationAirports.size()));
-                mAdapter.notifyDataSetChanged();
+                distanceList = distance(latitudeCurrent,longitudeCurrent, locationAirports);
+                mAdapter  = new LocationAirlineAdapter(locationAirports,distanceList);
+                lvLocation.setAdapter(mAdapter);
             }
 
             @Override

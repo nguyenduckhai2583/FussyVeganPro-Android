@@ -30,8 +30,7 @@
         android:layout_marginHorizontal="8dp"
         android:background="@drawable/decor_corner_12"
         android:hint="@string/title_search"
-        android:padding="8dp"
-        app:queryBackground="@android:color/transparent" />
+        android:padding="8dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
