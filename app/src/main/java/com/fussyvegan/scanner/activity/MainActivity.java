@@ -7,13 +7,13 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,10 +22,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fussyvegan.scanner.AdvancedSearchMenuFragment;
-import com.fussyvegan.scanner.FastfoodFragment;
 import com.fussyvegan.scanner.FavoriteFragment;
 import com.fussyvegan.scanner.SearchFragment;
 import com.fussyvegan.scanner.TravelFragment;
@@ -35,6 +33,7 @@ import com.fussyvegan.scanner.ScanFragment;
 import com.fussyvegan.scanner.SettingFragment;
 import com.fussyvegan.scanner.ProductFragment;
 import com.fussyvegan.scanner.search.FilterSearchDialogFragment;
+import com.fussyvegan.scanner.search.FilterSearchResortFragment;
 
 public class MainActivity extends AppCompatActivity implements FavoriteFragment.OnFragmentInteractionListener {
 
@@ -52,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
     public ImageView imgFavorite;
     public ImageView imgFlash;
     public ImageView imgFilterSearch;
+    public ImageView imgFilterSearchResort;
     public TextView tvEdit;
     String tag = "";
     //    public ActionBar actionBar;
@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         imgFavorite = findViewById(R.id.imgFavorite);
         imgFlash = findViewById(R.id.imgFlash);
         imgFilterSearch = findViewById(R.id.imgFilter);
+        imgFilterSearchResort = findViewById(R.id.imgFilterResort);
         tvEdit = findViewById(R.id.tvEdit);
         imgFavorite.setOnClickListener(
                 new View.OnClickListener() {
@@ -133,6 +134,14 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
                 showFilterSearchDialog();
             }
         });
+
+        imgFilterSearchResort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFilterSearchResortDialog();
+            }
+        });
+
 
         tvEdit.setOnClickListener(new View.OnClickListener() {
                                       @Override
@@ -208,6 +217,21 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         showFilterSearch = true;
     }
 
+    public void showFilterSearchResortOnly() {
+        imgFlash.setVisibility(View.GONE);
+        imgFavorite.setVisibility(View.GONE);
+        imgMenu.setVisibility(View.GONE);
+        imgFilterSearch.setVisibility(View.GONE);
+        imgFilterSearchResort.setVisibility(View.VISIBLE);
+
+        tvEdit.setVisibility(View.GONE);
+        showEditItem = false;
+        showFavoriteItem = false;
+        showFlash = false;
+        showFilterSearch = true;
+    }
+
+
     public void showOnlyEdit() {
         imgFlash.setVisibility(View.GONE);
         imgFavorite.setVisibility(View.GONE);
@@ -255,6 +279,12 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
     private void showFilterSearchDialog() {
         filterSearchDialogFragment = FilterSearchDialogFragment.newInstance();
         filterSearchDialogFragment.show(fm, "");
+    }
+
+    FilterSearchResortFragment filterSearchResortFragment;
+    private void showFilterSearchResortDialog() {
+        filterSearchResortFragment = FilterSearchResortFragment.newInstance();
+        filterSearchResortFragment.show(fm, "");
     }
 
     @Override

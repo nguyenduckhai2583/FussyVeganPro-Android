@@ -142,7 +142,7 @@
         android:focusable="true"
         android:background="@drawable/anim_ripple_vegan"/>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewReview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

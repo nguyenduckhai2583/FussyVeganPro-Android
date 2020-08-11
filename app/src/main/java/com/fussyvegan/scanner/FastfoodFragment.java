@@ -2,7 +2,7 @@ package com.fussyvegan.scanner;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fussyvegan.scanner.adapter.SettingAdapter;
-import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.activity.MainActivity;
 
 import java.util.ArrayList;

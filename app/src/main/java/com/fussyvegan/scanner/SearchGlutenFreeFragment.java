@@ -3,8 +3,8 @@ package com.fussyvegan.scanner;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +19,6 @@ import com.fussyvegan.scanner.activity.ProductDetailActivity;
 import com.fussyvegan.scanner.model.Product;
 import com.fussyvegan.scanner.model.Resource;
 import com.fussyvegan.scanner.model.Status;
-import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.adapter.ProductAdapter;
 
 import java.util.ArrayList;

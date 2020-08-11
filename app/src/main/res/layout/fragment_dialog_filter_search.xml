@@ -6,7 +6,7 @@
     android:minWidth="1000dp"
     android:minHeight="1000dp">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -50,7 +50,7 @@
                 android:textStyle="normal"
                 tools:ignore="RelativeOverlap" />
         </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:id="@+id/tvFilterOptions"

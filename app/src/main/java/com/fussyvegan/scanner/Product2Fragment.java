@@ -3,7 +3,7 @@ package com.fussyvegan.scanner;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.ScrollingMovementMethod;
@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.fussyvegan.scanner.activity.MainActivity;
 import com.fussyvegan.scanner.model.Product;
-import com.fussyvegan.scanner.R;
 import com.squareup.picasso.Picasso;
 
 

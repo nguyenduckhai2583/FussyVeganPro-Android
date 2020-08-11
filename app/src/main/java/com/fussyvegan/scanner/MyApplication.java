@@ -1,6 +1,7 @@
 package com.fussyvegan.scanner;
 
 import android.app.Application;
+import androidx.multidex.MultiDex;
 
 import io.realm.Realm;
 
@@ -17,5 +18,6 @@ public class MyApplication extends Application {
         super.onCreate();
         mSelf = this;
         Realm.init(this);
+        MultiDex.install(this);
     }
 }

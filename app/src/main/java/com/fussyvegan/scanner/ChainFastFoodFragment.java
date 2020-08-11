@@ -1,10 +1,10 @@
 package com.fussyvegan.scanner;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.fussyvegan.scanner.activity.MainActivity;
 import com.fussyvegan.scanner.model.ChainFastFood;
-import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.adapter.ChainFoodAdapter;
 
 import java.util.ArrayList;

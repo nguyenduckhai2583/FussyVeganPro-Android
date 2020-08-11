@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minWidth="1000dp"
+    android:minHeight="1000dp">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imgBack"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_back"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/tvTitle"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_logo_filter"
+                android:textColor="#fff" />
+
+            <TextView
+                android:id="@+id/tv_clear_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:padding="8dp"
+                android:text="@string/txt_clear_filter_search"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_clear_search_filter"
+                android:textStyle="normal"
+                tools:ignore="RelativeOverlap" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/tvFilterOptions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:drawableLeft="@drawable/ic_filter_text"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:text="@string/txt_filter_options"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="normal" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tvFilterOptions"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/lnCheckbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <CheckBox
+                android:id="@+id/cb_vegan_company"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/margin_rd_filter_search"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:checked="false"
+                android:drawableRight="@drawable/selector_ic_filter"
+                android:text="Hostel"
+                android:textSize="@dimen/text_size_filer_search" />
+
+            <CheckBox
+                android:id="@+id/cb_no_palm_oil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/margin_rd_filter_search"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:checked="false"
+                android:drawableRight="@drawable/selector_ic_filter"
+                android:text="Bed and Breakfast"
+                android:textSize="@dimen/text_size_filer_search" />
+
+            <CheckBox
+                android:id="@+id/cb_gluten"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/margin_rd_filter_search"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:checked="false"
+                android:drawableRight="@drawable/selector_ic_filter"
+                android:text="Bush Camp"
+                android:textSize="@dimen/text_size_filer_search" />
+
+            <CheckBox
+                android:id="@+id/cb_nut_free"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/margin_rd_filter_search"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:checked="false"
+                android:drawableRight="@drawable/selector_ic_filter"
+                android:text="Resort"
+                android:textSize="@dimen/text_size_filer_search" />
+
+            <CheckBox
+                android:id="@+id/cb_soy_free"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/margin_rd_filter_search"
+                android:background="@android:color/transparent"
+                android:button="@null"
+                android:checked="false"
+                android:drawableRight="@drawable/selector_ic_filter"
+                android:text="Safari Lodge"
+                android:textSize="@dimen/text_size_filer_search" />
+
+            <Button
+                android:id="@+id/btnApplyFilterSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="48dp"
+                android:background="@drawable/bg_selector_border_button"
+                android:paddingLeft="96dp"
+                android:paddingTop="16dp"
+                android:paddingRight="96dp"
+                android:paddingBottom="16dp"
+                android:text="@string/txt_apply_filter_search"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_apply_search_filter" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

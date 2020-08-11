@@ -116,6 +116,25 @@ public class ProductAirline extends RealmObject implements Parcelable {
         dest.writeString(search);
     }
 
+    public void copy(ProductAirline p) {
+        this.id = p.id;
+        this.category = p.category;
+        this.airline = p.airline;
+        this.lastUpdate = p.lastUpdate;
+        this.mealCode = p.mealCode;
+        this.mealName = p.mealName;
+        this.veganOptions = p.veganOptions;
+        this.phone = p.phone;
+        this.airlineLogo = p.airlineLogo;
+        this.linkWebsite = p.linkWebsite;
+        this.email = p.email;
+        this.facebookLink = p.facebookLink;
+        this.country = p.country;
+        this.search = p.search;
+
+    }
+
+
     public Integer getId() {
         return id;
     }

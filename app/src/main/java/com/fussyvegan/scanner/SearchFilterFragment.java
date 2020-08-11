@@ -1,11 +1,11 @@
 package com.fussyvegan.scanner;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.SearchView;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.fussyvegan.scanner.activity.MainActivity;
 import com.fussyvegan.scanner.model.KeySearch;
 import com.fussyvegan.scanner.model.Product;
-import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.fastFood.PageAdapter;
 
 import org.greenrobot.eventbus.EventBus;

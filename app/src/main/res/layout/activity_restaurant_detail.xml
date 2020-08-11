@@ -80,7 +80,7 @@
                 android:layout_marginTop="4dp"
                 android:textColor="@color/white"/>
 
-            <android.support.v7.widget.AppCompatRatingBar
+            <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/reviewRatingBar"
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
         android:layout_weight="6"
         android:orientation="vertical">
 
-        <android.support.design.widget.TabLayout
+        <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="36dp"
@@ -125,23 +125,23 @@
             app:tabBackground="@drawable/tab_background_thumb"
             android:background="@drawable/decor_corner_12_light_gray">
 
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Details"
                 tools:ignore="HardcodedText" />
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Map"
                 tools:ignore="HardcodedText" />
-            <android.support.design.widget.TabItem
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Review"
                 tools:ignore="HardcodedText" />
 
-        </android.support.design.widget.TabLayout>
+        </com.google.android.material.tabs.TabLayout>
 
         <TextView
             android:id="@+id/tvTabTitle"
@@ -153,7 +153,7 @@
             android:gravity="center"
             android:background="@color/colorPrimary"/>
 
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

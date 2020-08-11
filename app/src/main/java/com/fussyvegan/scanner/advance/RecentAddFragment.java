@@ -1,41 +1,26 @@
 package com.fussyvegan.scanner.advance;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.fussyvegan.scanner.APIClient;
 import com.fussyvegan.scanner.APIInterface;
-import com.fussyvegan.scanner.Constant;
 import com.fussyvegan.scanner.OnListFragmentInteractionListener;
 import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.activity.MainActivity;
-import com.fussyvegan.scanner.activity.ProductDetailActivity;
 import com.fussyvegan.scanner.adapter.ChainFoodAdapter;
 import com.fussyvegan.scanner.model.ChainFastFood;
-import com.fussyvegan.scanner.model.Product;
-import com.fussyvegan.scanner.model.Resource;
-import com.fussyvegan.scanner.model.Status;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static com.fussyvegan.scanner.Constant.ARG_NAME_SEARCH;
 

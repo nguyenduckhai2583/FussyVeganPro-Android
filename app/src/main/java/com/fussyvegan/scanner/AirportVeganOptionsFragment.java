@@ -2,8 +2,7 @@ package com.fussyvegan.scanner;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +33,8 @@ public class AirportVeganOptionsFragment extends Fragment {
     AirlineAdapter adapter;
     ListView listView;
     MainActivity activity;
+
+    String tag = "";
 
 
     public AirportVeganOptionsFragment() {
@@ -96,14 +97,7 @@ public class AirportVeganOptionsFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("TAG", position + "  click");
-                String tag = "Airports";
-                ProductsAirlineFragment fragment = new ProductsAirlineFragment();
-                Bundle args = new Bundle();
-                args.putString(NAME_COUNTRY_AIRPORT, getCountry(position));
-                fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
-
+                loadFragmentBy(position);
             }
         });
         activity.showNothing();
@@ -112,4 +106,33 @@ public class AirportVeganOptionsFragment extends Fragment {
 
         return view;
     }
+
+    public void loadFragmentBy(int type) {
+        if (activity.findViewById(R.id.fragment_container) != null) {
+            Fragment fragment = new Fragment();
+            Bundle args = new Bundle();
+            switch (type) {
+                case 0:
+                    fragment = new AirportsAustraliaFragment();
+                    tag = "AirportsAustraliaFragment";
+                    args.putString(NAME_COUNTRY_AIRPORT, getCountry(type));
+                    fragment.setArguments(args);
+                    break;
+                case 1:
+                    fragment = new AirportsNewZealandFragment();
+                    tag = "AirportsNewZealaneFragment";
+                    args.putString(NAME_COUNTRY_AIRPORT, getCountry(type));
+                    fragment.setArguments(args);
+                    break;
+                case 2:
+                    fragment = new AirportsUSAFragment();
+                    tag = "AirportsUSAFragment";
+                    args.putString(NAME_COUNTRY_AIRPORT, getCountry(type));
+                    fragment.setArguments(args);
+            }
+            // Add the fragment to the 'fragment_container' FrameLayout
+            activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+        }
+    }
+
 }

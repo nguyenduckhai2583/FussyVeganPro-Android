@@ -1,10 +1,8 @@
 package com.fussyvegan.scanner.adapter;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.os.Handler;
-import android.support.v7.widget.AppCompatRatingBar;
+
+import androidx.appcompat.widget.AppCompatRatingBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +12,10 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.fussyvegan.scanner.APIInterface;
-import com.fussyvegan.scanner.APILoginClient;
 import com.fussyvegan.scanner.model.Product;
 import com.fussyvegan.scanner.R;
-import com.fussyvegan.scanner.model.ProductReview;
-import com.fussyvegan.scanner.model.Rate;
-import com.fussyvegan.scanner.model.accountFlow.Reviews;
-import com.fussyvegan.scanner.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -33,11 +23,6 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.fussyvegan.scanner.utils.Constant.ACCESS_TOKEN;
 
 public class ProductSearchAdapter extends BaseAdapter implements Filterable {
     private LayoutInflater inflater;
