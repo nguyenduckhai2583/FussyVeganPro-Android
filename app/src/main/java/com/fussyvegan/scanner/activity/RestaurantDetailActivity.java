@@ -1,8 +1,15 @@
 package com.fussyvegan.scanner.activity;
 
+import android.Manifest;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -14,28 +21,57 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.fussyvegan.scanner.APIInterface;
+import com.fussyvegan.scanner.APILoginClient;
 import com.fussyvegan.scanner.DetailsFragment;
 import com.fussyvegan.scanner.MapFragment;
+import com.fussyvegan.scanner.OnRestaurantClickListener;
 import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.ReviewFragment;
+import com.fussyvegan.scanner.model.ProductReview;
+import com.fussyvegan.scanner.model.accountFlow.Reviews;
 import com.fussyvegan.scanner.model.restaurant.Restaurant;
+import com.fussyvegan.scanner.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-public class RestaurantDetailActivity extends AppCompatActivity {
+import github.nisrulz.screenshott.ScreenShott;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.fussyvegan.scanner.utils.Constant.ACCESS_TOKEN;
+
+public class RestaurantDetailActivity extends AppCompatActivity implements OnRestaurantClickListener{
 
     private static final String RESTAURANT = "restaurant";
+    private static final String LIST_REVIEW = "list_review";
+    private static final int RESTAURANT_CATEGORY_ID = 4;
+    private static final int CALL_CODE = 100;
 
-    ImageView imgBack, imgRes, imgCamera, imgListWish, ImaCall, imgWebsite;
-    TextView tvNameRes, tvAddress, tvNumReview, tvTabTitle;
+    private final static String[] requestWritePermission =
+            {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+    ImageView imgBack, imgRes, imgCamera, imgListWish, imgCall, imgWebsite;
+    TextView tvNameRes, tvAddress, tvAveReview, tvTabTitle;
     ViewPager viewPager;
     TabLayout tabLayout;
     AppCompatRatingBar reviewRatingBar;
     PageApdater adapter;
     private Restaurant restaurant;
+    ProgressDialog dialog;
+    ArrayList<ProductReview> list;
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +85,8 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         addContent();
         addEvent();
 
+        getReview(restaurant.getId(), RESTAURANT_CATEGORY_ID);
+
         initViewPager();
         initData();
     }
@@ -58,9 +96,6 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             Picasso.get().load(restaurant.getLink_photo()).into(imgRes);
             tvNameRes.setText(restaurant.getName());
             tvAddress.setText(restaurant.getLocation());
-            String numReview = "(" +restaurant.getCount_rating() +")";
-            tvNumReview.setText(numReview);
-            reviewRatingBar.setRating((float) restaurant.getAvg_rating());
         }
     }
 
@@ -69,6 +104,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
 
         Bundle bundle = new Bundle();
         bundle.putParcelable(RESTAURANT, restaurant);
+        bundle.putParcelableArrayList(LIST_REVIEW, list);
 
         DetailsFragment detailsFragment = new DetailsFragment();
         detailsFragment.setArguments(bundle);
@@ -121,22 +157,85 @@ public class RestaurantDetailActivity extends AppCompatActivity {
 
             }
         });
+
+        imgCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bitmap = ScreenShott.getInstance().takeScreenShotOfRootView(view);
+                final boolean hasWritePermission = RuntimePermissionUtil.checkPermissonGranted(RestaurantDetailActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if (bitmap != null) {
+                    if (hasWritePermission) {
+                        saveScreenshot();
+                    } else {
+                        RuntimePermissionUtil.requestPermission(RestaurantDetailActivity.this, requestWritePermission, CALL_CODE);
+
+                    }
+                }
+            }
+        });
+
+        imgListWish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        imgCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ActivityCompat.checkSelfPermission(RestaurantDetailActivity.this, Manifest.permission.CALL_PHONE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(RestaurantDetailActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 100);
+                } else {
+                    makeCall();
+                }
+            }
+        });
+
+        imgWebsite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (restaurant.getLink_website() != null && restaurant.getLink_website().contains("http")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(restaurant.getLink_website()));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(RestaurantDetailActivity.this, "Weblink Not Available", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void makeCall() {
+        Uri uri = Uri.parse("tel:" + restaurant.getPhone());
+        Intent itentcall = new Intent(Intent.ACTION_CALL);
+        itentcall.setData(uri);
+        startActivity(itentcall);
     }
 
     private void addContent() {
+        list = new ArrayList<>();
+        dialog = ProgressDialog.show(this, "Loading...", "Please wait...", true);
         imgBack = findViewById(R.id.imgBack);
         imgRes = findViewById(R.id.imgRes);
         imgCamera = findViewById(R.id.imgCamera);
         imgListWish = findViewById(R.id.imgListWish);
-        ImaCall = findViewById(R.id.ImaCall);
+        imgCall = findViewById(R.id.ImgCall);
         imgWebsite = findViewById(R.id.imgWebsite);
         tvNameRes = findViewById(R.id.tvNameRes);
         tvAddress = findViewById(R.id.tvAddress);
-        tvNumReview = findViewById(R.id.tvNumReview);
+        tvAveReview = findViewById(R.id.tvAveReview);
         tvTabTitle = findViewById(R.id.tvTabTitle);
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
         reviewRatingBar = findViewById(R.id.reviewRatingBar);
+    }
+
+    @Override
+    public void onClick(Restaurant restaurant) {
+        tvAveReview.setText(String.valueOf(restaurant.getAvg_rating()));
+        reviewRatingBar.setRating(restaurant.getAvg_rating());
     }
 
     public static class PageApdater extends FragmentStatePagerAdapter {
@@ -170,5 +269,87 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             return fragmentList.size();
         }
 
+    }
+
+    private void getReview(int idProduct, int idType) {
+        dialog.show();
+        list.clear();
+        String token = SharedPrefs.getInstance().get(ACCESS_TOKEN, String.class);
+        APIInterface apiInterface = APILoginClient.getClient().create(APIInterface.class);
+
+        Call<Reviews> call = apiInterface.getReviewProduct(token, idProduct, idType);
+        call.enqueue(new Callback<Reviews>() {
+            @Override
+            public void onResponse(Call<Reviews> call, Response<Reviews> response) {
+                if (!response.body().getData().isEmpty()) {
+                    getTotalNumberPoint(response.body().getData());
+                    list.addAll(response.body().getData());
+                    dialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Reviews> call, Throwable t) {
+                dialog.dismiss();
+                call.cancel();
+            }
+        });
+    }
+
+    private void getTotalNumberPoint(List<ProductReview> productReviews) {
+        float number = 0;
+        for (int i = 0; i < productReviews.size(); i++) {
+            number = number + productReviews.get(i).getRating();
+        }
+
+        int count_rating = productReviews.size();
+        float rating = (float) (Math.round(number/count_rating*10) / 10.0);
+        tvAveReview.setText(String.valueOf(rating));
+        reviewRatingBar.setRating(rating);
+    }
+
+    private void saveScreenshot() {
+        // Save the screenshot
+        DateFormat df = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String date = df.format(Calendar.getInstance().getTime());
+
+        try {
+            File file = ScreenShott.getInstance()
+                    .saveScreenshotToPicturesFolder(RestaurantDetailActivity.this, bitmap, "date");
+            // Display a toast
+            Toast.makeText(RestaurantDetailActivity.this, "Bitmap Saved at " + file.getAbsolutePath(),
+                    Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+//    public void addToFavorite() {
+//        Toast.makeText(this, "Added to My List", Toast.LENGTH_SHORT).show();
+//
+//        RealmConfiguration myConfig = new RealmConfiguration.Builder()
+//                .name("myrealm.realm")
+//                .schemaVersion(2)
+//                .modules(new Restaurant())
+//                .build();
+//
+//        Realm realm = Realm.getInstance(myConfig);
+//        Restaurant res = realm.where(Restaurant.class).equalTo("id", restaurant.getId()).findFirst();
+//        realm.beginTransaction();
+//        if (res == null) {
+//            res = realm.createObject(Restaurant.class); // Create a new object
+//        }
+//        res.copy(restaurant);
+//        realm.commitTransaction();
+//    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CALL_CODE && grantResults.length > 0) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                makeCall();
+            }
+        }
     }
 }

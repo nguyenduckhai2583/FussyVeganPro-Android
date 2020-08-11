@@ -20,6 +20,7 @@ import com.fussyvegan.scanner.model.ProductReview;
 import com.fussyvegan.scanner.model.accountFlow.PostReviewResult;
 import com.fussyvegan.scanner.model.accountFlow.ReviewProduct;
 import com.fussyvegan.scanner.model.accountFlow.UpdateReviewProduct;
+import com.fussyvegan.scanner.model.restaurant.Restaurant;
 import com.fussyvegan.scanner.utils.Constant;
 import com.fussyvegan.scanner.utils.SharedPrefs;
 
@@ -31,6 +32,7 @@ import retrofit2.Response;
 public class ReviewActivity extends AppCompatActivity {
 
     private static final String TAG = ReviewActivity.class.getSimpleName();
+    private static final String RESTAURANT = "restaurant";
     ImageView reviewImg_Back;
     TextView reviewTxt_Clear;
     AppCompatRatingBar reviewRatingBar;
@@ -51,8 +53,15 @@ public class ReviewActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Product product = intent.getParcelableExtra("product");
-        productId = product.getId();
-         mProductReview = intent.getParcelableExtra("review");
+        Restaurant restaurant = intent.getParcelableExtra(RESTAURANT);
+
+        if (product != null) {
+            productId = product.getId();
+        } else if (restaurant != null) {
+            productId = restaurant.getId();
+        }
+
+        mProductReview = intent.getParcelableExtra("review");
         categoryId = intent.getIntExtra("category", 1);
 
         reviewEdt_Email.setText(SharedPrefs.getInstance().get(Constant.EMAIL, String.class));
@@ -124,6 +133,8 @@ public class ReviewActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PostReviewResult> call, Response<PostReviewResult> response) {
                 Log.d(TAG, String.valueOf(response.code()));
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_OK,returnIntent);
                 finish();
 
             }
@@ -134,7 +145,6 @@ public class ReviewActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void updateReview() {
 

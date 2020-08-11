@@ -94,7 +94,7 @@
                 android:theme="@style/RatingBar" />
 
             <TextView
-                android:id="@+id/tvNumReview"
+                android:id="@+id/tvAveReview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -188,13 +188,13 @@
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:id="@+id/ImaCall"
+            android:id="@+id/ImgCall"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:padding="10dp"
-            android:src="@drawable/ic_map_search"
+            android:padding="8dp"
+            android:src="@drawable/ic_phone"
             tools:ignore="ContentDescription" />
 
         <ImageView

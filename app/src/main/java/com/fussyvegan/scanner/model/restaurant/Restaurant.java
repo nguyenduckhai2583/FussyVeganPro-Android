@@ -3,13 +3,18 @@ package com.fussyvegan.scanner.model.restaurant;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.fussyvegan.scanner.model.Product;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 public class Restaurant implements Parcelable {
 
     @SerializedName("id")
+    @PrimaryKey
     private int id;
 
     @SerializedName("category")
@@ -359,5 +364,31 @@ public class Restaurant implements Parcelable {
         parcel.writeString(search);
         parcel.writeFloat(count_rating);
         parcel.writeFloat(avg_rating);
+    }
+
+    public void copy(Restaurant res) {
+        this.id = res.id;
+        this.category = res.category;
+        this.name = res.name;
+        this.description = res.description;
+        this.rest_vegan_status = res.rest_vegan_status;
+        this.cuisine_type = res.cuisine_type;
+        this.location = res.location;
+        this.country = res.country;
+        this.region = res.region;
+        this.latitude = res.latitude;
+        this.longitude = res.longitude;
+        this.link_applemap = res.link_applemap;
+        this.link_googlemap = res.link_googlemap;
+        this.phone = res.phone;
+        this.email = res.email;
+        this.link_photo = res.link_photo;
+        this.link_photo_small = res.link_photo_small;
+        this.link_website = res.link_website;
+        this.hours = res.hours;
+        this.keywords = res.keywords;
+        this.search = res.search;
+        this.count_rating = res.count_rating;
+        this.avg_rating = res.avg_rating;
     }
 }
