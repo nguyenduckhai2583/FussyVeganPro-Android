@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray"
+    tools:context="com.fussyvegan.scanner.TravelFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:gravity="center"
+        android:text="@string/title_travel"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:background="@color/white"
+        android:textStyle="bold"/>
+
+    <ListView
+        android:id="@+id/ltvTravel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="32dp"
+        android:dividerHeight="8dp"
+        android:divider="@android:color/transparent"
+        android:layout_marginHorizontal="16dp"/>
+
+</LinearLayout>

@@ -47,6 +47,71 @@
     <string name="txt_confirm_newpass">Confirm new password</string>
     <string name="message_wrong_length_papss">Password must be longer than 6 characters</string>
     <string name="message_wrong_confirm_pass">New password must be the same</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_travel">Travel</string>
+    <string name="txt_vegan_restaurant">Vegan Restaurants</string>
+    <string name="txt_choose_country">CHOOSE COUNTRY</string>
+    <string name="txt_title_city">MAJOR CITIES AND REGIONS</string>
+    <string name="tv_detail">Details</string>
+    <string name="tv_map">Map</string>
+    <string name="tv_review">Rating and Reviews</string>
 
+    <string-array name="AUS_cities">
+        <item>Adelaide</item>
+        <item>Brisbane</item>
+        <item>Canberra</item>
+        <item>Gold Coast</item>
+        <item>Melbourne</item>
+        <item>Perth</item>
+        <item>Sunshine Coast</item>
+        <item>Sydney</item>
+    </string-array>
+
+    <string-array name="AUS_cities_des">
+        <item>South Australia</item>
+        <item>Queensland</item>
+        <item>Australia Capital Territory</item>
+        <item>Queensland</item>
+        <item>Victoria</item>
+        <item>Western Australia</item>
+        <item>Queensland</item>
+        <item>New South Wales</item>
+    </string-array>
+
+    <string-array name="NEW_cities">
+        <item>Auckland</item>
+        <item>ChristChurch</item>
+        <item>Wellington</item>
+    </string-array>
+
+    <string-array name="NEW_cities_des">
+        <item>New Zealand</item>
+        <item>New Zealand</item>
+        <item>New Zealand</item>
+    </string-array>
+
+    <string-array name="Cuisine_Type">
+        <item>African</item>
+        <item>Brazilian</item>
+        <item>Caribbean</item>
+        <item>Chinese</item>
+        <item>Desserts</item>
+        <item>European</item>
+        <item>Fast Food</item>
+        <item>Indian</item>
+        <item>Italian</item>
+        <item>Japanese</item>
+        <item>Malaysian</item>
+        <item>Mediterranian</item>
+        <item>Mexican</item>
+        <item>Middle Eastern</item>
+        <item>Nepalese</item>
+        <item>Pizza</item>
+        <item>Thai</item>
+        <item>Turkey</item>
+        <item>Vietnamese</item>
+        <item>Western</item>
+    </string-array>
 
 </resources>

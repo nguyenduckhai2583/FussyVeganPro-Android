@@ -28,6 +28,7 @@ import com.fussyvegan.scanner.AdvancedSearchMenuFragment;
 import com.fussyvegan.scanner.FastfoodFragment;
 import com.fussyvegan.scanner.FavoriteFragment;
 import com.fussyvegan.scanner.SearchFragment;
+import com.fussyvegan.scanner.TravelFragment;
 import com.fussyvegan.scanner.model.Product;
 import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.ScanFragment;
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
                 case R.id.navigation_advanced:
                     loadFragmentBy(2);
                     return true;
-                case R.id.navigation_fastfood:
+                case R.id.navigation_travel:
                     loadFragmentBy(3);
                     return true;
                 case R.id.navigation_setting:
@@ -374,8 +375,8 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
                     tag = "AdvancedSearchMenuFragment";
                     break;
                 case 3:
-                    fragment = new FastfoodFragment();
-                    tag = "FastfoodFragment";
+                    fragment = new TravelFragment();
+                    tag = "TravelFragment";
                     break;
                 case 4:
                     fragment = new SettingFragment();

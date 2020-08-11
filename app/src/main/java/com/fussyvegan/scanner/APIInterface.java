@@ -1,6 +1,7 @@
 package com.fussyvegan.scanner;
 
 import com.fussyvegan.scanner.model.Resource;
+import com.fussyvegan.scanner.model.restaurant.Restaurant;
 import com.fussyvegan.scanner.model.accountFlow.Email;
 import com.fussyvegan.scanner.model.accountFlow.ForgotPassResult;
 import com.fussyvegan.scanner.model.accountFlow.PostReviewResult;
@@ -11,6 +12,9 @@ import com.fussyvegan.scanner.model.accountFlow.ReviewProduct;
 import com.fussyvegan.scanner.model.accountFlow.Reviews;
 import com.fussyvegan.scanner.model.accountFlow.UpdateReviewProduct;
 import com.fussyvegan.scanner.model.accountFlow.UserAccount;
+import com.fussyvegan.scanner.model.restaurant.RestaurantResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -97,5 +101,11 @@ public interface APIInterface {
     Call<UserAccount> requestChangePassword(@Header("access-token") String token,
                                             @Body RequestChangePassword requestChangePassword);
 
+    @GET("get_restaurants_paginate.php?api_key=45090dcae2aYMK")
+    Call<RestaurantResponse> getRestaurant(@Query("search") String search, @Query("country") String country, @Query("region") String region, @Query("page") int page);
 
+    @GET("get_restaurants_paginate.php?api_key=45090dcae2aYMK")
+    Call<RestaurantResponse> getRestaurantByFilter(@Query("search") String search, @Query("country") String country, @Query("region") String region, @Query("page") int page,
+                                                   @Query("distance") String distance, @Query("lat") String lat, @Query("lng") String lng,
+                                                   @Query("cuisine") String cuisine);
 }
