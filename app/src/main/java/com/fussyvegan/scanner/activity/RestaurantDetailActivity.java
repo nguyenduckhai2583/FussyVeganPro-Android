@@ -56,6 +56,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnRes
     private static final String LIST_REVIEW = "list_review";
     private static final int RESTAURANT_CATEGORY_ID = 4;
     private static final int CALL_CODE = 100;
+    private static final int CAPTURE_CODE = 101;
 
     private final static String[] requestWritePermission =
             {Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -166,7 +167,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnRes
                     if (hasWritePermission) {
                         saveScreenshot();
                     } else {
-                        RuntimePermissionUtil.requestPermission(RestaurantDetailActivity.this, requestWritePermission, CALL_CODE);
+                        RuntimePermissionUtil.requestPermission(RestaurantDetailActivity.this, requestWritePermission, CAPTURE_CODE);
 
                     }
                 }
@@ -185,7 +186,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnRes
             public void onClick(View view) {
                 if (ActivityCompat.checkSelfPermission(RestaurantDetailActivity.this, Manifest.permission.CALL_PHONE)
                         != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(RestaurantDetailActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 100);
+                    ActivityCompat.requestPermissions(RestaurantDetailActivity.this, new String[]{Manifest.permission.CALL_PHONE}, CALL_CODE);
                 } else {
                     makeCall();
                 }
@@ -347,6 +348,10 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnRes
         if (requestCode == CALL_CODE && grantResults.length > 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 makeCall();
+            }
+        } else if (requestCode == CAPTURE_CODE && grantResults.length > 0) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                saveScreenshot();
             }
         }
     }
