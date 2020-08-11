@@ -140,10 +140,12 @@ public class ReviewFragment extends Fragment {
             @Override
             public void onResponse(Call<Reviews> call, Response<Reviews> response) {
                 if (!response.body().getData().isEmpty()) {
+                    list.addAll(response.body().getData());
+                    adapter.updateData(list);
                     setRating(response.body().getData());
                     checkIsReview(response.body().getData());
-                    dialog.dismiss();
                 }
+                dialog.dismiss();
             }
 
             @Override

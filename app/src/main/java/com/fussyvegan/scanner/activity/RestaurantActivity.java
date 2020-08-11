@@ -33,7 +33,11 @@ import com.fussyvegan.scanner.adapter.RestaurantAdapter;
 import com.fussyvegan.scanner.model.CuisineType;
 import com.fussyvegan.scanner.model.restaurant.Restaurant;
 import com.fussyvegan.scanner.model.restaurant.RestaurantResponse;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,7 +49,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RestaurantActivity extends AppCompatActivity implements OnRestaurantClickListener, LocationListener {
+public class RestaurantActivity extends AppCompatActivity implements OnRestaurantClickListener {
 
     public static final String TAG = RestaurantActivity.class.getSimpleName();
     private static final String NAME_CITY = "City";
@@ -55,11 +59,9 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
     private static final String LIST_CHOOSE = "listChoose";
     private static final String RESTAURANT = "restaurant";
 
-    private Location currentLocation;
-    private LocationManager locationManager;
-    private int locationCode = 1;
-
-    LocationRequest locationRequest;
+    double latitudeCurrent;
+    double longitudeCurrent;
+    FusedLocationProviderClient fusedLocationProviderClient;
 
     ProgressDialog dialog;
 
@@ -69,6 +71,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
     RecyclerView recyclerRestaurant;
     RestaurantAdapter adapter;
     ArrayList<Restaurant> list;
+    ArrayList<String> listDistance;
     ArrayList<CuisineType> listChoose;
     int distance = 0;
 
@@ -102,34 +105,15 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
 
     private void loadRestaurant() {
         list.clear();
+        listDistance.clear();
         apiInterface = APIRestaurantClient.getClient().create(APIInterface.class);
         dialog = ProgressDialog.show(this, "Loading...", "Please wait...", true);
         fetchData(keySearch, currentPage);
     }
 
     private void getCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, locationCode);
-        } else {
-            getLocation();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == locationCode && grantResults.length > 0) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getLocation();
-            }
-        }
-    }
-
-    private void getLocation() {
-
-        locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(RestaurantActivity.this);
+        if (ActivityCompat.checkSelfPermission(RestaurantActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(RestaurantActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -139,14 +123,16 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, RestaurantActivity.this);
-
-
-        locationRequest = new LocationRequest();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(3000);
-        locationRequest.setSmallestDisplacement(10);
+        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                Location location = task.getResult();
+                if (location != null) {
+                    latitudeCurrent = location.getLatitude();
+                    longitudeCurrent = location.getLongitude();
+                }
+            }
+        });
     }
 
     private void addEvent() {
@@ -207,7 +193,8 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
         edtSearch = findViewById(R.id.edtSearch);
 
         list = new ArrayList<>();
-        adapter = new RestaurantAdapter(list, this, this);
+        listDistance = new ArrayList<>();
+        adapter = new RestaurantAdapter(list, listDistance,this, this);
         recyclerRestaurant = findViewById(R.id.recyclerRestaurant);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerRestaurant.setLayoutManager(linearLayoutManager);
@@ -249,6 +236,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
             public void onResponse(Call<RestaurantResponse> call, Response<RestaurantResponse> response) {
                 if (response.code() == 200) {
                     list.addAll(response.body().getList());
+                    listDistance.addAll(distance(latitudeCurrent, longitudeCurrent, response.body().getList()));
                     adapter.notifyDataSetChanged();
                     tvNumProductFound.setText(String.valueOf(response.body().getPaginate().getTotal()));
                     totalPage = response.body().getPaginate().getTotal_page();
@@ -268,16 +256,18 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
         dialog.show();
         if (!isLoadmore) {
             list.clear();
+            listDistance.clear();
         }
 
         Call<RestaurantResponse> call = apiInterface.getRestaurantByFilter(keySearch, country, region, page,
-                "", "", "", typeCuisine);
+                distance, latitudeCurrent, longitudeCurrent, typeCuisine);
         call.enqueue(new Callback<RestaurantResponse>() {
 
             @Override
             public void onResponse(Call<RestaurantResponse> call, Response<RestaurantResponse> response) {
                 if (response.code() == 200) {
                     list.addAll(response.body().getList());
+                    listDistance.addAll(distance(latitudeCurrent, longitudeCurrent, response.body().getList()));
                     adapter.notifyDataSetChanged();
 
                     if (!isLoadmore) {
@@ -304,6 +294,33 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
         startActivity(intent);
     }
 
+    private List<String> distance(double lat1, double long1,List<Restaurant> restaurants) {
+        List<String> distanceList= new ArrayList<>();
+        for(Restaurant item : restaurants) {
+            int distance = 0;
+
+            double lat2 = Double.parseDouble(item.getLatitude());
+            double long2 = Double.parseDouble(item.getLongitude());
+
+            Location locationCurrent = new Location("Current");
+            locationCurrent.setLatitude(lat1);
+            locationCurrent.setLongitude(long1);
+
+            Location locationCome = new Location("Come");
+            locationCome.setLatitude(lat2);
+            locationCome.setLongitude(long2);
+
+            distance = (int) (locationCurrent.distanceTo(locationCome)/1000);
+
+            if (lat1 == 0 && long1 == 0) {
+                distanceList.add(getResources().getString(R.string.tv_no_gps));
+            } else {
+                distanceList.add(distance + " km");
+            }
+        }
+        return distanceList;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -325,33 +342,5 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
                 filterData(1, cuisineType, false);
             }
         }
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        Geocoder geocoder = new Geocoder(RestaurantActivity.this, Locale.getDefault());
-        try {
-            List<Address> addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            String address = addressList.get(0).getAddressLine(0);
-            Log.d("ola", address);
-            Log.d("ola", location.getLatitude() + " "+ location.getLongitude());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
     }
 }

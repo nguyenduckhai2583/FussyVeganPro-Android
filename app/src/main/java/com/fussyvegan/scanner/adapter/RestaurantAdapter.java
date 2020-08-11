@@ -20,11 +20,13 @@ import java.util.List;
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.myHolder> {
 
     private List<Restaurant> list;
+    private List<String> listDistance;
     private Context context;
     OnRestaurantClickListener listener;
 
-    public RestaurantAdapter(List<Restaurant> list, Context context, OnRestaurantClickListener listener) {
+    public RestaurantAdapter(List<Restaurant> list, List<String> listDistance, Context context, OnRestaurantClickListener listener) {
         this.list = list;
+        this.listDistance = listDistance;
         this.context = context;
         this.listener = listener;
     }
@@ -42,6 +44,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.my
         Picasso.get().load(restaurant.getLink_photo_small()).into(myHolder.imgImage);
         myHolder.tvRestaurant.setText(restaurant.getName());
         myHolder.tvAddress.setText(restaurant.getLocation());
+        myHolder.tvDistance.setText(listDistance.get(i));
         myHolder.tvTypeCusine.setText(restaurant.getCuisine_type());
         myHolder.rlRestaurant.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +68,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.my
             super(itemView);
             imgImage = itemView.findViewById(R.id.imgImage);
             tvRestaurant = itemView.findViewById(R.id.tvRestaurant);
+            tvDistance = itemView.findViewById(R.id.tvDistance);
             tvTypeCusine = itemView.findViewById(R.id.tvTypeCusine);
             tvAddress = itemView.findViewById(R.id.tvAddress);
             rlRestaurant = itemView.findViewById(R.id.rlRestaurant);

@@ -101,6 +101,7 @@
     <string name="details">Details</string>
     <string name="map">Map</string>
     <string name="todo">TODO</string>
+    <string name="tv_no_gps">Cannot search your location</string>
 
     <string-array name="NEW_cities_des">
         <item>New Zealand</item>

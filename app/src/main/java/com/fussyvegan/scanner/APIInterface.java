@@ -117,6 +117,6 @@ public interface APIInterface {
     Call<ResourceResort> getResorts(@Query("search") String search, @Query("country") String country);
     @GET("get_restaurants_paginate.php?api_key=45090dcae2aYMK")
     Call<RestaurantResponse> getRestaurantByFilter(@Query("search") String search, @Query("country") String country, @Query("region") String region, @Query("page") int page,
-                                                   @Query("distance") String distance, @Query("lat") String lat, @Query("lng") String lng,
+                                                   @Query("distance") int distance, @Query("lat") double lat, @Query("lng") double lng,
                                                    @Query("cuisine") String cuisine);
 }
