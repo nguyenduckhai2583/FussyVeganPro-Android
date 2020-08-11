@@ -117,6 +117,7 @@ public class ReviewActivity extends AppCompatActivity {
         reviewEdt_Name = findViewById(R.id.reviewEdt_Name);
         reviewEdt_Email = findViewById(R.id.reviewEdt_Email);
         reviewEdt_Title = findViewById(R.id.reviewEdt_Title);
+        reviewEdt_Title.requestFocus();
         reviewEdt_Review = findViewById(R.id.reviewEdt_Review);
         reviewBtn_Submit = findViewById(R.id.reviewBtn_Submit);
         reviewBtn_Submit.setOnClickListener(new View.OnClickListener() {

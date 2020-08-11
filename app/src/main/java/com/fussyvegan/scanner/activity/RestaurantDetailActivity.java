@@ -282,8 +282,8 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnRes
                 if (!response.body().getData().isEmpty()) {
                     getTotalNumberPoint(response.body().getData());
                     list.addAll(response.body().getData());
-                    dialog.dismiss();
                 }
+                dialog.dismiss();
             }
 
             @Override
