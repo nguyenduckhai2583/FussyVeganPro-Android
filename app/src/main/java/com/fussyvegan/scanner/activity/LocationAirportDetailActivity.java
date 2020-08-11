@@ -236,7 +236,7 @@ public class LocationAirportDetailActivity extends AppCompatActivity {
                 tvReview.setSelected(false);
                 tvDetails.setSelected(false);
 
-                //lnMap.setVisibility(View.VISIBLE);
+                mMapView.setVisibility(View.VISIBLE);
                 lnReview.setVisibility(View.GONE);
                 lnDetails.setVisibility(View.GONE);
             }
@@ -250,7 +250,7 @@ public class LocationAirportDetailActivity extends AppCompatActivity {
                 tvReview.setSelected(true);
                 tvDetails.setSelected(false);
 
-                //lnMap.setVisibility(View.GONE);
+                mMapView.setVisibility(View.GONE);
                 lnReview.setVisibility(View.VISIBLE);
                 lnDetails.setVisibility(View.GONE);
             }
@@ -263,7 +263,7 @@ public class LocationAirportDetailActivity extends AppCompatActivity {
                 if (SharedPrefs.getInstance().get(Constant.IS_LOGIN, Boolean.class)) {
                     Intent intentLocation = new Intent(LocationAirportDetailActivity.this, ReviewActivity.class);
                     intentLocation.putExtra("location airport", locationAirport);
-                    intentLocation.putExtra("category", "10");
+                    intentLocation.putExtra("category", 5);
 
                     if (isReview) {
                         intentLocation.putExtra("review", reviewProduct);

@@ -3,10 +3,12 @@ package com.fussyvegan.scanner.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatRatingBar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,6 +68,7 @@ public class ResortDetailActivity extends AppCompatActivity {
     private TextView tvNameResort;
     private TextView tvLocation;
     private TextView tvDescription;
+    ImageView imgBack;
 
     private TextView tvDetails;
     private TextView tvMap;
@@ -127,6 +131,7 @@ public class ResortDetailActivity extends AppCompatActivity {
         initRecyclerView();
         getReview(resort.getId(), 3);
 
+        imgBack = findViewById(R.id.imgBack);
 
         imgResort = findViewById(R.id.imgResort);
         if (!resort.getLink_photo().isEmpty()) {
@@ -208,6 +213,14 @@ public class ResortDetailActivity extends AppCompatActivity {
 
     private void handOnClick(){
 
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+
         tvDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -257,7 +270,7 @@ public class ResortDetailActivity extends AppCompatActivity {
                 if (SharedPrefs.getInstance().get(Constant.IS_LOGIN, Boolean.class)) {
                     Intent intentLocation = new Intent(ResortDetailActivity.this, ReviewActivity.class);
                     intentLocation.putExtra("resort", resort);
-                    intentLocation.putExtra("category", "3");
+                    intentLocation.putExtra("category", 3);
 
                     if (isReview) {
                         intentLocation.putExtra("review", reviewProduct);
@@ -298,6 +311,14 @@ public class ResortDetailActivity extends AppCompatActivity {
                 addToFavorite();
             }
         });
+
+        imgPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callPhoneNumber(resort.getPhone());
+            }
+        });
+
 
         imgWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -351,6 +372,52 @@ public class ResortDetailActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void callPhoneNumber(String phone) {
+        try
+        {
+            if(Build.VERSION.SDK_INT > 22)
+            {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+
+                    ActivityCompat.requestPermissions(ResortDetailActivity.this, new String[]{Manifest.permission.CALL_PHONE}, 101);
+
+                    return;
+                }
+
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + phone));
+                startActivity(callIntent);
+
+            }
+            else {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + phone));
+                startActivity(callIntent);
+            }
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if(requestCode == 101)
+        {
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                callPhoneNumber(resort.getPhone());
+            }
+            else
+            {
+                Log.e(TAG, "Permission not Granted");
+            }
+        }
     }
 
     private void saveScreenshot() {
@@ -441,7 +508,7 @@ public class ResortDetailActivity extends AppCompatActivity {
 
         float aveRating = number / data.size();
 
-        tvSumRating.setText(numReview);
+        tvSumRating.setText("("+numReview+")");
         rb_AveRating.setRating(aveRating);
     }
 
@@ -472,6 +539,12 @@ public class ResortDetailActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getReview(resort.getId(), 3);
     }
 
 

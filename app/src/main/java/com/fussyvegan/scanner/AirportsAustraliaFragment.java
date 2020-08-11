@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -15,10 +14,8 @@ import android.widget.TextView;
 
 import com.fussyvegan.scanner.activity.MainActivity;
 import com.fussyvegan.scanner.adapter.AirportsAdapter;
-import com.google.android.gms.common.api.ApiException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AirportsAustraliaFragment extends Fragment {
@@ -165,6 +162,197 @@ public class AirportsAustraliaFragment extends Fragment {
             }
         });
 
+        lvNewSouthWales.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MapLocationAirportFragment fragment = new MapLocationAirportFragment();
+                String tag = "MapLocationAirportFragment";
+                Bundle args = new Bundle();
+                args.putString("name location airport", nameNewSouthWales.get(position));
+                args.putString("code location airport", codeNewSouthWales.get(position));
+                args.putString("place", "NSW");
+                fragment.setArguments(args);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+            }
+        });
+
+        lnDrw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocationAirportFragment fragment = new LocationAirportFragment();
+                String tag = "LocationAirportFragment";
+                Bundle args = new Bundle();
+                args.putString("name location airport", "Darwin");
+                args.putString("code location airport", "DRW");
+                fragment.setArguments(args);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+            }
+        });
+
+        lnAsp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MapLocationAirportFragment fragment = new MapLocationAirportFragment();
+                String tag = "MapLocationAirportFragment";
+                Bundle args = new Bundle();
+                args.putString("name location airport", "Alice Springs");
+                args.putString("code location airport", "ASP");
+                args.putString("place", "NT");
+                fragment.setArguments(args);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+            }
+        });
+
+        lnCbr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MapLocationAirportFragment fragment = new MapLocationAirportFragment();
+                String tag = "MapLocationAirportFragment";
+                Bundle args = new Bundle();
+                args.putString("name location airport", "Canberra");
+                args.putString("code location airport", "CBR");
+                args.putString("place", "ACT");
+                fragment.setArguments(args);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+
+            }
+        });
+
+        lnNlk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MapLocationAirportFragment fragment = new MapLocationAirportFragment();
+                String tag = "MapLocationAirportFragment";
+                Bundle args = new Bundle();
+                args.putString("name location airport", "Norfolk Island");
+                args.putString("code location airport", "NLK");
+                args.putString("place", "NI");
+                fragment.setArguments(args);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+
+
+            }
+        });
+        lvQueensland.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0 || position == 2 || position == 5) {
+                    LocationAirportFragment fragment = new LocationAirportFragment();
+                    String tag = "LocationAirportFragment";
+                    Bundle args = new Bundle();
+                    args.putString("name location airport", nameQueensland.get(position));
+                    args.putString("code location airport", codeQueensland.get(position));
+                    fragment.setArguments(args);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                } else {
+                    MapLocationAirportFragment fragment = new MapLocationAirportFragment();
+                    String tag = "MapLocationAirportFragment";
+                    Bundle args = new Bundle();
+                    args.putString("name location airport", nameQueensland.get(position));
+                    args.putString("code location airport", codeQueensland.get(position));
+                    args.putString("place", "QLD");
+                    fragment.setArguments(args);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                }
+            }
+        });
+
+        lvSouthAustralia.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    LocationAirportFragment fragment = new LocationAirportFragment();
+                    String tag = "LocationAirportFragment";
+                    Bundle args = new Bundle();
+                    args.putString("name location airport", nameSouthAustralia.get(position));
+                    args.putString("code location airport", codeSouthAustralia.get(position));
+                    fragment.setArguments(args);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                } else {
+                    MapLocationAirportFragment fragment = new MapLocationAirportFragment();
+                    String tag = "MapLocationAirportFragment";
+                    Bundle args = new Bundle();
+                    args.putString("name location airport", nameSouthAustralia.get(position));
+                    args.putString("code location airport", codeSouthAustralia.get(position));
+                    args.putString("place", "SA");
+                    fragment.setArguments(args);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                }
+            }
+        });
+
+        lvTasmania.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 2) {
+                    LocationAirportFragment fragment = new LocationAirportFragment();
+                    String tag = "LocationAirportFragment";
+                    Bundle args = new Bundle();
+                    args.putString("name location airport", nameTasmania.get(position));
+                    args.putString("code location airport", codeTasmania.get(position));
+                    fragment.setArguments(args);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                } else {
+                    MapLocationAirportFragment fragment = new MapLocationAirportFragment();
+                    String tag = "MapLocationAirportFragment";
+                    Bundle args = new Bundle();
+                    args.putString("name location airport", nameTasmania.get(position));
+                    args.putString("code location airport", codeTasmania.get(position));
+                    args.putString("place", "TAS");
+                    fragment.setArguments(args);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                }
+            }
+        });
+
+        lvVictoria.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 2) {
+                    LocationAirportFragment fragment = new LocationAirportFragment();
+                    String tag = "LocationAirportFragment";
+                    Bundle args = new Bundle();
+                    args.putString("name location airport", nameVictoria.get(position));
+                    args.putString("code location airport", codeVictoria.get(position));
+                    fragment.setArguments(args);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                } else {
+                    MapLocationAirportFragment fragment = new MapLocationAirportFragment();
+                    String tag = "MapLocationAirportFragment";
+                    Bundle args = new Bundle();
+                    args.putString("name location airport", nameVictoria.get(position));
+                    args.putString("code location airport", codeVictoria.get(position));
+                    args.putString("place", "VIC");
+                    fragment.setArguments(args);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                }
+            }
+        });
+
+        lvWesternAustralia.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 5) {
+                    LocationAirportFragment fragment = new LocationAirportFragment();
+                    String tag = "LocationAirportFragment";
+                    Bundle args = new Bundle();
+                    args.putString("name location airport", nameWesternAustralia.get(position));
+                    args.putString("code location airport", codeWesternAustralia.get(position));
+                    fragment.setArguments(args);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                } else {
+                    MapLocationAirportFragment fragment = new MapLocationAirportFragment();
+                    String tag = "MapLocationAirportFragment";
+                    Bundle args = new Bundle();
+                    args.putString("name location airport", nameWesternAustralia.get(position));
+                    args.putString("code location airport", codeWesternAustralia.get(position));
+                    args.putString("place", "WA");
+                    fragment.setArguments(args);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                }
+            }
+        });
+
         activity.showNothing();
         activity.visibleBackItem(false);
         activity.invalidateOptionsMenu();
@@ -172,7 +360,7 @@ public class AirportsAustraliaFragment extends Fragment {
         return view;
     }
 
-    private void initView(View view){
+    private void initView(View view) {
         lvMajorAirports = view.findViewById(R.id.lvMajorAirports);
         lvNewSouthWales = view.findViewById(R.id.lvNewSouthWales);
         lvQueensland = view.findViewById(R.id.lvQueensland);
@@ -210,21 +398,7 @@ public class AirportsAustraliaFragment extends Fragment {
         TextView nameAirPort = view.findViewById(R.id.tv_name_airport);
         nameAirPort.setText(mNameAirport);
 
-//        String placeId = "INSERT_PLACE_ID_HERE";
-//        List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
-//        FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeId, placeFields);
-//
-//        placesClient.fetchPlace(request).addOnSuccessListener((response) -> {
-//            Place place = response.getPlace();
-//            textView.append("Place found: " + place.getName());
-//            textView.append("Attributions: " + place.getAttributions());
-//        }).addOnFailureListener((exception) -> {
-//            if (exception instanceof ApiException) {
-//                // Handle the error.
-//            }
-////        });
 
-        }
-
+    }
 
 }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -80,6 +81,20 @@ public class AirportsUSAFragment extends Fragment {
         AirportsAdapter adapter = new AirportsAdapter(nameAllAirports, codeAllAirports);
         ListView lvMajorAirports = view.findViewById(R.id.lvMajorAirports);
         lvMajorAirports.setAdapter(adapter);
+
+        lvMajorAirports.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                LocationAirportFragment fragment = new LocationAirportFragment();
+                String tag = "LocationAirportFragment";
+                Bundle args = new Bundle();
+                args.putString("name location airport", nameAllAirports.get(position));
+                args.putString("code location airport", codeAllAirports.get(position));
+                fragment.setArguments(args);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+            }
+        });
+
 
         activity.showNothing();
         activity.visibleBackItem(false);

@@ -131,13 +131,15 @@
                         style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_centerVertical="true"
+                        android:layout_below="@id/tvAddress"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="2dp"
                         android:isIndicator="true"
                         android:numStars="5"
-                        android:scaleX="1.2"
-                        android:scaleY="1.5"
+                        android:stepSize="1"
                         android:theme="@style/RatingBar" />
+
+
 
                     <TextView
                         android:id="@+id/tvSumRating"
