@@ -202,6 +202,8 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         imgMenu.setVisibility(View.GONE);
         tvEdit.setVisibility(View.GONE);
         imgFilterSearch.setVisibility(View.GONE);
+        imgFilterSearchResort.setVisibility(View.GONE);
+
     }
 
     public void showFilterSearchOnly() {
@@ -209,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         imgFavorite.setVisibility(View.GONE);
         imgMenu.setVisibility(View.GONE);
         imgFilterSearch.setVisibility(View.VISIBLE);
+        imgFilterSearchResort.setVisibility(View.GONE);
 
         tvEdit.setVisibility(View.GONE);
         showEditItem = false;
@@ -237,6 +240,8 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         imgFavorite.setVisibility(View.GONE);
         imgMenu.setVisibility(View.GONE);
         imgFilterSearch.setVisibility(View.GONE);
+        imgFilterSearchResort.setVisibility(View.GONE);
+
         tvEdit.setVisibility(View.VISIBLE);
         showEditItem = true;
         showFavoriteItem = false;
@@ -249,6 +254,8 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         imgFavorite.setVisibility(View.VISIBLE);
         imgMenu.setVisibility(View.GONE);
         tvEdit.setVisibility(View.GONE);
+        imgFilterSearchResort.setVisibility(View.GONE);
+
     }
 
     public void showNothing() {
@@ -257,6 +264,8 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         imgMenu.setVisibility(View.GONE);
         tvEdit.setVisibility(View.GONE);
         imgFilterSearch.setVisibility(View.GONE);
+        imgFilterSearchResort.setVisibility(View.GONE);
+
     }
 
     public void requestAccessCamera() {

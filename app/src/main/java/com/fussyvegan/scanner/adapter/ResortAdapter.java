@@ -1,5 +1,6 @@
 package com.fussyvegan.scanner.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,11 @@ public class ResortAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     List<Resort> resorts;
+    private List<Integer> distanceList;
 
-    public ResortAdapter(List<Resort> resorts){
+    public ResortAdapter(List<Resort> resorts,  List<Integer> distanceList){
         this.resorts = resorts;
+        this.distanceList = distanceList;
     }
     @Override
     public int getCount() {
@@ -37,6 +40,7 @@ public class ResortAdapter extends BaseAdapter {
         return position;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (inflater == null) {
@@ -61,6 +65,7 @@ public class ResortAdapter extends BaseAdapter {
         tvTypeCusine.setVisibility(View.GONE);
 
         TextView tvDistance= rowView.findViewById(R.id.tvDistance);
+        tvDistance.setText(distanceList.get(position)+" km");
 
         return rowView;
     }

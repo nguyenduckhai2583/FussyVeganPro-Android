@@ -100,6 +100,7 @@
     <string name="location_information">location information</string>
     <string name="details">Details</string>
     <string name="map">Map</string>
+    <string name="todo">TODO</string>
 
     <string-array name="NEW_cities_des">
         <item>New Zealand</item>

@@ -63,7 +63,7 @@ public class VeganFriendlyResortsFragment extends Fragment {
         lnBotswana.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tag = "Resorts";
+                String tag = "ResortsFragment";
                 ResortsFragment fragment = new ResortsFragment();
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Botswana");
@@ -75,7 +75,7 @@ public class VeganFriendlyResortsFragment extends Fragment {
         lnKenya.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tag = "Resorts";
+                String tag = "ResortsFragment";
                 ResortsFragment fragment = new ResortsFragment();
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Kenya");
@@ -87,7 +87,7 @@ public class VeganFriendlyResortsFragment extends Fragment {
         lnSouthAfrica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tag = "Resorts";
+                String tag = "ResortsFragment";
                 ResortsFragment fragment = new ResortsFragment();
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "SouthAfrica");
@@ -99,7 +99,7 @@ public class VeganFriendlyResortsFragment extends Fragment {
         lnTanzania.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tag = "Resorts";
+                String tag = "ResortsFragment";
                 ResortsFragment fragment = new ResortsFragment();
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Tanzania");
@@ -111,7 +111,7 @@ public class VeganFriendlyResortsFragment extends Fragment {
         lnSeychelles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tag = "Resorts";
+                String tag = "ResortsFragment";
                 ResortsFragment fragment = new ResortsFragment();
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Seychelles");
@@ -123,7 +123,7 @@ public class VeganFriendlyResortsFragment extends Fragment {
         lnFiji.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tag = "Resorts";
+                String tag = "ResortsFragment";
                 ResortsFragment fragment = new ResortsFragment();
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Fiji");
@@ -135,7 +135,7 @@ public class VeganFriendlyResortsFragment extends Fragment {
         lnSamoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tag = "Resorts";
+                String tag = "ResortsFragment";
                 ResortsFragment fragment = new ResortsFragment();
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Samoa");
@@ -147,7 +147,7 @@ public class VeganFriendlyResortsFragment extends Fragment {
         lnTonga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tag = "Resorts";
+                String tag = "ResortsFragment";
                 ResortsFragment fragment = new ResortsFragment();
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Tonga");
@@ -159,7 +159,7 @@ public class VeganFriendlyResortsFragment extends Fragment {
         lnVanuatu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tag = "Resorts";
+                String tag = "ResortsFragment";
                 ResortsFragment fragment = new ResortsFragment();
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Vanuatu");

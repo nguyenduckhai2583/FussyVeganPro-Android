@@ -1,7 +1,12 @@
 package com.fussyvegan.scanner;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
@@ -12,14 +17,22 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.fussyvegan.scanner.activity.LocationAirportDetailActivity;
 import com.fussyvegan.scanner.activity.MainActivity;
 import com.fussyvegan.scanner.activity.ProductAirlineDetailActivity;
+import com.fussyvegan.scanner.activity.ProductDetailActivity;
 import com.fussyvegan.scanner.adapter.ProductsAirlineAdapter;
 import com.fussyvegan.scanner.model.ProductAirline;
 import com.fussyvegan.scanner.model.ResourceProductAirline;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,12 +52,14 @@ public class ProductsAirlineFragment extends Fragment {
     ListView listView;
     MainActivity activity;
 
+
     private String mNameAirlineGetProduct;
     private String mNameAirline;
 
     public ProductsAirlineFragment() {
         productAirlines = new ArrayList<>();
     }
+
     public static ProductsAirlineFragment newInstance(String param1, String param2) {
         ProductsAirlineFragment fragment = new ProductsAirlineFragment();
         Bundle args = new Bundle();
@@ -114,30 +129,31 @@ public class ProductsAirlineFragment extends Fragment {
             @Override
             public void onResponse(Call<ResourceProductAirline> call, Response<ResourceProductAirline> response) {
                 dialog.dismiss();
-                Log.d("TAG","status: " + response.code());
+                Log.d("TAG", "status: " + response.code());
 
                 ResourceProductAirline resource = response.body();
-               // Log.d("TAG","body: " + response.body().toString());
+                // Log.d("TAG","body: " + response.body().toString());
                 productAirlines.clear();
                 productAirlines = resource.getProducts();
                 Log.e("TAG", productAirlines.toString());
-                countProduct.setText("NUMBER OF ITEMS FOUND: "+ productAirlines.size());
-                ProductsAirlineAdapter adapter =  new ProductsAirlineAdapter(productAirlines, mImageAirline);
+                countProduct.setText("NUMBER OF ITEMS FOUND: " + productAirlines.size());
+                ProductsAirlineAdapter adapter = new ProductsAirlineAdapter(productAirlines, mImageAirline);
                 listView.setAdapter(adapter);
             }
+
             @Override
             public void onFailure(Call<ResourceProductAirline> call, Throwable t) {
-                    Log.e("fail", t.getMessage());
+                Log.e("fail", t.getMessage());
             }
 
         });
     }
 
-    private void getImageAirline(){
+    private void getImageAirline() {
         if (mNameAirlineGetProduct.equals("canada"))
             mImageAirline = R.drawable.air_canada;
         else if (mNameAirlineGetProduct.equals("air_china"))
-            mImageAirline = R.drawable.air_china ;
+            mImageAirline = R.drawable.air_china;
         else if (mNameAirlineGetProduct.equals("france"))
             mImageAirline = R.drawable.air_france;
         else if (mNameAirlineGetProduct.equals("new_zealand"))
@@ -184,4 +200,5 @@ public class ProductsAirlineFragment extends Fragment {
             mImageAirline = R.drawable.virgin_australia;
         else mImageAirline = R.drawable.vegan;
     }
+
 }

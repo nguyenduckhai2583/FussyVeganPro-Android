@@ -18,9 +18,11 @@ public class LocationAirlineAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private List<LocationAirport> locationAirports;
+    private List<Integer> distanceList;
 
-    public LocationAirlineAdapter(List<LocationAirport> locationAirports){
+    public LocationAirlineAdapter(List<LocationAirport> locationAirports, List<Integer> distanceList){
         this.locationAirports = locationAirports;
+        this.distanceList = distanceList;
     }
     @Override
     public int getCount() {
@@ -60,6 +62,7 @@ public class LocationAirlineAdapter extends BaseAdapter {
         cuisineType.setText(locationAirports.get(position).getCuisine_type());
 
         TextView distance = rowView.findViewById(R.id.tvDistance);
+        distance.setText(distanceList.get(position) + " km");
 
 
 
