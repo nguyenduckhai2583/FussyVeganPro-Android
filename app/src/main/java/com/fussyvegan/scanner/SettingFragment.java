@@ -119,7 +119,8 @@ public class SettingFragment extends Fragment {
 
                 if (position == 0) {
                     String tag = "ProductKeywordFragment";
-                    FavoriteFragment fragment = new FavoriteFragment();
+                //    FavoriteFragment fragment = new FavoriteFragment();
+                    FavoriteListFragment fragment = new FavoriteListFragment();
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
                 } else if (position == 1) {
                     String tag = "AboutFragment";

@@ -31,9 +31,11 @@ import com.fussyvegan.scanner.APIInterface;
 import com.fussyvegan.scanner.APILoginClient;
 import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.adapter.ProductReviewAdapter;
+import com.fussyvegan.scanner.dialog.BottomSheetListFavorite;
 import com.fussyvegan.scanner.model.LocationAirport;
 import com.fussyvegan.scanner.model.ProductReview;
 import com.fussyvegan.scanner.model.accountFlow.Reviews;
+import com.fussyvegan.scanner.model.favorite.FavoriteType;
 import com.fussyvegan.scanner.utils.Constant;
 import com.fussyvegan.scanner.utils.SharedPrefs;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -72,6 +74,7 @@ import static com.fussyvegan.scanner.utils.Constant.ACCESS_TOKEN;
 public class LocationAirportDetailActivity extends AppCompatActivity {
 
     private static final String TAG = LocationAirportDetailActivity.class.getSimpleName();
+    private static final String FAVORITE = "favorite";
 
     private ImageView imgLocation;
     private TextView tvNameLocation;
@@ -338,15 +341,15 @@ public class LocationAirportDetailActivity extends AppCompatActivity {
     }
 
     public void addToFavorite() {
-        Toast.makeText(this, "Added to My List", Toast.LENGTH_SHORT).show();
-        Realm realm = Realm.getDefaultInstance();
-        LocationAirport p = realm.where(LocationAirport.class).equalTo("id", locationAirport.getId()).findFirst();
-        realm.beginTransaction();
-        if (p == null) {
-            p = realm.createObject(LocationAirport.class); // Create a new object
-        }
-        p.copy(locationAirport);
-        realm.commitTransaction();
+        showBottomSheet();
+    }
+
+    private void showBottomSheet() {
+        BottomSheetListFavorite bottomSheetListFavorite = new BottomSheetListFavorite();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(FAVORITE, new FavoriteType(Constant.FAVOR_AIRPORT, locationAirport.getId(), -1));
+        bottomSheetListFavorite.setArguments(bundle);
+        bottomSheetListFavorite.show(getSupportFragmentManager(), "Dialog");
     }
 
     private void checkIsReview(List<ProductReview> productReviews) {

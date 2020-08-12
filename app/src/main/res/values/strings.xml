@@ -102,6 +102,9 @@
     <string name="map">Map</string>
     <string name="todo">TODO</string>
     <string name="tv_no_gps">Cannot search your location</string>
+    <string name="tv_text_ok">Ok</string>
+    <string name="textView_message_gps_settings">Please Enter GPS</string>
+    <string name="textView_cancel_gps_settings">Cancel</string>
 
     <string-array name="NEW_cities_des">
         <item>New Zealand</item>
