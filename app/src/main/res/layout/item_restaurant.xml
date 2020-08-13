@@ -4,8 +4,7 @@
     android:id="@+id/rlRestaurant"
     android:layout_width="match_parent"
     android:layout_height="112dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"

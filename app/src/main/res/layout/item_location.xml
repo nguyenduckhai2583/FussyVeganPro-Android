@@ -6,10 +6,19 @@
     android:padding="8dp">
 
 
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        android:id="@+id/imgBtShowDelete"
+        android:src="@drawable/ic_delete"
+        android:visibility="gone"/>
+
     <ImageView
         android:id="@+id/imgImage"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_toRightOf="@id/imgBtShowDelete"
         android:layout_centerVertical="true"
         tools:ignore="ContentDescription" />
 
@@ -55,7 +64,20 @@
         android:text="1,345km"
         android:textColor="@color/black"
         android:layout_below="@id/tvAddress"
-        android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@id/tvDelete"
         android:layout_marginTop="16dp"
+        android:layout_marginRight="4dp"
         android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="70dp"
+        android:layout_height="80dp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/tvDelete"
+        android:gravity="center"
+        android:background="#FF0000"
+        android:textColor="@color/white"
+        android:text="DELETE"
+        android:visibility="gone"/>
+
 </RelativeLayout>
