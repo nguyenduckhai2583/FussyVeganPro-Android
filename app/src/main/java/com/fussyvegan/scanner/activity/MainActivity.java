@@ -71,9 +71,6 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
                 case R.id.navigation_scan:
                     loadFragmentBy(0);
                     return true;
-                case R.id.navigation_search:
-                    loadFragmentBy(1);
-                    return true;
                 case R.id.navigation_advanced:
                     loadFragmentBy(2);
                     return true;
