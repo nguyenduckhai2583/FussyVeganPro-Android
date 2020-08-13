@@ -108,7 +108,7 @@ public class MapLocationAirportFragment extends Fragment {
 
                 // For dropping a marker at a point on the Map
                 LatLng location = new LatLng(locationAirport.get(0), locationAirport.get(1));
-                googleMap.addMarker(new MarkerOptions().position(location).title("Marker Title").icon(getBitmap(activity, R.drawable.ic_airport_map)));
+                googleMap.addMarker(new MarkerOptions().position(location).title("Marker Title").icon(getBitmap(activity, R.drawable.map_airport)));
 
                 // For zooming automatically to the location of the marker
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(location).zoom(12).build();
