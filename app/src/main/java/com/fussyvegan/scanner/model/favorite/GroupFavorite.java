@@ -1,8 +1,11 @@
 package com.fussyvegan.scanner.model.favorite;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class GroupFavorite {
+public class GroupFavorite implements Parcelable {
 
     @SerializedName("id")
     int id;
@@ -25,6 +28,25 @@ public class GroupFavorite {
         this.authentication_id = authentication_id;
         this.created_at = created_at;
     }
+
+    protected GroupFavorite(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        authentication_id = in.readInt();
+        created_at = in.readString();
+    }
+
+    public static final Creator<GroupFavorite> CREATOR = new Creator<GroupFavorite>() {
+        @Override
+        public GroupFavorite createFromParcel(Parcel in) {
+            return new GroupFavorite(in);
+        }
+
+        @Override
+        public GroupFavorite[] newArray(int size) {
+            return new GroupFavorite[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -56,5 +78,18 @@ public class GroupFavorite {
 
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeInt(authentication_id);
+        parcel.writeString(created_at);
     }
 }

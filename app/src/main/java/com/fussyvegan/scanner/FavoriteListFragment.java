@@ -2,6 +2,7 @@ package com.fussyvegan.scanner;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.fussyvegan.scanner.activity.FavoriteActivity;
 import com.fussyvegan.scanner.activity.MainActivity;
 import com.fussyvegan.scanner.adapter.MyListAdapter;
 import com.fussyvegan.scanner.model.favorite.CreateGroupRequest;
@@ -31,7 +33,7 @@ import retrofit2.Response;
 
 import static com.fussyvegan.scanner.utils.Constant.ACCESS_TOKEN;
 
-public class FavoriteListFragment extends Fragment implements MyListAdapter.OnRemoveGroupListener {
+public class FavoriteListFragment extends Fragment implements MyListAdapter.OnGroupListener {
 
     RecyclerView recyclerListFavorite;
     MyListAdapter adapter;
@@ -191,5 +193,12 @@ public class FavoriteListFragment extends Fragment implements MyListAdapter.OnRe
                 dialog.dismiss();
             }
         });
+    }
+
+    @Override
+    public void onShowFavorite(GroupFavorite groupFavorite) {
+        Intent intent = new Intent(getActivity(), FavoriteActivity.class);
+        intent.putExtra("group", groupFavorite);
+        startActivity(intent);
     }
 }

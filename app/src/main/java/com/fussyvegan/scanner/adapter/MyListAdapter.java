@@ -22,11 +22,11 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.myHolder> 
 
     private ArrayList<GroupFavorite> list;
     private Context context;
-    OnRemoveGroupListener listener;
+    OnGroupListener listener;
 
     private final ViewBinderHelper viewBinderHelper = new ViewBinderHelper();
 
-    public MyListAdapter(ArrayList<GroupFavorite> list, Context context, OnRemoveGroupListener listener) {
+    public MyListAdapter(ArrayList<GroupFavorite> list, Context context, OnGroupListener listener) {
         this.list = list;
         this.context = context;
         this.listener = listener;
@@ -45,8 +45,7 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.myHolder> 
         holder.rlItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO Switch screen here
-                Toast.makeText(context, list.get(position).getName(), Toast.LENGTH_SHORT).show();
+                listener.onShowFavorite(list.get(position));
             }
         });
 
@@ -80,7 +79,9 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.myHolder> 
         }
     }
 
-    public interface OnRemoveGroupListener {
+    public interface OnGroupListener {
         void removeGroup(int groupId);
+
+        void onShowFavorite(GroupFavorite groupFavorite);
     }
 }

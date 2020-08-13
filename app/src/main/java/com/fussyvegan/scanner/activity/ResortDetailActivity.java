@@ -446,7 +446,7 @@ public class ResortDetailActivity extends AppCompatActivity {
     private void showBottomSheet() {
         BottomSheetListFavorite bottomSheetListFavorite = new BottomSheetListFavorite();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(FAVORITE, new FavoriteType(3, resort.getId(), -1));
+        bundle.putParcelable(FAVORITE, new FavoriteType(Constant.FAVOR_RESORT, resort.getId(), -1));
         bottomSheetListFavorite.setArguments(bundle);
         bottomSheetListFavorite.show(getSupportFragmentManager(), "Dialog");
     }

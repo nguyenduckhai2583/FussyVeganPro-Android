@@ -2,60 +2,93 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_toStartOf="@id/tvDelete"
+        android:layout_toLeftOf="@id/tvDelete">
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="80dp"
+            android:background="@color/white"
+            android:id="@+id/imgBtShowDelete"
+            android:src="@drawable/ic_delete"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/imgImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_toRightOf="@id/imgBtShowDelete"
+            android:layout_centerVertical="true"
+            tools:ignore="ContentDescription" />
 
 
-    <ImageView
-        android:id="@+id/imgImage"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerVertical="true"
-        tools:ignore="ContentDescription" />
+        <TextView
+            android:id="@+id/tvRestaurant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@id/imgImage"
+            android:fontFamily="@font/semibold"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvRestaurant"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@id/imgImage"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/tvCuisineType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvAddress"
+            android:layout_marginStart="12dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="16dp"
+            android:layout_toRightOf="@id/imgImage"
+            android:fontFamily="@font/semibold"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/tvDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="4dp"
+                android:text="1,345km"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+    </RelativeLayout>
 
 
     <TextView
-        android:id="@+id/tvRestaurant"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_toRightOf="@id/imgImage"
-        android:fontFamily="@font/semibold"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/tvAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tvRestaurant"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_toRightOf="@id/imgImage"
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/tvCuisineType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvAddress"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="16dp"
-        android:layout_toRightOf="@id/imgImage"
-        android:fontFamily="@font/semibold"
-        android:textColor="@color/black"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/tvDistance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1,345km"
-        android:textColor="@color/black"
-        android:layout_below="@id/tvAddress"
+        android:id="@+id/tvDelete"
+        android:layout_width="70dp"
+        android:layout_height="112dp"
+        android:visibility="gone"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="16dp"
-        android:textSize="12sp" />
+        android:background="#FF0000"
+        android:gravity="center"
+        android:text="DELETE"
+        android:textColor="@color/white" />
+
 </RelativeLayout>

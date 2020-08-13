@@ -16,6 +16,7 @@ import com.fussyvegan.scanner.dialog.BottomSheetListFavorite;
 import com.fussyvegan.scanner.model.ProductAirline;
 import com.fussyvegan.scanner.model.favorite.FavoriteType;
 import com.fussyvegan.scanner.utils.Constant;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -52,7 +53,8 @@ public class ProductAirlineDetailActivity extends AppCompatActivity {
         productAirline = intent.getParcelableExtra("product airline");
         Integer imageAirline = intent.getIntExtra("image airline", 1);
         ImageView imgAirline= findViewById(R.id.imgProductAirlineDetail);
-        imgAirline.setImageResource(imageAirline);
+        //imgAirline.setImageResource(imageAirline);
+        Picasso.get().load(productAirline.getAirlineLogo()).into(imgAirline);
         TextView mealCode = findViewById(R.id.tv_meal_code);
         mealCode.setText(productAirline.getMealCode());
         TextView mealName = findViewById(R.id.tv_meal_name);

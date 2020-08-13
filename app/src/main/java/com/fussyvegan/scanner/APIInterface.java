@@ -2,6 +2,7 @@ package com.fussyvegan.scanner;
 
 import com.fussyvegan.scanner.model.favorite.CreateGroupRequest;
 import com.fussyvegan.scanner.model.favorite.CreateListResponse;
+import com.fussyvegan.scanner.model.favorite.FavoriteListResponse;
 import com.fussyvegan.scanner.model.favorite.FavoriteType;
 import com.fussyvegan.scanner.model.favorite.GroupFavorite;
 import com.fussyvegan.scanner.model.Resource;
@@ -136,4 +137,10 @@ public interface APIInterface {
 
     @POST("add_favorite.php?api_key=45090dcae2aYMK")
     Call<CreateListResponse> addFavorite(@Header("access-token") String token, @Body FavoriteType favoriteType);
+
+    @GET("get_favorite.php?api_key=45090dcae2aYMK")
+    Call<FavoriteListResponse> getFavoriteList(@Header("access-token") String token, @Query("group_id") int group_id);
+
+    @GET("delete_favorite.php?api_key=45090dcae2aYMK&")
+    Call<CreateListResponse> deleteFavorite(@Header("access-token") String token, @Query("favorite_id") int favorite_id);
 }

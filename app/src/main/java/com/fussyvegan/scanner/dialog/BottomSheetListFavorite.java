@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fussyvegan.scanner.APIInterface;
 import com.fussyvegan.scanner.APILoginClient;
 import com.fussyvegan.scanner.R;
-import com.fussyvegan.scanner.adapter.FavoriteListAdapter;
+import com.fussyvegan.scanner.adapter.GroupListAdapter;
 import com.fussyvegan.scanner.model.favorite.CreateListResponse;
 import com.fussyvegan.scanner.model.favorite.FavoriteType;
 import com.fussyvegan.scanner.model.favorite.GroupFavorite;
@@ -32,17 +32,17 @@ import retrofit2.Response;
 
 import static com.fussyvegan.scanner.utils.Constant.ACCESS_TOKEN;
 
-public class BottomSheetListFavorite extends BottomSheetDialogFragment implements DialogCreateListFavorite.OnCreateListFavoriteListener, FavoriteListAdapter.OnAddFavoriteListener {
+public class BottomSheetListFavorite extends BottomSheetDialogFragment implements DialogCreateListFavorite.OnCreateListFavoriteListener, GroupListAdapter.OnAddFavoriteListener {
 
     private static final String FAVORITE = "favorite";
 
     RecyclerView recyclerListFavorite;
-    FavoriteListAdapter adapterFavorite;
+    GroupListAdapter adapterFavorite;
     ArrayList<GroupFavorite> listFavorite;
     DialogCreateListFavorite dialogCreateListFavorite;
     LinearLayout lnAddNewList;
     FavoriteType favoriteType;
-    // ProgressDialog dialog;
+    DialogLoadingFragment dialog;
 
     public BottomSheetListFavorite() {
         super();
@@ -53,7 +53,9 @@ public class BottomSheetListFavorite extends BottomSheetDialogFragment implement
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.bottom_list_favorite, container, false);
-    //    dialog = ProgressDialog.show(view.getContext(), "Loading...", "Please wait...", true);
+        dialog = new DialogLoadingFragment();
+        dialog.setCancelable(false);
+        dialog.show(getChildFragmentManager(), "loading");
 
         addContent(view);
         addEvent();
@@ -77,7 +79,7 @@ public class BottomSheetListFavorite extends BottomSheetDialogFragment implement
         lnAddNewList = view.findViewById(R.id.lnAddNewList);
         listFavorite = new ArrayList<>();
         recyclerListFavorite = view.findViewById(R.id.recyclerFavorite);
-        adapterFavorite = new FavoriteListAdapter(listFavorite, getContext(), this);
+        adapterFavorite = new GroupListAdapter(listFavorite, getContext(), this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerListFavorite.setLayoutManager(layoutManager);
         recyclerListFavorite.setAdapter(adapterFavorite);
@@ -92,14 +94,19 @@ public class BottomSheetListFavorite extends BottomSheetDialogFragment implement
         call.enqueue(new Callback<ListFavoriteResponse>() {
             @Override
             public void onResponse(Call<ListFavoriteResponse> call, Response<ListFavoriteResponse> response) {
-                listFavorite.addAll(response.body().getList());
-                adapterFavorite.notifyDataSetChanged();
-            //    dialog.dismiss();
+                dialog.dismiss();
+                if (response.code() == 200) {
+                    listFavorite.addAll(response.body().getList());
+                    adapterFavorite.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(), "Load Error", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<ListFavoriteResponse> call, Throwable t) {
-            //    dialog.dismiss();
+                Toast.makeText(getContext(), "Load Error", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         });
     }
@@ -125,6 +132,7 @@ public class BottomSheetListFavorite extends BottomSheetDialogFragment implement
     }
 
     private void addFavoriteToGroup(FavoriteType favoriteType) {
+        dialog.show(getChildFragmentManager(), "loading");
         String token = SharedPrefs.getInstance().get(ACCESS_TOKEN, String.class);
         APIInterface apiInterface = APILoginClient.getClient().create(APIInterface.class);
 
@@ -133,6 +141,7 @@ public class BottomSheetListFavorite extends BottomSheetDialogFragment implement
             @Override
             public void onResponse(Call<CreateListResponse> call, Response<CreateListResponse> response) {
                 if (response.code() == 200) {
+                    dialog.dismiss();
                     dismiss();
                     Toast.makeText(getContext(), "Add Success", Toast.LENGTH_SHORT).show();
                 } else {
@@ -143,6 +152,7 @@ public class BottomSheetListFavorite extends BottomSheetDialogFragment implement
             @Override
             public void onFailure(Call<CreateListResponse> call, Throwable t) {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         });
     }

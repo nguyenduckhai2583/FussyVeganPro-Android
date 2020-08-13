@@ -30,12 +30,16 @@ public class DialogCreateListFavorite extends AppCompatDialogFragment {
     OnCreateListFavoriteListener listener;
     EditText edtListName;
     Button btnCancel, btnAdd;
+    DialogLoadingFragment dialog;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.dialog_create_list, container, false);
+
+        dialog = new DialogLoadingFragment();
+        dialog.setCancelable(false);
 
         addContent(view);
         addEvent();
@@ -44,6 +48,7 @@ public class DialogCreateListFavorite extends AppCompatDialogFragment {
     }
 
     public void CreateFavoriteGroup(String name) {
+        dialog.show(getChildFragmentManager(), "loading");
         String token = SharedPrefs.getInstance().get(ACCESS_TOKEN, String.class);
         APIInterface apiInterface = APILoginClient.getClient().create(APIInterface.class);
 
@@ -54,12 +59,14 @@ public class DialogCreateListFavorite extends AppCompatDialogFragment {
                 if (response.code() == 200) {
                     listener.onCreateListFavorite();
                 }
+                dialog.dismiss();
                 dismiss();
             }
 
             @Override
             public void onFailure(Call<CreateListResponse> call, Throwable t) {
                 Toast.makeText(getContext(), "Add Error", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
                 dismiss();
             }
         });
