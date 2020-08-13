@@ -193,7 +193,7 @@ public class ResortDetailActivity extends AppCompatActivity {
 
                 // For dropping a marker at a point on the Map
                 LatLng location = new LatLng(Double.parseDouble(resort.getLatitude()), Double.parseDouble(resort.getLongitude()));
-                googleMap.addMarker(new MarkerOptions().position(location).title("Marker Title").icon(getBitmap(ResortDetailActivity.this, R.drawable.ic_restaurant)));
+                googleMap.addMarker(new MarkerOptions().position(location).title("Marker Title").icon(getBitmap(ResortDetailActivity.this, R.drawable.map_resort)));
 
                 // For zooming automatically to the location of the marker
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(location).zoom(12).build();
