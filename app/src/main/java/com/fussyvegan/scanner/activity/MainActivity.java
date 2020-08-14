@@ -36,7 +36,10 @@ import com.fussyvegan.scanner.container.TravelContainerFragment;
 import com.fussyvegan.scanner.model.Product;
 import com.fussyvegan.scanner.search.FilterSearchDialogFragment;
 import com.fussyvegan.scanner.search.FilterSearchResortFragment;
+import com.fussyvegan.scanner.utils.MessageEvent;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
                 case R.id.navigation_setting:
                     mPosition = 4;
                     viewPager.setCurrentItem(3);
+                    EventBus.getDefault().post(new MessageEvent("alo"));
 
 //                    loadFragmentBy(4);
                     return true;

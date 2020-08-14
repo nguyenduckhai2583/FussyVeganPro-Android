@@ -30,6 +30,7 @@ import com.fussyvegan.scanner.APILoginClient;
 import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.adapter.ProductReviewAdapter;
 import com.fussyvegan.scanner.dialog.BottomSheetListFavorite;
+import com.fussyvegan.scanner.dialog.DialogCheckInformation;
 import com.fussyvegan.scanner.model.LocationAirport;
 import com.fussyvegan.scanner.model.ProductReview;
 import com.fussyvegan.scanner.model.Resort;
@@ -440,7 +441,12 @@ public class ResortDetailActivity extends AppCompatActivity {
     }
 
     public void addToFavorite() {
-        showBottomSheet();
+        if (!SharedPrefs.getInstance().get(Constant.IS_LOGIN, Boolean.class)) {
+            DialogCheckInformation dialogCheckInformation = new DialogCheckInformation(this);
+            dialogCheckInformation.show();
+        } else {
+            showBottomSheet();
+        }
     }
 
     private void showBottomSheet() {

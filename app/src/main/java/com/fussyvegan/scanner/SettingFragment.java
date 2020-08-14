@@ -21,7 +21,12 @@ import com.fussyvegan.scanner.activity.LoginActivity;
 import com.fussyvegan.scanner.activity.MainActivity;
 import com.fussyvegan.scanner.adapter.SettingAdapter;
 import com.fussyvegan.scanner.utils.Constant;
+import com.fussyvegan.scanner.utils.MessageEvent;
 import com.fussyvegan.scanner.utils.SharedPrefs;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +61,6 @@ public class SettingFragment extends BaseFragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public SettingFragment() {
-        refreshData();
     }
 
     public void refreshData() {
@@ -104,6 +108,24 @@ public class SettingFragment extends BaseFragment {
         return fragment;
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void reloadList(MessageEvent messageEvent) {
+        refreshData();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +139,7 @@ public class SettingFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
+        refreshData();
         adapter = new SettingAdapter(settings, icLink);
         ltvSetting = view.findViewById(R.id.ltvSetting);
         ltvSetting.setAdapter(adapter);
@@ -214,6 +237,7 @@ public class SettingFragment extends BaseFragment {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        SharedPrefs.getInstance().clear();
                         SharedPrefs.getInstance().put(Constant.IS_LOGIN, false);
                         refreshData();
                         adapter.notifyDataSetChanged();

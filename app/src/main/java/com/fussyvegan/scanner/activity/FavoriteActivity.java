@@ -3,6 +3,7 @@ package com.fussyvegan.scanner.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -116,6 +117,8 @@ public class FavoriteActivity extends AppCompatActivity implements FavoriteListA
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerFavoriteList.setLayoutManager(layoutManager);
         recyclerFavoriteList.setAdapter(adapter);
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        recyclerFavoriteList.addItemDecoration(itemDecoration);
     }
 
     public void getFavorite() {

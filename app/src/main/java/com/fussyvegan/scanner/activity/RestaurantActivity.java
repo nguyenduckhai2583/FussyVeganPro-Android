@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -169,7 +170,8 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
             public void onClick(View view) {
                 tvSearch.setVisibility(View.INVISIBLE);
                 keySearch = edtSearch.getText().toString();
-                filterData(1, cuisineType, false);
+                currentPage = 1;
+                filterData(currentPage, cuisineType, false);
             }
         });
 
@@ -209,6 +211,8 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerRestaurant.setLayoutManager(linearLayoutManager);
         recyclerRestaurant.setAdapter(adapter);
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        recyclerRestaurant.addItemDecoration(itemDecoration);
 
         recyclerRestaurant.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -249,6 +253,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
                     listDistance.addAll(distance(latitudeCurrent, longitudeCurrent, response.body().getList()));
                     adapter.notifyDataSetChanged();
                     tvNumProductFound.setText(String.valueOf(response.body().getPaginate().getTotal()));
+                    tvNumFilterActive.setText("0");
                     totalPage = response.body().getPaginate().getTotal_page();
                     dialog.dismiss();
                 }
@@ -281,7 +286,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
                     adapter.notifyDataSetChanged();
 
                     if (!isLoadmore) {
-                        tvNumFilterActive.setText(String.valueOf(response.body().getPaginate().getTotal()));
+                        tvNumProductFound.setText(String.valueOf(response.body().getPaginate().getTotal()));
                     }
                     totalPage = response.body().getPaginate().getTotal_page();
                     dialog.dismiss();
@@ -349,7 +354,16 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
                 } else {
                     cuisineType = "";
                 }
-                filterData(1, cuisineType, false);
+
+                int filterActive = 0;
+                if (distance > 0) {
+                    filterActive++;
+                }
+
+                tvNumFilterActive.setText(String.valueOf(listChoose.size() + filterActive));
+
+                currentPage = 1;
+                filterData(currentPage, cuisineType, false);
             }
         }
     }
