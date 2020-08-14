@@ -7,13 +7,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import androidx.annotation.NonNull;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,17 +16,26 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fussyvegan.scanner.AdvancedSearchMenuFragment;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.fussyvegan.scanner.FavoriteFragment;
-import com.fussyvegan.scanner.SearchFragment;
-import com.fussyvegan.scanner.TravelFragment;
-import com.fussyvegan.scanner.model.Product;
+import com.fussyvegan.scanner.ProductFragment;
 import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.ScanFragment;
-import com.fussyvegan.scanner.SettingFragment;
-import com.fussyvegan.scanner.ProductFragment;
+import com.fussyvegan.scanner.SearchFragment;
+import com.fussyvegan.scanner.container.MoreContainerFragment;
+import com.fussyvegan.scanner.container.ProductsContainerFragment;
+import com.fussyvegan.scanner.container.ScanContainerFragment;
+import com.fussyvegan.scanner.container.TravelContainerFragment;
+import com.fussyvegan.scanner.model.Product;
 import com.fussyvegan.scanner.search.FilterSearchDialogFragment;
 import com.fussyvegan.scanner.search.FilterSearchResortFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements FavoriteFragment.OnFragmentInteractionListener {
 
@@ -282,12 +284,14 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
 
     FragmentManager fm = getSupportFragmentManager();
     FilterSearchDialogFragment filterSearchDialogFragment;
+
     private void showFilterSearchDialog() {
         filterSearchDialogFragment = FilterSearchDialogFragment.newInstance();
         filterSearchDialogFragment.show(fm, "");
     }
 
     FilterSearchResortFragment filterSearchResortFragment;
+
     private void showFilterSearchResortDialog() {
         filterSearchResortFragment = FilterSearchResortFragment.newInstance();
         filterSearchResortFragment.show(fm, "");
@@ -399,7 +403,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
             Fragment fragment = new Fragment();
             switch (type) {
                 case 0:
-                    fragment = new ScanFragment();
+                    fragment = new ScanContainerFragment();
                     tag = "ScanFragment";
                     break;
                 case 1:
@@ -407,15 +411,15 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
                     tag = "SearchFragment";
                     break;
                 case 2:
-                    fragment = new AdvancedSearchMenuFragment();
+                    fragment = new ProductsContainerFragment();
                     tag = "AdvancedSearchMenuFragment";
                     break;
                 case 3:
-                    fragment = new TravelFragment();
+                    fragment = new TravelContainerFragment();
                     tag = "TravelFragment";
                     break;
                 case 4:
-                    fragment = new SettingFragment();
+                    fragment = new MoreContainerFragment();
                     tag = "SettingFragment";
                     break;
             }

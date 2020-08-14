@@ -4,16 +4,15 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fussyvegan.scanner.activity.FavoriteActivity;
 import com.fussyvegan.scanner.activity.MainActivity;
@@ -56,7 +55,7 @@ public class FavoriteListFragment extends Fragment implements MyListAdapter.OnGr
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = (MainActivity)this.getActivity();
+        activity = (MainActivity) this.getActivity();
     }
 
     @Override
@@ -111,7 +110,7 @@ public class FavoriteListFragment extends Fragment implements MyListAdapter.OnGr
             public void onClick(View view) {
                 String name = edtListName.getText().toString();
                 if (name.equals("")) {
-                    Toast.makeText(view.getContext(), "Please enter name", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText(view.getContext(), "Please enter name", Toast.LENGTH_SHORT).show();
                 } else {
                     dialogCreateList.dismiss();
                     addGroup(name);
@@ -132,9 +131,12 @@ public class FavoriteListFragment extends Fragment implements MyListAdapter.OnGr
         call.enqueue(new Callback<ListFavoriteResponse>() {
             @Override
             public void onResponse(Call<ListFavoriteResponse> call, Response<ListFavoriteResponse> response) {
-                list.addAll(response.body().getList());
-                adapter.notifyDataSetChanged();
                 dialog.dismiss();
+                if (response.body() != null) {
+                    list.addAll(response.body().getList());
+                    adapter.notifyDataSetChanged();
+                }
+
             }
 
             @Override
