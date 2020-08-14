@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatRatingBar;
@@ -97,6 +96,11 @@ public class FavoriteListAdapter extends RecyclerView.Adapter {
         String distance = listDistance.get(position);
 
         switch (typeBind) {
+            case Constant.FAVOR_PRODUCT:
+                Product productFavor = (Product) list.get(position);
+                ProductHolder productHolderFavor = (ProductHolder) holder;
+                bindProduct(productFavor, productHolderFavor, favoriteId);
+                break;
             case Constant.FAVOR_FOODCHAIN:
                 Product product = (Product) list.get(position);
                 ProductHolder productHolder = (ProductHolder) holder;
@@ -112,12 +116,18 @@ public class FavoriteListAdapter extends RecyclerView.Adapter {
                 RestaurantHolder restaurantHolder = (RestaurantHolder) holder;
                 bindRestaurant(restaurant, restaurantHolder, favoriteId, distance);
                 break;
+            case Constant.FAVOR_INGREDIENT:
+                Product productIngredient = (Product) list.get(position);
+                ProductHolder productHolderIngredient = (ProductHolder) holder;
+                bindProduct(productIngredient, productHolderIngredient, favoriteId);
+                break;
+
             case Constant.FAVOR_AIRLINE:
                 ProductAirline airline = (ProductAirline) list.get(position);
                 AirlineHolder airlineHolder = (AirlineHolder) holder;
                 bindAirline(airline, airlineHolder, favoriteId);
                 break;
-            default:
+            case Constant.FAVOR_AIRPORT:
                 LocationAirport airport = (LocationAirport) list.get(position);
                 AirportHolder airportHolder = (AirportHolder) holder;
                 bindAirport(airport, airportHolder, favoriteId, distance);

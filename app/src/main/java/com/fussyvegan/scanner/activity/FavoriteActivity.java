@@ -239,6 +239,11 @@ public class FavoriteActivity extends AppCompatActivity implements FavoriteListA
         for (Favorite item : list) {
             String objJSON = gson.toJson(item);
             switch (item.getFavoriteable_type()) {
+                case Constant.FAVOR_PRODUCT:
+                    Product productFavor = gson.fromJson(objJSON, Product.class);
+                    listObject.add(productFavor);
+                    listDistance.add("");
+                    break;
                 case Constant.FAVOR_FOODCHAIN:
                     Product product = gson.fromJson(objJSON, Product.class);
                     listObject.add(product);
@@ -257,6 +262,11 @@ public class FavoriteActivity extends AppCompatActivity implements FavoriteListA
                     if (restaurant.getLatitude() != null && restaurant.getLongitude() != null) {
                         listDistance.add(calculateDistance(Double.parseDouble(restaurant.getLatitude()), Double.parseDouble(restaurant.getLongitude())));
                     }
+                    break;
+                case Constant.FAVOR_INGREDIENT:
+                    Product productIngredient = gson.fromJson(objJSON, Product.class);
+                    listObject.add(productIngredient);
+                    listDistance.add("");
                     break;
                 case Constant.FAVOR_AIRLINE:
                     ProductAirline airline = gson.fromJson(objJSON, ProductAirline.class);
