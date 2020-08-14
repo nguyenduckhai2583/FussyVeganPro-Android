@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.widget.SearchView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,15 +22,21 @@ import android.widget.TextView;
 
 import com.fussyvegan.scanner.activity.MainActivity;
 import com.fussyvegan.scanner.activity.ResortDetailActivity;
+import com.fussyvegan.scanner.activity.RestaurantActivity;
 import com.fussyvegan.scanner.adapter.LocationAirlineAdapter;
 import com.fussyvegan.scanner.adapter.ResortAdapter;
 import com.fussyvegan.scanner.model.LocationAirport;
 import com.fussyvegan.scanner.model.Resort;
 import com.fussyvegan.scanner.model.ResourceResort;
+import com.fussyvegan.scanner.search.CustomEvent;
+import com.fussyvegan.scanner.utils.GPSUtil;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,14 +48,17 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class ResortsFragment extends Fragment {
+public class ResortsFragment extends Fragment implements GPSUtil.TurnOnGPS {
 
-    private static final String NAME_COUNTRY= "country";
+    private static final String NAME_COUNTRY = "country";
 
     private String mNameCountry;
 
     TextView numberResorts;
     ListView lvResorts;
+
+    Location mLocation;
+    GPSUtil gpsUtil;
 
     List<Resort> resorts;
 
@@ -65,7 +75,8 @@ public class ResortsFragment extends Fragment {
     List<Integer> distanceList;
 
     public ResortsFragment() {
-        resorts=new ArrayList<>();
+        resorts = new ArrayList<>();
+
     }
 
     public static ResortsFragment newInstance(String param1, String param2) {
@@ -93,8 +104,8 @@ public class ResortsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_resorts, container, false);
-        TextView nameResort= view.findViewById(R.id.tv_name_resort);
-        nameResort.setText(mNameCountry+" Resorts");
+        TextView nameResort = view.findViewById(R.id.tv_name_resort);
+        nameResort.setText(mNameCountry + " Resorts");
         numberResorts = view.findViewById(R.id.tvNumResortsFound);
         lvResorts = view.findViewById(R.id.ltvResorts);
         final ResortAdapter resortAdapter = new ResortAdapter(resorts, distanceList);
@@ -131,23 +142,22 @@ public class ResortsFragment extends Fragment {
         return view;
     }
 
-    public void updateFilter(boolean isClear, boolean isHostel, boolean isBedAndBreakfast, boolean isBushCamp, boolean isResort, boolean isSafariLodge) {
-
+    @Subscribe
+    public void OnCustomEvent(CustomEvent event) {
         int count = 0;
-        if (isHostel) count++;
-        if (isBedAndBreakfast) count++;
-        if (isBushCamp) count++;
-        if (isResort) count++;
-        if (isSafariLodge) count++;
-        Log.e("hello", count+", "+isClear + ", " + isHostel + ", " + isBedAndBreakfast + ", " + isBushCamp + ", " + isResort + ", " + isSafariLodge);
-        if (isClear) fetchResort("", mNameCountry);
-        else if (isHostel && count == 1) fetchResort("hostel", mNameCountry);
-        else if (isBedAndBreakfast && count == 1) fetchResort("bed and breakfast", mNameCountry);
-        else if (isBushCamp && count == 1) fetchResort("bush camp", mNameCountry);
-        else if (isResort && count == 1) fetchResort("resort", mNameCountry);
-        else if (isSafariLodge && count == 1) fetchResort("safari lodge", mNameCountry);
+        if (event.checkBox2) count++;
+        if (event.checkBox3) count++;
+        if (event.checkBox4) count++;
+        if (event.checkBox5) count++;
+        if (event.checkBox6) count++;
+        Log.e("hello", count + ", " + event.checkBox2 + ", " + event.checkBox3 + ", " + event.checkBox4 + ", " + event.checkBox5 + ", " + event.checkBox6 + ", " + event.checkBox1);
+        if (event.checkBox1) fetchResort("", mNameCountry);
+        else if (event.checkBox2 && count == 1) fetchResort("hostel", mNameCountry);
+        else if (event.checkBox3 && count == 1) fetchResort("bed and breakfast", mNameCountry);
+        else if (event.checkBox4 && count == 1) fetchResort("bush camp", mNameCountry);
+        else if (event.checkBox5 && count == 1) fetchResort("resort", mNameCountry);
+        else if (event.checkBox6 && count == 1) fetchResort("safari lodge", mNameCountry);
         else fetchResort("(search)", mNameCountry);
-
     }
 
     private void getCurrentLocation() {
@@ -166,16 +176,23 @@ public class ResortsFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
                 Location location = task.getResult();
-                Log.e("Location", location.getLatitude() +", "+ location.getLongitude());
-                latitudeCurrent = location.getLatitude();
-                longitudeCurrent = location.getLongitude();
+                //  Log.e("Location", location.getLatitude() +", "+ location.getLongitude());
+                if (location != null) {
+                    latitudeCurrent = location.getLatitude();
+                    longitudeCurrent = location.getLongitude();
+                } else {
+                    gpsUtil = new GPSUtil(getActivity(), true);
+                    mLocation = gpsUtil.getCurrentLocation(true);
+                    latitudeCurrent = gpsUtil.getLatitude();
+                    longitudeCurrent = gpsUtil.getLongitude();
+                }
             }
         });
     }
 
-    private List<Integer> distance(double lat1, double long1,List<Resort> resorts) {
-        List<Integer> distanceList= new ArrayList<>();
-        for(Resort resort:resorts) {
+    private List<Integer> distance(double lat1, double long1, List<Resort> resorts) {
+        List<Integer> distanceList = new ArrayList<>();
+        for (Resort resort : resorts) {
             double distance = 0;
 
             double lat2 = Double.parseDouble(resort.getLatitude());
@@ -189,7 +206,7 @@ public class ResortsFragment extends Fragment {
             locationCome.setLatitude(lat2);
             locationCome.setLongitude(long2);
 
-            distance = locationCurrent.distanceTo(locationCome)/1000;
+            distance = locationCurrent.distanceTo(locationCome) / 1000;
             distanceList.add((int) distance);
         }
         return distanceList;
@@ -200,20 +217,20 @@ public class ResortsFragment extends Fragment {
         Log.e("Keyword", keyword);
         apiInterface = APIResort.getClient().create(APIInterface.class);
         Call<ResourceResort> call = null;
-        call = apiInterface.getResorts(search,keyword);
+        call = apiInterface.getResorts(search, keyword);
         final ProgressDialog dialog = ProgressDialog.show(getActivity(), "Loading...", "Please wait...", true);
         dialog.show();
         call.enqueue(new Callback<ResourceResort>() {
             @Override
             public void onResponse(Call<ResourceResort> call, Response<ResourceResort> response) {
                 dialog.dismiss();
-                Log.d("TAG","status: " + response.code());
+                Log.d("TAG", "status: " + response.code());
 
                 ResourceResort resource = response.body();
                 // Log.d("TAG","body: " + response.body().toString());
                 resorts.clear();
                 resorts = resource.getProducts();
-                Collections.sort(resorts, new Comparator<Resort>(){
+                Collections.sort(resorts, new Comparator<Resort>() {
                     public int compare(Resort p1, Resort p2) {
                         return p1.getName().compareToIgnoreCase(p2.getName()); // To compare string values
                     }
@@ -221,9 +238,10 @@ public class ResortsFragment extends Fragment {
                 Log.e("TAG", resorts.toString());
                 numberResorts.setText(String.valueOf(resorts.size()));
                 distanceList = distance(latitudeCurrent, longitudeCurrent, resorts);
-                ResortAdapter adapter = new ResortAdapter(resorts,distanceList);
+                ResortAdapter adapter = new ResortAdapter(resorts, distanceList);
                 lvResorts.setAdapter(adapter);
             }
+
             @Override
             public void onFailure(Call<ResourceResort> call, Throwable t) {
                 Log.e("fail", t.getMessage());
@@ -239,4 +257,21 @@ public class ResortsFragment extends Fragment {
         searchView.clearFocus();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onChangeLocation(Location location) {
+        mLocation = location;
+    }
 }

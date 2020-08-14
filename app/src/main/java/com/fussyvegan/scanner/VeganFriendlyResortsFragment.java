@@ -3,6 +3,7 @@ package com.fussyvegan.scanner;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +82,9 @@ public class VeganFriendlyResortsFragment extends BaseFragment {
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Kenya");
                 fragment.setArguments(args);
-                replaceFragment(R.id.frameLayoutContainer, fragment,true);
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.frameLayoutContainer,fragment,tag).commit();
+                //replaceFragment(R.id.frameLayoutContainer, fragment,true);
             }
         });
 

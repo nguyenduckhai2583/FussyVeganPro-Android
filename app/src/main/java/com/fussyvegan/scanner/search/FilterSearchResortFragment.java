@@ -5,6 +5,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,8 @@ import android.widget.TextView;
 import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.ResortsFragment;
 import com.fussyvegan.scanner.SearchFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 public class FilterSearchResortFragment extends DialogFragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
@@ -107,16 +112,9 @@ public class FilterSearchResortFragment extends DialogFragment implements View.O
                 setCheckboxClear();
                 break;
             case R.id.btnApplyFilterSearch:
-                Log.e("thanh cong","thanh cong");
-                if (getFragmentManager() != null) {
-                    ResortsFragment resortsFragment = null;
-                    resortsFragment = (ResortsFragment) getFragmentManager().findFragmentByTag("ResortsFragment");
-                    if (resortsFragment != null) {
-                        updateCheckbox();
-                        checkCheckboxStatus();
-                        resortsFragment.updateFilter(isClear, isHostel, isBedAndBreakfast, isBushCamp, isResort, isSafariLodge);
-                    }
-                }
+                updateCheckbox();
+                checkCheckboxStatus();
+                EventBus.getDefault().post(new CustomEvent(isClear, isHostel, isBedAndBreakfast, isBushCamp, isResort, isSafariLodge));
                 getDialog().dismiss();
                 break;
             case R.id.imgBack:

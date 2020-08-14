@@ -139,7 +139,7 @@ public class FavoriteActivity extends AppCompatActivity implements FavoriteListA
 
             @Override
             public void onFailure(Call<FavoriteListResponse> call, Throwable t) {
-                Toast.makeText(FavoriteActivity.this, "Load Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FavoriteActivity.this, "Not Logged In", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });

@@ -18,4 +18,5 @@ public class BaseFragment extends Fragment {
         transaction.commitAllowingStateLoss();
         getFragmentManager().executePendingTransactions();
     }
+
 }

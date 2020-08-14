@@ -99,13 +99,13 @@ public class BottomSheetListFavorite extends BottomSheetDialogFragment implement
                     listFavorite.addAll(response.body().getList());
                     adapterFavorite.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(getContext(), "Load Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Not Logged In", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ListFavoriteResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Load Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Not Logged In", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
