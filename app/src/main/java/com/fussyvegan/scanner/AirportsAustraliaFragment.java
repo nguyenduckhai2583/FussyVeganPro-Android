@@ -18,7 +18,7 @@ import com.fussyvegan.scanner.adapter.AirportsAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AirportsAustraliaFragment extends Fragment {
+public class AirportsAustraliaFragment extends BaseFragment {
 
     private static final String NAME_COUNTRY_AIRPORT= "name airport";
 
@@ -158,7 +158,8 @@ public class AirportsAustraliaFragment extends Fragment {
                 args.putString("name location airport", nameMajorAirports.get(position));
                 args.putString("code location airport", codeMajorAirports.get(position));
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
             }
         });
 
@@ -172,7 +173,9 @@ public class AirportsAustraliaFragment extends Fragment {
                 args.putString("code location airport", codeNewSouthWales.get(position));
                 args.putString("place", "NSW");
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
+
             }
         });
 
@@ -185,7 +188,9 @@ public class AirportsAustraliaFragment extends Fragment {
                 args.putString("name location airport", "Darwin");
                 args.putString("code location airport", "DRW");
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
+
             }
         });
 
@@ -199,7 +204,8 @@ public class AirportsAustraliaFragment extends Fragment {
                 args.putString("code location airport", "ASP");
                 args.putString("place", "NT");
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
             }
         });
 
@@ -213,7 +219,8 @@ public class AirportsAustraliaFragment extends Fragment {
                 args.putString("code location airport", "CBR");
                 args.putString("place", "ACT");
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
 
             }
         });
@@ -228,7 +235,8 @@ public class AirportsAustraliaFragment extends Fragment {
                 args.putString("code location airport", "NLK");
                 args.putString("place", "NI");
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
 
 
             }
@@ -243,7 +251,8 @@ public class AirportsAustraliaFragment extends Fragment {
                     args.putString("name location airport", nameQueensland.get(position));
                     args.putString("code location airport", codeQueensland.get(position));
                     fragment.setArguments(args);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                    replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
                 } else {
                     MapLocationAirportFragment fragment = new MapLocationAirportFragment();
                     String tag = "MapLocationAirportFragment";
@@ -252,7 +261,8 @@ public class AirportsAustraliaFragment extends Fragment {
                     args.putString("code location airport", codeQueensland.get(position));
                     args.putString("place", "QLD");
                     fragment.setArguments(args);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                    replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
                 }
             }
         });
@@ -267,7 +277,8 @@ public class AirportsAustraliaFragment extends Fragment {
                     args.putString("name location airport", nameSouthAustralia.get(position));
                     args.putString("code location airport", codeSouthAustralia.get(position));
                     fragment.setArguments(args);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                    replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
                 } else {
                     MapLocationAirportFragment fragment = new MapLocationAirportFragment();
                     String tag = "MapLocationAirportFragment";
@@ -276,7 +287,8 @@ public class AirportsAustraliaFragment extends Fragment {
                     args.putString("code location airport", codeSouthAustralia.get(position));
                     args.putString("place", "SA");
                     fragment.setArguments(args);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                    replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
                 }
             }
         });
@@ -291,7 +303,8 @@ public class AirportsAustraliaFragment extends Fragment {
                     args.putString("name location airport", nameTasmania.get(position));
                     args.putString("code location airport", codeTasmania.get(position));
                     fragment.setArguments(args);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                    replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
                 } else {
                     MapLocationAirportFragment fragment = new MapLocationAirportFragment();
                     String tag = "MapLocationAirportFragment";
@@ -300,7 +313,8 @@ public class AirportsAustraliaFragment extends Fragment {
                     args.putString("code location airport", codeTasmania.get(position));
                     args.putString("place", "TAS");
                     fragment.setArguments(args);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                    replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
                 }
             }
         });
@@ -315,7 +329,8 @@ public class AirportsAustraliaFragment extends Fragment {
                     args.putString("name location airport", nameVictoria.get(position));
                     args.putString("code location airport", codeVictoria.get(position));
                     fragment.setArguments(args);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                    replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
                 } else {
                     MapLocationAirportFragment fragment = new MapLocationAirportFragment();
                     String tag = "MapLocationAirportFragment";
@@ -324,7 +339,8 @@ public class AirportsAustraliaFragment extends Fragment {
                     args.putString("code location airport", codeVictoria.get(position));
                     args.putString("place", "VIC");
                     fragment.setArguments(args);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                    replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
                 }
             }
         });
@@ -339,7 +355,8 @@ public class AirportsAustraliaFragment extends Fragment {
                     args.putString("name location airport", nameWesternAustralia.get(position));
                     args.putString("code location airport", codeWesternAustralia.get(position));
                     fragment.setArguments(args);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                    replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
                 } else {
                     MapLocationAirportFragment fragment = new MapLocationAirportFragment();
                     String tag = "MapLocationAirportFragment";
@@ -348,7 +365,8 @@ public class AirportsAustraliaFragment extends Fragment {
                     args.putString("code location airport", codeWesternAustralia.get(position));
                     args.putString("place", "WA");
                     fragment.setArguments(args);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                    replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
                 }
             }
         });

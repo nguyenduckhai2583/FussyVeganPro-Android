@@ -115,15 +115,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <com.fussyvegan.scanner.NonSwipeViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolBar"
         android:layout_above="@+id/navigation"
-        android:text="@string/title_search">
-
-    </FrameLayout>
+        android:text="@string/title_search"/>
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

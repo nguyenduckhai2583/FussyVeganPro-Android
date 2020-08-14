@@ -1,13 +1,14 @@
 package com.fussyvegan.scanner;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.fussyvegan.scanner.activity.MainActivity;
 import com.fussyvegan.scanner.adapter.AirportsAdapter;
@@ -16,9 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AirportsUSAFragment extends Fragment {
+public class AirportsUSAFragment extends BaseFragment {
 
-    private static final String NAME_COUNTRY_AIRPORT= "name airport";
+    private static final String NAME_COUNTRY_AIRPORT = "name airport";
 
     private String mNameAirport;
     List<String> nameAllAirports;
@@ -28,28 +29,41 @@ public class AirportsUSAFragment extends Fragment {
     MainActivity activity;
 
 
-
     public AirportsUSAFragment() {
         nameAllAirports = new ArrayList<>();
         codeAllAirports = new ArrayList<>();
         getAirports();
     }
 
-    private void getAirports(){
-        nameAllAirports.add("Atlanta"); codeAllAirports.add("ATL");
-        nameAllAirports.add("Charlotte"); codeAllAirports.add("CLT");
-        nameAllAirports.add("Chicago"); codeAllAirports.add("ORD");
-        nameAllAirports.add("Dallas/Fort Worth"); codeAllAirports.add("DFW");
-        nameAllAirports.add("Denver"); codeAllAirports.add("DEN");
-        nameAllAirports.add("Houston"); codeAllAirports.add("IAH");
-        nameAllAirports.add("Las Vegas"); codeAllAirports.add("LAS");
-        nameAllAirports.add("Los Angeles"); codeAllAirports.add("LAX");
-        nameAllAirports.add("Miami"); codeAllAirports.add("MIA");
-        nameAllAirports.add("Newark"); codeAllAirports.add("EWR");
-        nameAllAirports.add("New York City"); codeAllAirports.add("JFK");
-        nameAllAirports.add("Orlando"); codeAllAirports.add("MCO");
-        nameAllAirports.add("Phoenix"); codeAllAirports.add("PHX");
-        nameAllAirports.add("Wellington"); codeAllAirports.add("DFW");
+    private void getAirports() {
+        nameAllAirports.add("Atlanta");
+        codeAllAirports.add("ATL");
+        nameAllAirports.add("Charlotte");
+        codeAllAirports.add("CLT");
+        nameAllAirports.add("Chicago");
+        codeAllAirports.add("ORD");
+        nameAllAirports.add("Dallas/Fort Worth");
+        codeAllAirports.add("DFW");
+        nameAllAirports.add("Denver");
+        codeAllAirports.add("DEN");
+        nameAllAirports.add("Houston");
+        codeAllAirports.add("IAH");
+        nameAllAirports.add("Las Vegas");
+        codeAllAirports.add("LAS");
+        nameAllAirports.add("Los Angeles");
+        codeAllAirports.add("LAX");
+        nameAllAirports.add("Miami");
+        codeAllAirports.add("MIA");
+        nameAllAirports.add("Newark");
+        codeAllAirports.add("EWR");
+        nameAllAirports.add("New York City");
+        codeAllAirports.add("JFK");
+        nameAllAirports.add("Orlando");
+        codeAllAirports.add("MCO");
+        nameAllAirports.add("Phoenix");
+        codeAllAirports.add("PHX");
+        nameAllAirports.add("Wellington");
+        codeAllAirports.add("DFW");
 
     }
 
@@ -73,7 +87,7 @@ public class AirportsUSAFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_airports_u_s_a, container, false);
+        View view = inflater.inflate(R.layout.fragment_airports_u_s_a, container, false);
 
         TextView nameAirPort = view.findViewById(R.id.tv_name_airport);
         nameAirPort.setText(mNameAirport);
@@ -91,7 +105,7 @@ public class AirportsUSAFragment extends Fragment {
                 args.putString("name location airport", nameAllAirports.get(position));
                 args.putString("code location airport", codeAllAirports.get(position));
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment, true);
             }
         });
 

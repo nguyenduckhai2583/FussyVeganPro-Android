@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import com.fussyvegan.scanner.BaseFragment;
 import com.fussyvegan.scanner.Constant;
 import com.fussyvegan.scanner.OnListFragmentInteractionListener;
 import com.fussyvegan.scanner.R;
@@ -27,7 +28,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class VeganBeautyFragment extends Fragment {
+public class VeganBeautyFragment extends BaseFragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -150,7 +151,8 @@ public class VeganBeautyFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString(Constant.ARG_NAME_SEARCH, name);
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
             }
         });
         rcNameChain.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -170,7 +172,7 @@ public class VeganBeautyFragment extends Fragment {
 //                Bundle args = new Bundle();
 //                args.putString(Constant.ARG_NAME_SEARCH, settings.get(position));
 //                fragment.setArguments(args);
-//                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+//                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, fragment, tag).addToBackStack(tag).commit();
 //            }
 //        });
 

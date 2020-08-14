@@ -25,7 +25,7 @@ public abstract class BaseContainerFragment extends Fragment {
     public boolean popFragment() {
         boolean isPop = false;
         FragmentManager fm = getChildFragmentManager();
-        if (fm.getBackStackEntryCount() > 1) {
+        if (fm.getBackStackEntryCount() > 0) {
             isPop = true;
             fm.popBackStack();
         }

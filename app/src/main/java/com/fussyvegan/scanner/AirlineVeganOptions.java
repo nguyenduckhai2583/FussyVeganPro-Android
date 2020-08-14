@@ -15,7 +15,7 @@ import com.fussyvegan.scanner.adapter.AirlineAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AirlineVeganOptions extends Fragment {
+public class AirlineVeganOptions extends BaseFragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private static final String NAME_AIRLINE_GET_PRODUCT= "name airline get products";
@@ -173,7 +173,8 @@ public class AirlineVeganOptions extends Fragment {
                 args.putString(NAME_AIRLINE_GET_PRODUCT, getCountry(position));
                 args.putString(NAME_OF_AIRLINE, nameAirline.get(position));
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
 
             }
         });

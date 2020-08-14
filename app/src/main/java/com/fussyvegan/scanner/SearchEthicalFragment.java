@@ -99,11 +99,6 @@ public class SearchEthicalFragment extends Fragment {
                     intent.putExtra("product", products.get(position - 1));
                     startActivity(intent);
                 }
-//                Log.d("TAG", position + "  click");
-//                ProductFragment fragment = new ProductFragment();
-//                fragment.product = products.get(position - 1);
-//                String tag = "ProductFragment";
-//                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
             }
         });
 

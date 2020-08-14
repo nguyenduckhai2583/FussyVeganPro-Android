@@ -22,7 +22,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class FastfoodFragment extends Fragment {
+public class FastfoodFragment extends BaseFragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -112,27 +112,28 @@ public class FastfoodFragment extends Fragment {
                 args.putString(NAME_COUNTRY, getCountry(position));
                 args.putString(NAME_OF_COUNTRY, settings.get(position));
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment,true);
+
 //                if(position == 0){
 //                    String tag = "FastfoodAUFragment";
 //                    FastfoodAUFragment fragment = new FastfoodAUFragment();
-//                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+//                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, fragment, tag).addToBackStack(tag).commit();
 //                } else if(position == 1){
 //                    String tag = "FastfoodUSFragment";
 //                    FastfoodUSFragment fragment = new FastfoodUSFragment();
-//                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+//                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, fragment, tag).addToBackStack(tag).commit();
 //                } else if(position == 2){
 //                    String tag = "FastfoodUKFragment";
 //                    FastfoodUKFragment fragment = new FastfoodUKFragment();
-//                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+//                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, fragment, tag).addToBackStack(tag).commit();
 //                } else if(position == 3){
 //                    String tag = "FastfoodNZFragment";
 //                    FastfoodNZFragment fragment = new FastfoodNZFragment();
-//                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+//                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, fragment, tag).addToBackStack(tag).commit();
 //                } else if(position == 4){
 //                    String tag = "FastfoodCAFragment";
 //                    FastfoodCAFragment fragment = new FastfoodCAFragment();
-//                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+//                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, fragment, tag).addToBackStack(tag).commit();
 //                }
             }
         });

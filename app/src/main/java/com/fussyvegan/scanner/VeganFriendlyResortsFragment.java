@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import com.fussyvegan.scanner.activity.MainActivity;
 
 
-public class VeganFriendlyResortsFragment extends Fragment {
+public class VeganFriendlyResortsFragment extends BaseFragment {
 
     private static final String NAME_COUNTRY= "country";
 
@@ -68,7 +68,8 @@ public class VeganFriendlyResortsFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Botswana");
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment,true);
+
             }
         });
 
@@ -80,7 +81,7 @@ public class VeganFriendlyResortsFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Kenya");
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment,true);
             }
         });
 
@@ -92,7 +93,8 @@ public class VeganFriendlyResortsFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "SouthAfrica");
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment,true);
+
             }
         });
 
@@ -104,7 +106,8 @@ public class VeganFriendlyResortsFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Tanzania");
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment,true);
+
             }
         });
 
@@ -116,7 +119,7 @@ public class VeganFriendlyResortsFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Seychelles");
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment,true);
             }
         });
 
@@ -128,7 +131,8 @@ public class VeganFriendlyResortsFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Fiji");
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment,true);
+
             }
         });
 
@@ -140,7 +144,8 @@ public class VeganFriendlyResortsFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Samoa");
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment,true);
+
             }
         });
 
@@ -152,7 +157,8 @@ public class VeganFriendlyResortsFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Tonga");
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment,true);
+
             }
         });
 
@@ -164,7 +170,8 @@ public class VeganFriendlyResortsFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Vanuatu");
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment,true);
+
             }
         });
     }

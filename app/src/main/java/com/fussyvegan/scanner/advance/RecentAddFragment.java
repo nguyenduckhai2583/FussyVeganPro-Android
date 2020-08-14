@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fussyvegan.scanner.APIInterface;
+import com.fussyvegan.scanner.BaseFragment;
 import com.fussyvegan.scanner.OnListFragmentInteractionListener;
 import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.activity.MainActivity;
@@ -30,7 +31,7 @@ import static com.fussyvegan.scanner.Constant.ARG_NAME_SEARCH;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class RecentAddFragment extends Fragment implements ChainFoodAdapter.IChainListener {
+public class RecentAddFragment extends BaseFragment implements ChainFoodAdapter.IChainListener {
     // TODO: Customize parameter argument names
     private static final String NAME_COUNTRY = "Country";
     private static final String NAME_OF_COUNTRY = "NameCountry";
@@ -136,7 +137,9 @@ public class RecentAddFragment extends Fragment implements ChainFoodAdapter.ICha
         ProductKeywordFragment fragment = new ProductKeywordFragment();
         fragment.setArguments(bundle);
         String tag = "ProductFragment";
-        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+        replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
+//        activity.getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, fragment, tag).addToBackStack(tag).commit();
     }
 
 //    public void fetchProducts(String keyword) {

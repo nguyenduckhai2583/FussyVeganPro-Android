@@ -20,14 +20,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
 
+import com.fussyvegan.scanner.BaseContainerFragment;
 import com.fussyvegan.scanner.FavoriteFragment;
+import com.fussyvegan.scanner.NonSwipeViewPager;
 import com.fussyvegan.scanner.ProductFragment;
 import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.ScanFragment;
-import com.fussyvegan.scanner.SearchFragment;
 import com.fussyvegan.scanner.container.MoreContainerFragment;
 import com.fussyvegan.scanner.container.ProductsContainerFragment;
 import com.fussyvegan.scanner.container.ScanContainerFragment;
@@ -37,12 +38,16 @@ import com.fussyvegan.scanner.search.FilterSearchDialogFragment;
 import com.fussyvegan.scanner.search.FilterSearchResortFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements FavoriteFragment.OnFragmentInteractionListener {
 
     public String keyword = "";
     public String searchScope = "";
 
     public BottomNavigationView navigation;
+    public NonSwipeViewPager viewPager;
     public Menu menu;
     public MenuItem editItem;
     public MenuItem favoriteItem;
@@ -63,7 +68,10 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
     public boolean showFilterSearch = false;
     public Button btnSetting;
     public static final int PERMISSIONS_REQUEST_CAMERA_CODE = 55555;
-
+    int mPosition = 0;
+    List<String> mTags = new ArrayList<>();
+    List<HomePageItem> tabItems = new ArrayList<>();
+    private PagerAdapter mPagerAdapter;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -71,16 +79,25 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_scan:
-                    loadFragmentBy(0);
+                    mPosition = 0;
+                    viewPager.setCurrentItem(0);
                     return true;
                 case R.id.navigation_advanced:
-                    loadFragmentBy(2);
+                    mPosition = 2;
+                    viewPager.setCurrentItem(1);
+
                     return true;
                 case R.id.navigation_travel:
-                    loadFragmentBy(3);
+                    mPosition = 3;
+//                    loadFragmentBy(3);
+                    viewPager.setCurrentItem(2);
+
                     return true;
                 case R.id.navigation_setting:
-                    loadFragmentBy(4);
+                    mPosition = 4;
+                    viewPager.setCurrentItem(3);
+
+//                    loadFragmentBy(4);
                     return true;
 
             }
@@ -93,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         navigation = findViewById(R.id.navigation);
+        viewPager = findViewById(R.id.viewPager);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 //        actionBar = getSupportActionBar();
         btnSetting = findViewById(R.id.btnSetting);
@@ -167,6 +185,21 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         loadFragmentBy(0);
         visibleCameraSetting(false);
         requestAccessCamera();
+        initViewPager();
+    }
+
+
+    void initViewPager() {
+        tabItems.add(new HomePageItem(new ScanContainerFragment()));
+        tabItems.add(new HomePageItem(new ProductsContainerFragment()));
+        tabItems.add(new HomePageItem(new TravelContainerFragment()));
+        tabItems.add(new HomePageItem(new MoreContainerFragment()));
+
+        mPagerAdapter = new PagerAdapter(getSupportFragmentManager(), MainActivity.this, tabItems);
+        viewPager.setVerticalScrollBarEnabled(false);
+        viewPager.setAdapter(mPagerAdapter);
+        viewPager.setOffscreenPageLimit(tabItems.size());
+
     }
 
     @Override
@@ -356,14 +389,32 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         return true;
     }
 
+    public BaseContainerFragment getCurrentBaseFragment() {
+        return (BaseContainerFragment) viewPager.getAdapter()
+                .instantiateItem(viewPager, viewPager.getCurrentItem());
+    }
+
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            getSupportFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
+        boolean isPopFragment = false;
+        BaseContainerFragment f = getCurrentBaseFragment();
+        if (f != null) {
+            isPopFragment = f.popFragment();
         }
+        if (isPopFragment) {
+
+            if (fm == null) {
+                return;
+            } else {
+                fm.popBackStack();
+            }
+
+        } else {
+            ActivityCompat.finishAffinity(this);
+        }
+
     }
+
 
 //    @Override
 //    public interface OnFragmentInteractionListener {
@@ -399,33 +450,33 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
     }
 
     public void loadFragmentBy(int type) {
-        if (findViewById(R.id.fragment_container) != null) {
-            Fragment fragment = new Fragment();
-            switch (type) {
-                case 0:
-                    fragment = new ScanContainerFragment();
-                    tag = "ScanFragment";
-                    break;
-                case 1:
-                    fragment = new SearchFragment();
-                    tag = "SearchFragment";
-                    break;
-                case 2:
-                    fragment = new ProductsContainerFragment();
-                    tag = "AdvancedSearchMenuFragment";
-                    break;
-                case 3:
-                    fragment = new TravelContainerFragment();
-                    tag = "TravelFragment";
-                    break;
-                case 4:
-                    fragment = new MoreContainerFragment();
-                    tag = "SettingFragment";
-                    break;
-            }
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).commit();
-        }
+//        if (findViewById(R.id.frameLayoutContainer) != null) {
+//            Fragment fragment = new Fragment();
+//            switch (type) {
+//                case 0:
+//                    fragment = new ScanContainerFragment();
+//                    tag = "ScanFragment";
+//                    break;
+//                case 1:
+//                    fragment = new SearchFragment();
+//                    tag = "SearchFragment";
+//                    break;
+//                case 2:
+//                    fragment = new ProductsContainerFragment();
+//                    tag = "AdvancedSearchMenuFragment";
+//                    break;
+//                case 3:
+//                    fragment = new TravelContainerFragment();
+//                    tag = "TravelFragment";
+//                    break;
+//                case 4:
+//                    fragment = new MoreContainerFragment();
+//                    tag = "SettingFragment";
+//                    break;
+//            }
+//            // Add the fragment to the 'frameLayoutContainer' FrameLayout
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_ container, fragment, tag).commit();
+//        }
     }
 
     @Override

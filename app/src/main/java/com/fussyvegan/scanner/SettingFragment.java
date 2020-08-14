@@ -32,7 +32,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class SettingFragment extends Fragment {
+public class SettingFragment extends BaseFragment {
 
     public int loginIntentCODE = 0;
 
@@ -129,11 +129,12 @@ public class SettingFragment extends Fragment {
                     String tag = "ProductKeywordFragment";
                 //    FavoriteFragment fragment = new FavoriteFragment();
                     FavoriteListFragment fragment = new FavoriteListFragment();
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                    replaceFragment(R.id.frameLayoutContainer, fragment,true);
                 } else if (position == 1) {
                     String tag = "AboutFragment";
                     AboutFragment fragment = new AboutFragment();
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                    replaceFragment(R.id.frameLayoutContainer, fragment,true);
+
                 } else if (position == 2) {
                     Uri uri = Uri.parse("market://details?id=" + getContext().getPackageName());
                     Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);

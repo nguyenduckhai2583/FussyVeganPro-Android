@@ -14,7 +14,7 @@ import com.fussyvegan.scanner.adapter.TravelAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TravelFragment extends Fragment {
+public class TravelFragment extends BaseFragment {
 
     private TravelAdapter adapter;
     private List<String> settings = new ArrayList<>();
@@ -73,7 +73,7 @@ public class TravelFragment extends Fragment {
     }
 
     public void loadFragmentBy(int type) {
-        if (activity.findViewById(R.id.fragment_container) != null) {
+        if (activity.findViewById(R.id.frameLayoutContainer) != null) {
             Fragment fragment = new Fragment();
             switch (type) {
                 case 0:
@@ -97,8 +97,8 @@ public class TravelFragment extends Fragment {
                     tag = "VeganRestaurantFragment";
                     break;
             }
-            // Add the fragment to the 'fragment_container' FrameLayout
-            activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+            // Add the fragment to the 'frameLayoutContainer' FrameLayout
+            replaceFragment(R.id.frameLayoutContainer, fragment,true);
         }
     }
 }

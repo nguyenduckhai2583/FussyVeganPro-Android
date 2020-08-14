@@ -34,7 +34,7 @@ import retrofit2.Response;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class FastfoodNZFragment extends Fragment {
+public class FastfoodNZFragment extends BaseFragment {
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
@@ -95,7 +95,8 @@ public class FastfoodNZFragment extends Fragment {
                 ProductFragment fragment = new ProductFragment();
                 fragment.product = products.get(position - 1);
                 String tag = "ProductFragment";
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment,true);
+
             }
         });
 

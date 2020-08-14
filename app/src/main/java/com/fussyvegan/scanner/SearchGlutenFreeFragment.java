@@ -99,10 +99,6 @@ public class SearchGlutenFreeFragment extends Fragment {
                     startActivity(intent);
                 }
 
-//                ProductFragment fragment = new ProductFragment();
-//                fragment.product = products.get(position-1);
-//                String tag = "ProductFragment";
-//                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
             }
         });
 

@@ -24,7 +24,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class ChainFastFoodFragment extends Fragment implements ChainFoodAdapter.IChainListener {
+public class ChainFastFoodFragment extends BaseFragment implements ChainFoodAdapter.IChainListener {
     // TODO: Customize parameter argument names
     private static final String NAME_COUNTRY = "Country";
     private static final String NAME_OF_COUNTRY = "NameCountry";
@@ -280,7 +280,8 @@ public class ChainFastFoodFragment extends Fragment implements ChainFoodAdapter.
                 SearchFilterFragment fragment = new SearchFilterFragment();
                 fragment.setArguments(bundle);
                 String tag = "ProductFragment";
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment,true);
+
             }
         });
     }
@@ -294,7 +295,6 @@ public class ChainFastFoodFragment extends Fragment implements ChainFoodAdapter.
         SearchFilterFragment fragment = new SearchFilterFragment();
         fragment.setArguments(bundle);
         String tag = "ProductFragment";
-        activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
-
+        replaceFragment(R.id.frameLayoutContainer, fragment,true);
     }
 }

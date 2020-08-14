@@ -22,7 +22,7 @@ import java.util.List;
  * Use the {@link AirportVeganOptionsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AirportVeganOptionsFragment extends Fragment {
+public class AirportVeganOptionsFragment extends BaseFragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private static final String NAME_COUNTRY_AIRPORT= "name airport";
@@ -108,7 +108,7 @@ public class AirportVeganOptionsFragment extends Fragment {
     }
 
     public void loadFragmentBy(int type) {
-        if (activity.findViewById(R.id.fragment_container) != null) {
+        if (activity.findViewById(R.id.frameLayoutContainer) != null) {
             Fragment fragment = new Fragment();
             Bundle args = new Bundle();
             switch (type) {
@@ -130,8 +130,9 @@ public class AirportVeganOptionsFragment extends Fragment {
                     args.putString(NAME_COUNTRY_AIRPORT, getCountry(type));
                     fragment.setArguments(args);
             }
-            // Add the fragment to the 'fragment_container' FrameLayout
-            activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+            // Add the fragment to the 'frameLayoutContainer' FrameLayout
+            replaceFragment(R.id.frameLayoutContainer, fragment,true);
+
         }
     }
 

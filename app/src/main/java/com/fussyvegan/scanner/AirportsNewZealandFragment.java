@@ -15,7 +15,7 @@ import com.fussyvegan.scanner.adapter.AirportsAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AirportsNewZealandFragment extends Fragment {
+public class AirportsNewZealandFragment extends BaseFragment {
 
     private static final String NAME_COUNTRY_AIRPORT= "name airport";
 
@@ -78,7 +78,8 @@ public class AirportsNewZealandFragment extends Fragment {
                     args.putString("code location airport", codeAllAirports.get(position));
                     args.putString("place", "NZL");
                     fragment.setArguments(args);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                    replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
                 } else {
                     LocationAirportFragment fragment = new LocationAirportFragment();
                     String tag = "LocationAirportFragment";
@@ -86,7 +87,8 @@ public class AirportsNewZealandFragment extends Fragment {
                     args.putString("name location airport", nameAllAirports.get(position));
                     args.putString("code location airport", codeAllAirports.get(position));
                     fragment.setArguments(args);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                    replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
 
 
                 }

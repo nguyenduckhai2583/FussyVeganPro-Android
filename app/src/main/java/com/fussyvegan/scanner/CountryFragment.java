@@ -14,7 +14,7 @@ import com.fussyvegan.scanner.adapter.CountryAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CountryFragment extends Fragment {
+public class CountryFragment extends BaseFragment {
 
     private static final String NAME_COUNTRY = "Country";
 
@@ -60,7 +60,8 @@ public class CountryFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, listCountry.get(position));
                 fragment.setArguments(args);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                replaceFragment(R.id.frameLayoutContainer, fragment,true);
+
             }
         });
 
