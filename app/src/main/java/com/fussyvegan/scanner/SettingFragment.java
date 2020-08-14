@@ -56,6 +56,14 @@ public class SettingFragment extends Fragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public SettingFragment() {
+        refreshData();
+    }
+
+    public void refreshData() {
+
+        settings.clear();
+        icLink.clear();
+
         settings.add("My List");
         settings.add("About");
         settings.add("Rate App");
@@ -206,7 +214,8 @@ public class SettingFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         SharedPrefs.getInstance().put(Constant.IS_LOGIN, false);
-
+                        refreshData();
+                        adapter.notifyDataSetChanged();
 
                     }
 
@@ -230,6 +239,8 @@ public class SettingFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == loginIntentCODE && resultCode == loginIntentCODE && data != null) {
             String mess = data.getStringExtra("key");
+            refreshData();
+            adapter.notifyDataSetChanged();
             Toast.makeText(getActivity(), mess, Toast.LENGTH_SHORT).show();
         } else if (requestCode == forgotPassIntentCODEFromFragment && resultCode == forgotPassIntentCODE && data != null) {
             String mess = data.getStringExtra("key");

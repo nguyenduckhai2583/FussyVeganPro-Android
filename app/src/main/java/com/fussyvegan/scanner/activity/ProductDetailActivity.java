@@ -1141,7 +1141,12 @@ public class ProductDetailActivity extends AppCompatActivity {
     private void showBottomSheet() {
         BottomSheetListFavorite bottomSheetListFavorite = new BottomSheetListFavorite();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(FAVORITE, new FavoriteType(mCategory, product.getId(), -1));
+
+        if (product.getCategory().equals("ingredient")) {
+            bundle.putParcelable(FAVORITE, new FavoriteType(Constant.FAVOR_INGREDIENT, product.getId(), -1));
+        } else {
+            bundle.putParcelable(FAVORITE, new FavoriteType(mCategory, product.getId(), -1));
+        }
         bottomSheetListFavorite.setArguments(bundle);
         bottomSheetListFavorite.show(getSupportFragmentManager(), "Dialog");
     }
