@@ -76,7 +76,7 @@ public class AdvancedSearchMenuFragment extends Fragment {
             public void onClick(View v) {
                 String tag = "SearchFragment";
                 SearchFragment fragment = new SearchFragment();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                activity.getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
 
             }
         });
@@ -89,7 +89,7 @@ public class AdvancedSearchMenuFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString(ARG_NAME_SEARCH, "Search Ingredients");
                 fragment.setArguments(bundle);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                activity.getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
             }
         });
 
@@ -102,7 +102,7 @@ public class AdvancedSearchMenuFragment extends Fragment {
                 bundle.putString(Constant.NAME_COUNTRY, "Recently Added");
                 ProductKeywordFragment fragment = new ProductKeywordFragment();
                 fragment.setArguments(bundle);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                activity.getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
 
             }
         });
@@ -115,7 +115,7 @@ public class AdvancedSearchMenuFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString(ARG_NAME_SEARCH, "Supermarket Specials");
                 fragment.setArguments(bundle);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                activity.getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
 
             }
         });
@@ -127,7 +127,7 @@ public class AdvancedSearchMenuFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString(ARG_NAME_SEARCH, "Vegan Grocery Guide");
                 fragment.setArguments(bundle);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                activity.getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
             }
         });
 
@@ -141,7 +141,7 @@ public class AdvancedSearchMenuFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString(ARG_NAME_SEARCH, "Vegan Alcohol Guide");
                 fragment.setArguments(bundle);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                activity.getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
             }
         });
 
@@ -153,7 +153,7 @@ public class AdvancedSearchMenuFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString(ARG_NAME_SEARCH, "Vegan Beauty Guide");
                 fragment.setArguments(bundle);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+                activity.getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
 
             }
         });
