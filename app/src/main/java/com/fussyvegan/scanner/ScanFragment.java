@@ -19,6 +19,8 @@ import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 import me.dm7.barcodescanner.zbar.BarcodeFormat;
 
+import static com.fussyvegan.scanner.Constant.ARG_NAME_SEARCH;
+
 
 public class ScanFragment extends Fragment implements ZBarScannerView.ResultHandler {
 
@@ -96,7 +98,10 @@ public class ScanFragment extends Fragment implements ZBarScannerView.ResultHand
         try {
             activity.keyword = rawResult.getContents();
             activity.searchScope = "barcode";
-            activity.navigation.setSelectedItemId(R.id.navigation_search);
+            String tag = "SearchFragment";
+            SearchFragment fragment = new SearchFragment();
+            activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+            //activity.navigation.setSelectedItemId(R.id.navigation_search);
             Log.d("TAG", "Contents = " + rawResult.getContents() + ", Format = " + rawResult.getBarcodeFormat().getName());
         } catch (Exception e) {}
 

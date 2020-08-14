@@ -194,6 +194,14 @@ public class SearchFragment extends Fragment {
         searchView.clearFocus();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        activity.keyword = "";
+        activity.searchScope = "";
+        searchView.clearFocus();
+    }
+
     private void setResultCount(List<Product> products) {
         String resultSuffix = products.size() == 1 ? " product" : " products";
         txvResult.setText("Search Result: " + products.size() + resultSuffix);

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <TextView
@@ -31,10 +31,15 @@
             android:layout_marginLeft="16dp"
             android:textStyle="bold" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"
+            android:layout_marginTop="8dp"/>
+
         <ListView
             android:id="@+id/list_view_products"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp" />
+            android:layout_height="match_parent" />
     </LinearLayout>
 </RelativeLayout>

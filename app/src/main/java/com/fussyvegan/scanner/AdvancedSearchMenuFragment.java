@@ -2,12 +2,13 @@ package com.fussyvegan.scanner;
 
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.fussyvegan.scanner.activity.MainActivity;
@@ -41,27 +42,11 @@ public class AdvancedSearchMenuFragment extends Fragment {
     ListView ltvSetting;
     MainActivity activity;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public AdvancedSearchMenuFragment() {
-        settings.add("Search Ingredients");
-        settings.add("Recently Added");
-        settings.add("Supermarket Specials");
-        settings.add("Vegan Grocery Guide");
-        settings.add("Vegan Alcohol Guide");
-        settings.add("Vegan Beauty Guide");
-        icLink.add(R.drawable.ic_search_ingredient);
-        icLink.add(R.drawable.ic_calendar);
-        icLink.add(R.drawable.ic_special);
-        icLink.add(R.drawable.ic_products);
-        icLink.add(R.drawable.ic_alcohol);
-        icLink.add(R.drawable.ic_makeup);
+    LinearLayout llAllProducts, llSearchIngredients, llRecentAdded, llSuperMarketSpecial,
+            llGroceryGuide, llVeganAlcohol, llVeganBeautyGuide;
 
-    }
+    public AdvancedSearchMenuFragment() { }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static AdvancedSearchMenuFragment newInstance(int columnCount) {
         AdvancedSearchMenuFragment fragment = new AdvancedSearchMenuFragment();
@@ -83,67 +68,111 @@ public class AdvancedSearchMenuFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_setting, container, false);
-        adapter = new SettingAdapter(settings,icLink);
-        ltvSetting = view.findViewById(R.id.ltvSetting);
-        ltvSetting.setAdapter(adapter);
-        ltvSetting.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        View view = inflater.inflate(R.layout.fragment_list_search, container, false);
+
+        initView(view);
+        llAllProducts.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("TAG", position + "  click");
+            public void onClick(View v) {
+                String tag = "SearchFragment";
+                SearchFragment fragment = new SearchFragment();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
 
-                if (position == 0) {
-                    String tag = "IngredientsFragment";
-                    IngredientsFragment fragment = new IngredientsFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(ARG_NAME_SEARCH, settings.get(position));
-                    fragment.setArguments(bundle);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
-                }  else if (position == 1) {
-                    String tag = "RecentFragment";
-                    Bundle bundle = new Bundle();
-                    bundle.putString(Constant.ARG_NAME_SEARCH, "recent");
-                    bundle.putString(Constant.NAME_COUNTRY, settings.get(position));
-                    ProductKeywordFragment fragment = new ProductKeywordFragment();
-                    fragment.setArguments(bundle);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
-                } else if (position == 2) {
-                    String tag = "SupermarketSpecialsFragment";
-                    SupermarketSpecialsFragment fragment = new SupermarketSpecialsFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(ARG_NAME_SEARCH, settings.get(position));
-                    fragment.setArguments(bundle);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
-                } else if (position == 3) {
-                    String tag = "VeganGroceryFragment";
-                    VeganGroceryFragment fragment = new VeganGroceryFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(ARG_NAME_SEARCH, settings.get(position));
-                    fragment.setArguments(bundle);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
-                } else if (position == 4) {
-                    String tag = "VeganAlcoholFragment";
-
-                    VeganAlcoholFragment fragment = new VeganAlcoholFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(ARG_NAME_SEARCH, settings.get(position));
-                    fragment.setArguments(bundle);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
-                }  else if (position == 5) {
-                    String tag = "VeganBeauty";
-                    VeganBeautyFragment fragment = new VeganBeautyFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(ARG_NAME_SEARCH, settings.get(position));
-                    fragment.setArguments(bundle);
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
-                }
             }
         });
+
+        llSearchIngredients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tag = "IngredientsFragment";
+                IngredientsFragment fragment = new IngredientsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(ARG_NAME_SEARCH, "Search Ingredients");
+                fragment.setArguments(bundle);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+            }
+        });
+
+        llRecentAdded.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tag = "RecentFragment";
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.ARG_NAME_SEARCH, "recent");
+                bundle.putString(Constant.NAME_COUNTRY, "Recently Added");
+                ProductKeywordFragment fragment = new ProductKeywordFragment();
+                fragment.setArguments(bundle);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+
+            }
+        });
+
+        llSuperMarketSpecial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tag = "SupermarketSpecialsFragment";
+                SupermarketSpecialsFragment fragment = new SupermarketSpecialsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(ARG_NAME_SEARCH, "Supermarket Specials");
+                fragment.setArguments(bundle);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+
+            }
+        });
+        llGroceryGuide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tag = "VeganGroceryFragment";
+                VeganGroceryFragment fragment = new VeganGroceryFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(ARG_NAME_SEARCH, "Vegan Grocery Guide");
+                fragment.setArguments(bundle);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+            }
+        });
+
+        llVeganAlcohol.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String tag = "VeganAlcoholFragment";
+
+                VeganAlcoholFragment fragment = new VeganAlcoholFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(ARG_NAME_SEARCH, "Vegan Alcohol Guide");
+                fragment.setArguments(bundle);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+            }
+        });
+
+        llVeganBeautyGuide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tag = "VeganBeauty";
+                VeganBeautyFragment fragment = new VeganBeautyFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(ARG_NAME_SEARCH, "Vegan Beauty Guide");
+                fragment.setArguments(bundle);
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, tag).addToBackStack(tag).commit();
+
+            }
+        });
+
 
         activity.showNothing();
         activity.visibleBackItem(false);
         activity.invalidateOptionsMenu();
         return view;
+    }
+
+    private void initView (View view){
+        llAllProducts = view.findViewById(R.id.lnAllProducts);
+        llSearchIngredients = view.findViewById(R.id.lnSearchIngredients);
+        llRecentAdded = view.findViewById(R.id.lnRecentlyAdded);
+        llSuperMarketSpecial = view.findViewById(R.id.lnSuperMarketSpecials);
+        llGroceryGuide = view.findViewById(R.id.lnVeganGroceryGuide);
+        llVeganAlcohol = view.findViewById(R.id.lnVeganAlcoholGuide);
+        llVeganBeautyGuide = view.findViewById(R.id.lnVeganBeautyGuide);
     }
 
 
@@ -159,7 +188,7 @@ public class AdvancedSearchMenuFragment extends Fragment {
 //    }
 
     @Override
-    public void onDetach() {
+    public void onDetach () {
         super.onDetach();
     }
 
