@@ -41,7 +41,8 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.my
     @Override
     public void onBindViewHolder(@NonNull myHolder myHolder, int i) {
         final Restaurant restaurant = list.get(i);
-        Picasso.get().load(restaurant.getLink_photo_small()).into(myHolder.imgImage);
+        Picasso.get().load(restaurant.getLink_photo_small()).placeholder(R.drawable.ic_app_150)
+                .into(myHolder.imgImage);
         myHolder.tvRestaurant.setText(restaurant.getName());
         myHolder.tvAddress.setText(restaurant.getLocation());
         myHolder.tvDistance.setText(listDistance.get(i));

@@ -1,5 +1,10 @@
 package com.fussyvegan.scanner;
 
+import com.fussyvegan.scanner.model.favorite.CreateGroupRequest;
+import com.fussyvegan.scanner.model.favorite.CreateListResponse;
+import com.fussyvegan.scanner.model.favorite.FavoriteListResponse;
+import com.fussyvegan.scanner.model.favorite.FavoriteType;
+import com.fussyvegan.scanner.model.favorite.GroupFavorite;
 import com.fussyvegan.scanner.model.Resource;
 import com.fussyvegan.scanner.model.ResourceLocationAirport;
 import com.fussyvegan.scanner.model.ResourceProductAirline;
@@ -14,6 +19,7 @@ import com.fussyvegan.scanner.model.accountFlow.ReviewProduct;
 import com.fussyvegan.scanner.model.accountFlow.Reviews;
 import com.fussyvegan.scanner.model.accountFlow.UpdateReviewProduct;
 import com.fussyvegan.scanner.model.accountFlow.UserAccount;
+import com.fussyvegan.scanner.model.favorite.ListFavoriteResponse;
 import com.fussyvegan.scanner.model.restaurant.RestaurantResponse;
 
 import java.util.List;
@@ -119,4 +125,22 @@ public interface APIInterface {
     Call<RestaurantResponse> getRestaurantByFilter(@Query("search") String search, @Query("country") String country, @Query("region") String region, @Query("page") int page,
                                                    @Query("distance") int distance, @Query("lat") double lat, @Query("lng") double lng,
                                                    @Query("cuisine") String cuisine);
+
+    @GET("get_group.php?api_key=45090dcae2aYMK")
+    Call<ListFavoriteResponse> getListGroup(@Header("access-token") String token);
+
+    @POST("add_group.php?api_key=45090dcae2aYMK")
+    Call<CreateListResponse> addGroupFavorite(@Header("access-token") String token, @Body CreateGroupRequest request);
+
+    @GET("delete_group.php?api_key=45090dcae2aYMK")
+    Call<CreateListResponse> removeGroup(@Header("access-token") String token, @Query("group_id") int group_id);
+
+    @POST("add_favorite.php?api_key=45090dcae2aYMK")
+    Call<CreateListResponse> addFavorite(@Header("access-token") String token, @Body FavoriteType favoriteType);
+
+    @GET("get_favorite.php?api_key=45090dcae2aYMK")
+    Call<FavoriteListResponse> getFavoriteList(@Header("access-token") String token, @Query("group_id") int group_id);
+
+    @GET("delete_favorite.php?api_key=45090dcae2aYMK&")
+    Call<CreateListResponse> deleteFavorite(@Header("access-token") String token, @Query("favorite_id") int favorite_id);
 }

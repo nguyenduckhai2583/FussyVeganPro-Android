@@ -9,7 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fussyvegan.scanner.activity.MainActivity;
-import com.fussyvegan.scanner.adapter.TravelAdapter;
+import com.fussyvegan.scanner.adapter.CountryAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class CountryFragment extends Fragment {
 
     private static final String NAME_COUNTRY = "Country";
 
-    private TravelAdapter adapter;
+    private CountryAdapter adapter;
     private List<String> listCountry = new ArrayList<>();
     private List<Integer> icLink = new ArrayList<>();
     private ListView ltvCountry;
@@ -48,7 +48,7 @@ public class CountryFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_restaurant, container, false);
-        adapter = new TravelAdapter(listCountry, icLink);
+        adapter = new CountryAdapter(listCountry, icLink);
         ltvCountry = view.findViewById(R.id.ltvCountry);
         ltvCountry.setAdapter(adapter);
 

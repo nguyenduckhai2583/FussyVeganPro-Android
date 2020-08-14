@@ -33,9 +33,9 @@ public class TravelFragment extends Fragment {
 
         icLink.add(R.drawable.ic_airline_64);
         icLink.add(R.drawable.ic_airport);
-        icLink.add(R.drawable.ic_airline_64);
+        icLink.add(R.drawable.resort);
         icLink.add(R.drawable.ic_fastfood_96);
-        icLink.add(R.drawable.ic_airline_64);
+        icLink.add(R.drawable.restaurants);
     }
 
     public static TravelFragment newInstance() {

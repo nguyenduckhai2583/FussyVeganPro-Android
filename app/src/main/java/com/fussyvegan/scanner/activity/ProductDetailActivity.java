@@ -34,9 +34,11 @@ import com.fussyvegan.scanner.APIInterface;
 import com.fussyvegan.scanner.APILoginClient;
 import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.adapter.ProductReviewAdapter;
+import com.fussyvegan.scanner.dialog.BottomSheetListFavorite;
 import com.fussyvegan.scanner.model.Product;
 import com.fussyvegan.scanner.model.ProductReview;
 import com.fussyvegan.scanner.model.accountFlow.Reviews;
+import com.fussyvegan.scanner.model.favorite.FavoriteType;
 import com.fussyvegan.scanner.utils.Constant;
 import com.fussyvegan.scanner.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
@@ -61,6 +63,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String FAVORITE = "favorite";
     private static final String TAG = ProductDetailActivity.class.getSimpleName();
 
     // TODO: Rename and change types of parameters
@@ -1132,15 +1135,15 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     public void addToFavorite() {
-        Toast.makeText(this, "Added to My List", Toast.LENGTH_SHORT).show();
-        Realm realm = Realm.getDefaultInstance();
-        Product p = realm.where(Product.class).equalTo("id", product.getId()).findFirst();
-        realm.beginTransaction();
-        if (p == null) {
-            p = realm.createObject(Product.class); // Create a new object
-        }
-        p.copy(product);
-        realm.commitTransaction();
+        showBottomSheet();
+    }
+
+    private void showBottomSheet() {
+        BottomSheetListFavorite bottomSheetListFavorite = new BottomSheetListFavorite();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(FAVORITE, new FavoriteType(mCategory, product.getId(), -1));
+        bottomSheetListFavorite.setArguments(bundle);
+        bottomSheetListFavorite.show(getSupportFragmentManager(), "Dialog");
     }
 
     @Override

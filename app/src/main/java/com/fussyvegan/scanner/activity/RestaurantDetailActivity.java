@@ -8,6 +8,10 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.fussyvegan.scanner.dialog.BottomSheetListFavorite;
+import com.fussyvegan.scanner.model.favorite.FavoriteType;
+import com.fussyvegan.scanner.utils.Constant;
 import com.google.android.material.tabs.TabLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -17,6 +21,7 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.AppCompatRatingBar;
+
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -54,6 +59,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnRes
 
     private static final String RESTAURANT = "restaurant";
     private static final String LIST_REVIEW = "list_review";
+    private static final String FAVORITE = "favorite";
     private static final int RESTAURANT_CATEGORY_ID = 4;
     private static final int CALL_CODE = 100;
     private static final int CAPTURE_CODE = 101;
@@ -177,7 +183,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnRes
         imgListWish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                addToFavorite();
             }
         });
 
@@ -314,7 +320,7 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnRes
 
         try {
             File file = ScreenShott.getInstance()
-                    .saveScreenshotToPicturesFolder(RestaurantDetailActivity.this, bitmap, "date");
+                    .saveScreenshotToPicturesFolder(RestaurantDetailActivity.this, bitmap, date);
             // Display a toast
             Toast.makeText(RestaurantDetailActivity.this, "Bitmap Saved at " + file.getAbsolutePath(),
                     Toast.LENGTH_SHORT).show();
@@ -323,24 +329,17 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnRes
         }
     }
 
-//    public void addToFavorite() {
-//        Toast.makeText(this, "Added to My List", Toast.LENGTH_SHORT).show();
-//
-//        RealmConfiguration myConfig = new RealmConfiguration.Builder()
-//                .name("myrealm.realm")
-//                .schemaVersion(2)
-//                .modules(new Restaurant())
-//                .build();
-//
-//        Realm realm = Realm.getInstance(myConfig);
-//        Restaurant res = realm.where(Restaurant.class).equalTo("id", restaurant.getId()).findFirst();
-//        realm.beginTransaction();
-//        if (res == null) {
-//            res = realm.createObject(Restaurant.class); // Create a new object
-//        }
-//        res.copy(restaurant);
-//        realm.commitTransaction();
-//    }
+    public void addToFavorite() {
+        showBottomSheet();
+    }
+
+    private void showBottomSheet() {
+        BottomSheetListFavorite bottomSheetListFavorite = new BottomSheetListFavorite();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(FAVORITE, new FavoriteType(Constant.FAVOR_RESTAURANT, restaurant.getId(), -1));
+        bottomSheetListFavorite.setArguments(bundle);
+        bottomSheetListFavorite.show(getSupportFragmentManager(), "Dialog");
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

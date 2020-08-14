@@ -12,7 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fussyvegan.scanner.R;
+import com.fussyvegan.scanner.dialog.BottomSheetListFavorite;
 import com.fussyvegan.scanner.model.ProductAirline;
+import com.fussyvegan.scanner.model.favorite.FavoriteType;
+import com.fussyvegan.scanner.utils.Constant;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -23,6 +27,8 @@ import github.nisrulz.screenshott.ScreenShott;
 import io.realm.Realm;
 
 public class ProductAirlineDetailActivity extends AppCompatActivity {
+
+    private static final String FAVORITE = "favorite";
 
     ImageView imgCamera;
     ImageView imgListWish;
@@ -47,7 +53,8 @@ public class ProductAirlineDetailActivity extends AppCompatActivity {
         productAirline = intent.getParcelableExtra("product airline");
         Integer imageAirline = intent.getIntExtra("image airline", 1);
         ImageView imgAirline= findViewById(R.id.imgProductAirlineDetail);
-        imgAirline.setImageResource(imageAirline);
+        //imgAirline.setImageResource(imageAirline);
+        Picasso.get().load(productAirline.getAirlineLogo()).into(imgAirline);
         TextView mealCode = findViewById(R.id.tv_meal_code);
         mealCode.setText(productAirline.getMealCode());
         TextView mealName = findViewById(R.id.tv_meal_name);
@@ -122,14 +129,14 @@ public class ProductAirlineDetailActivity extends AppCompatActivity {
     }
 
     public void addToFavorite() {
-        Toast.makeText(this, "Added to My List", Toast.LENGTH_SHORT).show();
-        Realm realm = Realm.getDefaultInstance();
-        ProductAirline p = realm.where(ProductAirline.class).equalTo("id", productAirline.getId()).findFirst();
-        realm.beginTransaction();
-        if (p == null) {
-            p = realm.createObject(ProductAirline.class); // Create a new object
-        }
-        p.copy(productAirline);
-        realm.commitTransaction();
+        showBottomSheet();
+    }
+
+    private void showBottomSheet() {
+        BottomSheetListFavorite bottomSheetListFavorite = new BottomSheetListFavorite();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(FAVORITE, new FavoriteType(Constant.FAVOR_AIRLINE, productAirline.getId(), -1));
+        bottomSheetListFavorite.setArguments(bundle);
+        bottomSheetListFavorite.show(getSupportFragmentManager(), "Dialog");
     }
 }
