@@ -22,9 +22,11 @@ import androidx.fragment.app.Fragment;
 
 import com.fussyvegan.scanner.activity.LocationAirportDetailActivity;
 import com.fussyvegan.scanner.activity.MainActivity;
+import com.fussyvegan.scanner.activity.RestaurantActivity;
 import com.fussyvegan.scanner.adapter.LocationAirlineAdapter;
 import com.fussyvegan.scanner.model.LocationAirport;
 import com.fussyvegan.scanner.model.ResourceLocationAirport;
+import com.fussyvegan.scanner.utils.GPSUtil;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,7 +42,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class LocationAirportFragment extends Fragment {
+public class LocationAirportFragment extends Fragment implements GPSUtil.TurnOnGPS {
 
     private static final String NAME_LOCATION_AIRPORT = "name location airport";
     private static final String CODE_LOCATION_AIRPORT = "code location airport";
@@ -52,23 +54,34 @@ public class LocationAirportFragment extends Fragment {
     ListView lvLocation;
 
     List<LocationAirport> locationAirports;
+    List<LocationAirport> locationAirportsFilter;
+
+    Location mLocation;
+    GPSUtil gpsUtil;
+
+    boolean filter = false;
 
     FusedLocationProviderClient fusedLocationProviderClient;
 
     private double latitudeCurrent;
     private double longitudeCurrent;
     List<Integer> distanceList;
+    List<Integer> distanceListFilter;
+
 
     APIInterface apiInterface;
 
     MainActivity activity;
 
     SearchView searchView;
-     LocationAirlineAdapter mAdapter;
+    LocationAirlineAdapter mAdapter;
 
     public LocationAirportFragment() {
         locationAirports = new ArrayList<>();
         distanceList = new ArrayList<>();
+        distanceListFilter = new ArrayList<>();
+        distanceListFilter = new ArrayList<>();
+
     }
 
 
@@ -90,7 +103,7 @@ public class LocationAirportFragment extends Fragment {
         }
         activity = (MainActivity) this.getActivity();
         getCurrentLocation();
-        fetchLocationAirlines("", mCodeLocationAirport);
+        fetchLocationAirlines(mCodeLocationAirport, mCodeLocationAirport);
     }
 
     @SuppressLint("SetTextI18n")
@@ -103,13 +116,17 @@ public class LocationAirportFragment extends Fragment {
         nameAirport.setText(mNameLocationAirport + " " + mCodeLocationAirport);
         numberLocation = view.findViewById(R.id.tvNumProductFound);
         lvLocation = view.findViewById(R.id.ltvLocation);
-        mAdapter  = new LocationAirlineAdapter(locationAirports,distanceList);
+        if (!filter) {
+            mAdapter = new LocationAirlineAdapter(locationAirports, distanceList);
+        } else mAdapter = new LocationAirlineAdapter(locationAirportsFilter, distanceListFilter);
         lvLocation.setAdapter(mAdapter);
         lvLocation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), LocationAirportDetailActivity.class);
-                intent.putExtra("location", locationAirports.get(position));
+                if (!filter) {
+                    intent.putExtra("location", locationAirports.get(position));
+                } else intent.putExtra("location", locationAirportsFilter.get(position));
                 startActivity(intent);
             }
         });
@@ -123,17 +140,39 @@ public class LocationAirportFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                fetchLocationAirlines(s, mCodeLocationAirport);
+                filter = true;
+                locationAirportsFilter = getListLocationAirportFilter(s);
+                distanceListFilter = distance(latitudeCurrent, longitudeCurrent, locationAirports);
+                mAdapter.updateData(locationAirportsFilter, distanceListFilter);
+                numberLocation.setText(String.valueOf(locationAirportsFilter.size()));
+
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
+                if (s.length() == 0) {
+                    filter = false;
+                    mAdapter.updateData(locationAirports, distanceList);
+                    numberLocation.setText(String.valueOf(locationAirports.size()));
+                }
+                Log.e("length", String.valueOf(s.length()));
                 return false;
             }
         });
 
         return view;
+    }
+
+    private List<LocationAirport> getListLocationAirportFilter(String s) {
+        List<LocationAirport> locationAirportsFilter = new ArrayList<>();
+        for (LocationAirport locationAirport : locationAirports) {
+            if (locationAirport.getName().toLowerCase().contains(s.toLowerCase())) {
+                locationAirportsFilter.add(locationAirport);
+            }
+        }
+
+        return locationAirportsFilter;
     }
 
     @Override
@@ -159,9 +198,15 @@ public class LocationAirportFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<Location> task) {
                 Location location = task.getResult();
-                Log.e("Location", location.getLatitude() + ", " + location.getLongitude());
-                latitudeCurrent = location.getLatitude();
-                longitudeCurrent = location.getLongitude();
+                if (location != null) {
+                    latitudeCurrent = location.getLatitude();
+                    longitudeCurrent = location.getLongitude();
+                } else {
+                    gpsUtil = new GPSUtil(getActivity(), true);
+                    mLocation = gpsUtil.getCurrentLocation(true);
+                    latitudeCurrent = gpsUtil.getLatitude();
+                    longitudeCurrent = gpsUtil.getLongitude();
+                }
             }
         });
     }
@@ -214,8 +259,8 @@ public class LocationAirportFragment extends Fragment {
                 });
                 Log.e("TAG", locationAirports.toString());
                 numberLocation.setText(String.valueOf(locationAirports.size()));
-                distanceList = distance(latitudeCurrent,longitudeCurrent, locationAirports);
-                mAdapter  = new LocationAirlineAdapter(locationAirports,distanceList);
+                distanceList = distance(latitudeCurrent, longitudeCurrent, locationAirports);
+                mAdapter = new LocationAirlineAdapter(locationAirports, distanceList);
                 lvLocation.setAdapter(mAdapter);
             }
 
@@ -228,4 +273,8 @@ public class LocationAirportFragment extends Fragment {
     }
 
 
+    @Override
+    public void onChangeLocation(Location location) {
+        mLocation = location;
+    }
 }

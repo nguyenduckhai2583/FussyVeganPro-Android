@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.SearchFragment;
 
+import org.greenrobot.eventbus.EventBus;
+
 public class FilterSearchDialogFragment extends DialogFragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private ImageView imgBack;
@@ -104,15 +106,9 @@ public class FilterSearchDialogFragment extends DialogFragment implements View.O
                 setCheckboxClear();
                 break;
             case R.id.btnApplyFilterSearch:
-                if (getFragmentManager() != null) {
-                    SearchFragment searchFragment = null;
-                    searchFragment = (SearchFragment) getFragmentManager().findFragmentByTag("SearchFragment");
-                    if (searchFragment != null) {
-                        updateCheckbox();
-                        checkCheckboxStatus();
-                        searchFragment.updateFilter(isClear, isNoPalmOil, isNoGMO, isGlutenFree, isNutFree, isSoyFree, isVeganCompany);
-                    }
-                }
+                updateCheckbox();
+                checkCheckboxStatus();
+                EventBus.getDefault().post(new CustomEvent(isClear, isVeganCompany, isNoPalmOil, isGlutenFree, isNutFree, isSoyFree));
                 getDialog().dismiss();
                 break;
             case R.id.imgBack:

@@ -24,6 +24,12 @@ public class LocationAirlineAdapter extends BaseAdapter {
         this.locationAirports = locationAirports;
         this.distanceList = distanceList;
     }
+
+    public void updateData(List<LocationAirport> locationAirports, List<Integer> distanceList){
+        this.locationAirports = locationAirports;
+        this.distanceList = distanceList;
+        notifyDataSetChanged();
+    }
     @Override
     public int getCount() {
         return locationAirports.size();

@@ -78,7 +78,6 @@ public class AdvancedSearchMenuFragment extends BaseFragment {
                 SearchFragment fragment = new SearchFragment();
 
                 replaceFragment(R.id.frameLayoutContainer, fragment,true);
-//                activity.getSupportFragmentManager().beginTransaction().add(R.id.frameLayoutContainer, fragment, tag).addToBackStack(tag).commit();
 
             }
         });

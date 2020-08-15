@@ -20,6 +20,10 @@ import com.fussyvegan.scanner.adapter.ProductAdapter;
 import com.fussyvegan.scanner.model.Product;
 import com.fussyvegan.scanner.model.Resource;
 import com.fussyvegan.scanner.model.Status;
+import com.fussyvegan.scanner.search.CustomEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -200,6 +204,7 @@ public class SearchFragment extends Fragment {
         activity.keyword = "";
         activity.searchScope = "";
         searchView.clearFocus();
+        EventBus.getDefault().unregister(this);
     }
 
     private void setResultCount(List<Product> products) {
@@ -207,20 +212,18 @@ public class SearchFragment extends Fragment {
         txvResult.setText("Search Result: " + products.size() + resultSuffix);
     }
 
-    public void updateFilter(boolean isClear, boolean isNoPalmOil, boolean isNoGMO, boolean isGlutenFree, boolean isNutFree, boolean isSoyFree, boolean isVeganCompany) {
-        filterProducts.clear();
+    @Subscribe
+    public void OnCustomEvent(CustomEvent event) {
 
         boolean filterCorrect = false;
         boolean ignoreCheck = false;
-
-        this.isClear = isClear;
-        this.isNoPalmOil = isNoPalmOil;
+        this.isClear = event.checkBox1;
+        this.isVeganCompany = event.checkBox2;
+        this.isNoPalmOil = event.checkBox3;
         this.isNoGMO = isNoGMO;
-        this.isGlutenFree = isGlutenFree;
-        this.isNutFree = isNutFree;
-        this.isSoyFree = isSoyFree;
-        this.isVeganCompany = isVeganCompany;
-
+        this.isGlutenFree = event.checkBox4;
+        this.isNutFree = event.checkBox5;
+        this.isSoyFree = event.checkBox6;
         if (products.size() > 0) {
             if (isClear) {
                 adapter.updateData(products);
@@ -307,6 +310,23 @@ public class SearchFragment extends Fragment {
         }
     }
 
+//    public void updateFilter(boolean isClear, boolean isNoPalmOil, boolean isNoGMO, boolean isGlutenFree, boolean isNutFree, boolean isSoyFree, boolean isVeganCompany) {
+//        filterProducts.clear();
+//
+//        boolean filterCorrect = false;
+//        boolean ignoreCheck = false;
+//
+//        this.isClear = isClear;
+//        this.isNoPalmOil = isNoPalmOil;
+//        this.isNoGMO = isNoGMO;
+//        this.isGlutenFree = isGlutenFree;
+//        this.isNutFree = isNutFree;
+//        this.isSoyFree = isSoyFree;
+//        this.isVeganCompany = isVeganCompany;
+//
+//
+//    }
+
     public void fetchProducts(String keyword) {
         apiInterface = APIClient.getClient().create(APIInterface.class);
         Call<Resource> call = null;
@@ -333,7 +353,8 @@ public class SearchFragment extends Fragment {
                     }
                 });
 
-                updateFilter(isClear, isNoPalmOil, isNoGMO, isGlutenFree, isNutFree, isSoyFree, isVeganCompany);
+                CustomEvent customEvent = new CustomEvent(isClear, isVeganCompany, isNoPalmOil, isGlutenFree, isNutFree, isSoyFree);
+                OnCustomEvent(customEvent);
             }
 
             @Override
@@ -344,6 +365,15 @@ public class SearchFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
+    }
+
+
 
     public boolean getIsNoPalmOi() {
         return isNoPalmOil;
