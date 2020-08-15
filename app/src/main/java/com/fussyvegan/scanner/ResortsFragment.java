@@ -6,12 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.widget.SearchView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,15 +14,17 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+
 import com.fussyvegan.scanner.activity.MainActivity;
 import com.fussyvegan.scanner.activity.ResortDetailActivity;
-import com.fussyvegan.scanner.activity.RestaurantActivity;
-import com.fussyvegan.scanner.adapter.LocationAirlineAdapter;
 import com.fussyvegan.scanner.adapter.ResortAdapter;
-import com.fussyvegan.scanner.model.LocationAirport;
 import com.fussyvegan.scanner.model.Resort;
 import com.fussyvegan.scanner.model.ResourceResort;
-import com.fussyvegan.scanner.search.CustomEvent;
+import com.fussyvegan.scanner.search.ResortFilter;
 import com.fussyvegan.scanner.utils.GPSUtil;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -74,6 +70,9 @@ public class ResortsFragment extends Fragment implements GPSUtil.TurnOnGPS {
     private double longitudeCurrent;
     List<Integer> distanceList;
 
+    String mSearch;
+    String mKeyWord;
+
     public ResortsFragment() {
         resorts = new ArrayList<>();
 
@@ -92,11 +91,9 @@ public class ResortsFragment extends Fragment implements GPSUtil.TurnOnGPS {
         if (getArguments() != null) {
             mNameCountry = getArguments().getString(NAME_COUNTRY);
         }
-        fetchResort("", mNameCountry);
+        fetchResort(mSearch);
         activity = (MainActivity) this.getActivity();
-
         getCurrentLocation();
-        fetchResort("", mNameCountry);
 
     }
 
@@ -129,8 +126,9 @@ public class ResortsFragment extends Fragment implements GPSUtil.TurnOnGPS {
         searchView.setQuery(activity.keyword, false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                fetchResort(s, mNameCountry);
+            public boolean onQueryTextSubmit(String value) {
+                mSearch = value;
+                fetchResort(value);
                 return false;
             }
 
@@ -143,21 +141,14 @@ public class ResortsFragment extends Fragment implements GPSUtil.TurnOnGPS {
     }
 
     @Subscribe
-    public void OnCustomEvent(CustomEvent event) {
-        int count = 0;
-        if (event.checkBox2) count++;
-        if (event.checkBox3) count++;
-        if (event.checkBox4) count++;
-        if (event.checkBox5) count++;
-        if (event.checkBox6) count++;
-        Log.e("hello", count + ", " + event.checkBox2 + ", " + event.checkBox3 + ", " + event.checkBox4 + ", " + event.checkBox5 + ", " + event.checkBox6 + ", " + event.checkBox1);
-        if (event.checkBox1) fetchResort("", mNameCountry);
-        else if (event.checkBox2 && count == 1) fetchResort("hostel", mNameCountry);
-        else if (event.checkBox3 && count == 1) fetchResort("bed and breakfast", mNameCountry);
-        else if (event.checkBox4 && count == 1) fetchResort("bush camp", mNameCountry);
-        else if (event.checkBox5 && count == 1) fetchResort("resort", mNameCountry);
-        else if (event.checkBox6 && count == 1) fetchResort("safari lodge", mNameCountry);
-        else fetchResort("(search)", mNameCountry);
+    public void OnCustomEvent(ResortFilter data) {
+        if (data.isClear()) {
+            fetchResort(null);
+
+        } else {
+            fetchResort(data.getFilter());
+
+        }
     }
 
     private void getCurrentLocation() {
@@ -213,11 +204,10 @@ public class ResortsFragment extends Fragment implements GPSUtil.TurnOnGPS {
 
     }
 
-    public void fetchResort(String search, String keyword) {
-        Log.e("Keyword", keyword);
+    public void fetchResort(String keyword) {
         apiInterface = APIResort.getClient().create(APIInterface.class);
         Call<ResourceResort> call = null;
-        call = apiInterface.getResorts(search, keyword);
+        call = apiInterface.getResorts(mSearch, keyword, mNameCountry);
         final ProgressDialog dialog = ProgressDialog.show(getActivity(), "Loading...", "Please wait...", true);
         dialog.show();
         call.enqueue(new Callback<ResourceResort>() {

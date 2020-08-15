@@ -4,22 +4,20 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.core.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.core.content.ContextCompat;
 
 import com.fussyvegan.scanner.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.dm7.barcodescanner.zbar.BarcodeFormat;
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
-import me.dm7.barcodescanner.zbar.BarcodeFormat;
-
-import static com.fussyvegan.scanner.Constant.ARG_NAME_SEARCH;
 
 
 public class ScanFragment extends BaseFragment implements ZBarScannerView.ResultHandler {
@@ -43,7 +41,7 @@ public class ScanFragment extends BaseFragment implements ZBarScannerView.Result
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = (MainActivity)this.getActivity();
+        activity = (MainActivity) this.getActivity();
         mSelectedIndices = new ArrayList<>();
 
     }
@@ -51,7 +49,7 @@ public class ScanFragment extends BaseFragment implements ZBarScannerView.Result
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         mScannerView = new ZBarScannerView(getActivity());
-        if(state != null) {
+        if (state != null) {
             mFlash = state.getBoolean(FLASH_STATE, false);
             mAutoFocus = state.getBoolean(AUTO_FOCUS_STATE, true);
             mSelectedIndices = state.getIntegerArrayList(SELECTED_FORMATS);
@@ -70,7 +68,7 @@ public class ScanFragment extends BaseFragment implements ZBarScannerView.Result
         return mScannerView;
     }
 
-    public void switchFlash(){
+    public void switchFlash() {
         mFlash = !mFlash;
         mScannerView.setFlash(mFlash);
     }
@@ -99,12 +97,15 @@ public class ScanFragment extends BaseFragment implements ZBarScannerView.Result
             activity.keyword = rawResult.getContents();
             activity.searchScope = "barcode";
             String tag = "SearchFragment";
-            SearchFragment fragment = new SearchFragment();
-            replaceFragment(R.id.frameLayoutContainer, fragment,true);
 
-            //activity.navigation.setSelectedItemId(R.id.navigation_search);
-            Log.d("TAG", "Contents = " + rawResult.getContents() + ", Format = " + rawResult.getBarcodeFormat().getName());
-        } catch (Exception e) {}
+            if (!rawResult.getContents().equals("0149914731690357")) {
+                SearchFragment fragment = new SearchFragment();
+                replaceFragment(R.id.frameLayoutContainer, fragment, true);
+
+            }
+
+        } catch (Exception e) {
+        }
 
     }
 
@@ -134,17 +135,17 @@ public class ScanFragment extends BaseFragment implements ZBarScannerView.Result
 
     public void setupFormats() {
         List<BarcodeFormat> formats = new ArrayList<BarcodeFormat>();
-        if(mSelectedIndices == null || mSelectedIndices.isEmpty()) {
+        if (mSelectedIndices == null || mSelectedIndices.isEmpty()) {
             mSelectedIndices = new ArrayList<>();
-            for(int i = 0; i < BarcodeFormat.ALL_FORMATS.size(); i++) {
+            for (int i = 0; i < BarcodeFormat.ALL_FORMATS.size(); i++) {
                 mSelectedIndices.add(i);
             }
         }
 
-        for(int index : mSelectedIndices) {
+        for (int index : mSelectedIndices) {
             formats.add(BarcodeFormat.ALL_FORMATS.get(index));
         }
-        if(mScannerView != null) {
+        if (mScannerView != null) {
             mScannerView.setFormats(formats);
         }
     }

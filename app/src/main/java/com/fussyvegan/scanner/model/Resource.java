@@ -1,9 +1,11 @@
 
 package com.fussyvegan.scanner.model;
 
-import java.util.List;
+import com.fussyvegan.scanner.model.restaurant.PaginateRestaurant;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class Resource {
 
@@ -13,6 +15,8 @@ public class Resource {
     @SerializedName("products")
     @Expose
     private List<Product> products = null;
+    @SerializedName("paginate")
+    PaginateRestaurant paginate;
 
     public Status getStatus() {
         return status;
@@ -30,4 +34,11 @@ public class Resource {
         this.products = products;
     }
 
+    public PaginateRestaurant getPaginate() {
+        return paginate;
+    }
+
+    public void setPaginate(PaginateRestaurant paginate) {
+        this.paginate = paginate;
+    }
 }

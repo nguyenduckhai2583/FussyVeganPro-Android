@@ -108,7 +108,7 @@ public class FilterSearchDialogFragment extends DialogFragment implements View.O
             case R.id.btnApplyFilterSearch:
                 updateCheckbox();
                 checkCheckboxStatus();
-                EventBus.getDefault().post(new CustomEvent(isClear, isVeganCompany, isNoPalmOil, isGlutenFree, isNutFree, isSoyFree));
+                EventBus.getDefault().post(new CustomEvent(false,isClear, isVeganCompany, isNoPalmOil, isGlutenFree, isNutFree, isSoyFree));
                 getDialog().dismiss();
                 break;
             case R.id.imgBack:

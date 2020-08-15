@@ -1,10 +1,5 @@
 package com.fussyvegan.scanner;
 
-import com.fussyvegan.scanner.model.favorite.CreateGroupRequest;
-import com.fussyvegan.scanner.model.favorite.CreateListResponse;
-import com.fussyvegan.scanner.model.favorite.FavoriteListResponse;
-import com.fussyvegan.scanner.model.favorite.FavoriteType;
-import com.fussyvegan.scanner.model.favorite.GroupFavorite;
 import com.fussyvegan.scanner.model.Resource;
 import com.fussyvegan.scanner.model.ResourceLocationAirport;
 import com.fussyvegan.scanner.model.ResourceProductAirline;
@@ -19,10 +14,12 @@ import com.fussyvegan.scanner.model.accountFlow.ReviewProduct;
 import com.fussyvegan.scanner.model.accountFlow.Reviews;
 import com.fussyvegan.scanner.model.accountFlow.UpdateReviewProduct;
 import com.fussyvegan.scanner.model.accountFlow.UserAccount;
+import com.fussyvegan.scanner.model.favorite.CreateGroupRequest;
+import com.fussyvegan.scanner.model.favorite.CreateListResponse;
+import com.fussyvegan.scanner.model.favorite.FavoriteListResponse;
+import com.fussyvegan.scanner.model.favorite.FavoriteType;
 import com.fussyvegan.scanner.model.favorite.ListFavoriteResponse;
 import com.fussyvegan.scanner.model.restaurant.RestaurantResponse;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -102,7 +99,6 @@ public interface APIInterface {
                                    @Query("ratingable_type") int typeProduct);
 
 
-
     @POST("update_rating.php?api_key=45090dcae2aYMK")
     Call<PostReviewResult> updateReviewProduct(@Header("access-token") String token,
                                                @Body UpdateReviewProduct reviewProduct);
@@ -113,6 +109,7 @@ public interface APIInterface {
 
     @GET("get_restaurants_paginate.php?api_key=45090dcae2aYMK")
     Call<RestaurantResponse> getRestaurant(@Query("search") String search, @Query("country") String country, @Query("region") String region, @Query("page") int page);
+
     @GET("get_product.php?api_key=45090dcae2aYMK")
     Call<ResourceProductAirline> getProductAirline(@Query("airline") String typeAirline);
 
@@ -120,7 +117,8 @@ public interface APIInterface {
     Call<ResourceLocationAirport> getLocationAirport(@Query("search") String search, @Query("airport_code") String airportCode);
 
     @GET("get_products.php?api_key=45090dcae2aYMK")
-    Call<ResourceResort> getResorts(@Query("search") String search, @Query("country") String country);
+    Call<ResourceResort> getResorts(@Query("search") String  search,@Query("keywords") String keywords, @Query("country") String country);
+
     @GET("get_restaurants_paginate.php?api_key=45090dcae2aYMK")
     Call<RestaurantResponse> getRestaurantByFilter(@Query("search") String search, @Query("country") String country, @Query("region") String region, @Query("page") int page,
                                                    @Query("distance") int distance, @Query("lat") double lat, @Query("lng") double lng,
@@ -141,6 +139,15 @@ public interface APIInterface {
     @GET("get_favorite.php?api_key=45090dcae2aYMK")
     Call<FavoriteListResponse> getFavoriteList(@Header("access-token") String token, @Query("group_id") int group_id);
 
-    @GET("delete_favorite.php?api_key=45090dcae2aYMK&")
+    @GET("delete_favorite.php?api_key=45090dcae2aYMK")
     Call<CreateListResponse> deleteFavorite(@Header("access-token") String token, @Query("favorite_id") int favorite_id);
+
+
+    @GET("get_products_paginate.php?api_key=45090dcae2aYMK")
+    Call<Resource> getProductsPaginate(@Query("search") String keyword, @Query("vegan_status") String vegan_status,
+                                       @Query("page") int page, @Query("palm") String palm,
+                                       @Query("gluten") String gluten, @Query("nut") String nut, @Query("soy") String soy
+    );
+
+
 }

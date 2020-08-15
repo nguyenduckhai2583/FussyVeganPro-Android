@@ -1,8 +1,6 @@
 package com.fussyvegan.scanner.adapter;
 
 import android.content.Context;
-
-import androidx.appcompat.widget.AppCompatRatingBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.fussyvegan.scanner.model.Product;
+import androidx.appcompat.widget.AppCompatRatingBar;
+
 import com.fussyvegan.scanner.R;
+import com.fussyvegan.scanner.model.Product;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -36,12 +36,12 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
     LinearLayout llIconsProductInfo;
     RelativeLayout llVeganStatus;
     LinearLayout llRate;
+
     public ProductAdapter(List<Product> products, boolean isEdit) {
         this.products = products;
         this.isEdit = isEdit;
         Log.e("product", "product adapter");
     }
-
 
 
     public ProductAdapter(boolean IngredientsFragment, List<Product> products, boolean isEdit) {
@@ -54,6 +54,11 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
 
     public void updateData(List<Product> products) {
         this.products.clear();
+        this.products.addAll(products);
+        notifyDataSetChanged();
+    }
+
+    public void updateDataMore(List<Product> products) {
         this.products.addAll(products);
         notifyDataSetChanged();
     }
@@ -94,7 +99,7 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
         llIconsProductInfo = rowView.findViewById(R.id.iconsProductInfo);
         llVeganStatus = rowView.findViewById(R.id.linearLayoutVeganStatus);
         llRate = rowView.findViewById(R.id.linearLayoutRate);
-        if(!IngredientsFragment){
+        if (!IngredientsFragment) {
             //llIconsProductInfo.setVisibility(View.GONE);
             imgVeganStatus.setVisibility(View.VISIBLE);
             llRate.setVisibility(View.VISIBLE);
@@ -105,7 +110,8 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
 
         if (products.get(position).getVeganStatus().equals("VEGAN")) {
             imgVeganStatus.setImageResource(R.drawable.vegan);
-        }else if(products.get(position).getVeganStatus().equals("NOT VEGAN")) imgVeganStatus.setImageResource(R.drawable.notvegan);
+        } else if (products.get(position).getVeganStatus().equals("NOT VEGAN"))
+            imgVeganStatus.setImageResource(R.drawable.notvegan);
         else imgVeganStatus.setImageResource(R.drawable.caution);
 
         if (isEdit) {
@@ -120,9 +126,11 @@ public class ProductAdapter extends BaseAdapter implements Filterable {
             btnDelete.setVisibility(View.GONE);
         }
         txvName.setText(products.get(position).getName());
-        if((int)products.get(position).getCountRatting()==0) tvSumRating.setText("No" + " Rating");
-        else if((int)products.get(position).getCountRatting()==1)tvSumRating.setText("1" + " Rating");
-        else tvSumRating.setText((int)products.get(position).getCountRatting() + " Ratings");
+        if ((int) products.get(position).getCountRatting() == 0)
+            tvSumRating.setText("No" + " Rating");
+        else if ((int) products.get(position).getCountRatting() == 1)
+            tvSumRating.setText("1" + " Rating");
+        else tvSumRating.setText((int) products.get(position).getCountRatting() + " Ratings");
         rb_AveRating.setRating(products.get(position).getAvgRating());
 
         Picasso.get().cancelRequest(imgProduct);

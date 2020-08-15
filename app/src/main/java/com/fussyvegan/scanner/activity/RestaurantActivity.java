@@ -5,18 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -25,8 +14,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.fussyvegan.scanner.APIInterface;
 import com.fussyvegan.scanner.APIRestaurantClient;
+import com.fussyvegan.scanner.MyApplication;
 import com.fussyvegan.scanner.OnRestaurantClickListener;
 import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.adapter.RestaurantAdapter;
@@ -157,6 +155,10 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
         imgFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(MyApplication.getInstance().getCuisineType()!=null){
+                    listChoose = MyApplication.getInstance().getCuisineType();
+                    distance = MyApplication.getInstance().getDistance();
+                }
 
                 Intent intent = new Intent(RestaurantActivity.this, RestaurantFilterActivity.class);
                 intent.putExtra(DISTANCE, distance);
@@ -183,7 +185,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!edtSearch.getText().toString().equals("")){
+                if (!edtSearch.getText().toString().equals("")) {
                     tvSearch.setVisibility(View.VISIBLE);
                 }
             }
@@ -206,7 +208,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
 
         list = new ArrayList<>();
         listDistance = new ArrayList<>();
-        adapter = new RestaurantAdapter(list, listDistance,this, this);
+        adapter = new RestaurantAdapter(list, listDistance, this, this);
         recyclerRestaurant = findViewById(R.id.recyclerRestaurant);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerRestaurant.setLayoutManager(linearLayoutManager);
@@ -309,9 +311,9 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
         startActivity(intent);
     }
 
-    private List<String> distance(double lat1, double long1,List<Restaurant> restaurants) {
-        List<String> distanceList= new ArrayList<>();
-        for(Restaurant item : restaurants) {
+    private List<String> distance(double lat1, double long1, List<Restaurant> restaurants) {
+        List<String> distanceList = new ArrayList<>();
+        for (Restaurant item : restaurants) {
             int distance;
 
             double lat2 = Double.parseDouble(item.getLatitude());
@@ -325,7 +327,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
             locationCome.setLatitude(lat2);
             locationCome.setLongitude(long2);
 
-            distance = (int) (locationCurrent.distanceTo(locationCome)/1000);
+            distance = (int) (locationCurrent.distanceTo(locationCome) / 1000);
 
             if (lat1 == 0 && long1 == 0) {
                 distanceList.add(getResources().getString(R.string.tv_no_gps));
@@ -340,8 +342,8 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == CODE_FILTER && resultCode ==RESULT_OK) {
-            if (data!=null) {
+        if (requestCode == CODE_FILTER && resultCode == RESULT_OK) {
+            if (data != null) {
                 listChoose.clear();
                 distance = data.getIntExtra(DISTANCE, 0);
                 listChoose = data.getParcelableArrayListExtra(LIST_CHOOSE);
@@ -350,7 +352,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
                     cuisine.append(item.getType()).append(",");
                 }
                 if (cuisine.length() > 0) {
-                    cuisineType = cuisine.toString().substring(0, cuisine.length()-1);
+                    cuisineType = cuisine.toString().substring(0, cuisine.length() - 1);
                 } else {
                     cuisineType = "";
                 }
@@ -364,6 +366,8 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
 
                 currentPage = 1;
                 filterData(currentPage, cuisineType, false);
+                MyApplication.getInstance().setCuisineType(listChoose);
+                MyApplication.getInstance().setDistance(distance);
             }
         }
     }

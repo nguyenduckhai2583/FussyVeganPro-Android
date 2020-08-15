@@ -21,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.ViewPager;
 
 import com.fussyvegan.scanner.BaseContainerFragment;
 import com.fussyvegan.scanner.FavoriteFragment;
@@ -36,10 +35,12 @@ import com.fussyvegan.scanner.container.TravelContainerFragment;
 import com.fussyvegan.scanner.model.Product;
 import com.fussyvegan.scanner.search.FilterSearchDialogFragment;
 import com.fussyvegan.scanner.search.FilterSearchResortFragment;
+import com.fussyvegan.scanner.search.ResortFilter;
 import com.fussyvegan.scanner.utils.MessageEvent;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
     public ImageView imgFavorite;
     public ImageView imgFlash;
     public ImageView imgFilterSearch;
-    public ImageView imgFilterSearchResort;
     public TextView tvEdit;
     String tag = "";
     //    public ActionBar actionBar;
@@ -122,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         imgFavorite = findViewById(R.id.imgFavorite);
         imgFlash = findViewById(R.id.imgFlash);
         imgFilterSearch = findViewById(R.id.imgFilter);
-        imgFilterSearchResort = findViewById(R.id.imgFilterResort);
         tvEdit = findViewById(R.id.tvEdit);
         imgFavorite.setOnClickListener(
                 new View.OnClickListener() {
@@ -152,14 +151,12 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         imgFilterSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showFilterSearchDialog();
-            }
-        });
+                if(getCurrentBaseFragment() instanceof TravelContainerFragment){
+                    showFilterSearchResortDialog();
 
-        imgFilterSearchResort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showFilterSearchResortDialog();
+                }else{
+                    showFilterSearchDialog();
+                }
             }
         });
 
@@ -238,7 +235,6 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         imgMenu.setVisibility(View.GONE);
         tvEdit.setVisibility(View.GONE);
         imgFilterSearch.setVisibility(View.GONE);
-        imgFilterSearchResort.setVisibility(View.GONE);
 
     }
 
@@ -247,7 +243,6 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         imgFavorite.setVisibility(View.GONE);
         imgMenu.setVisibility(View.GONE);
         imgFilterSearch.setVisibility(View.VISIBLE);
-        imgFilterSearchResort.setVisibility(View.GONE);
 
         tvEdit.setVisibility(View.GONE);
         showEditItem = false;
@@ -260,8 +255,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         imgFlash.setVisibility(View.GONE);
         imgFavorite.setVisibility(View.GONE);
         imgMenu.setVisibility(View.GONE);
-        imgFilterSearch.setVisibility(View.GONE);
-        imgFilterSearchResort.setVisibility(View.VISIBLE);
+        imgFilterSearch.setVisibility(View.VISIBLE);
 
         tvEdit.setVisibility(View.GONE);
         showEditItem = false;
@@ -276,7 +270,6 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         imgFavorite.setVisibility(View.GONE);
         imgMenu.setVisibility(View.GONE);
         imgFilterSearch.setVisibility(View.GONE);
-        imgFilterSearchResort.setVisibility(View.GONE);
 
         tvEdit.setVisibility(View.VISIBLE);
         showEditItem = true;
@@ -290,7 +283,6 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         imgFavorite.setVisibility(View.VISIBLE);
         imgMenu.setVisibility(View.GONE);
         tvEdit.setVisibility(View.GONE);
-        imgFilterSearchResort.setVisibility(View.GONE);
 
     }
 
@@ -300,9 +292,10 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
         imgMenu.setVisibility(View.GONE);
         tvEdit.setVisibility(View.GONE);
         imgFilterSearch.setVisibility(View.GONE);
-        imgFilterSearchResort.setVisibility(View.GONE);
 
     }
+
+
 
     public void requestAccessCamera() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -320,17 +313,16 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
     }
 
     FragmentManager fm = getSupportFragmentManager();
-    FilterSearchDialogFragment filterSearchDialogFragment;
 
     private void showFilterSearchDialog() {
+        FilterSearchDialogFragment filterSearchDialogFragment;
         filterSearchDialogFragment = FilterSearchDialogFragment.newInstance();
         filterSearchDialogFragment.show(fm, "");
     }
 
-    FilterSearchResortFragment filterSearchResortFragment;
 
     private void showFilterSearchResortDialog() {
-        filterSearchResortFragment = FilterSearchResortFragment.newInstance();
+        FilterSearchResortFragment filterSearchResortFragment = FilterSearchResortFragment.newInstance();
         filterSearchResortFragment.show(fm, "");
     }
 
@@ -454,33 +446,7 @@ public class MainActivity extends AppCompatActivity implements FavoriteFragment.
     }
 
     public void loadFragmentBy(int type) {
-//        if (findViewById(R.id.frameLayoutContainer) != null) {
-//            Fragment fragment = new Fragment();
-//            switch (type) {
-//                case 0:
-//                    fragment = new ScanContainerFragment();
-//                    tag = "ScanFragment";
-//                    break;
-//                case 1:
-//                    fragment = new SearchFragment();
-//                    tag = "SearchFragment";
-//                    break;
-//                case 2:
-//                    fragment = new ProductsContainerFragment();
-//                    tag = "AdvancedSearchMenuFragment";
-//                    break;
-//                case 3:
-//                    fragment = new TravelContainerFragment();
-//                    tag = "TravelFragment";
-//                    break;
-//                case 4:
-//                    fragment = new MoreContainerFragment();
-//                    tag = "SettingFragment";
-//                    break;
-//            }
-//            // Add the fragment to the 'frameLayoutContainer' FrameLayout
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_ container, fragment, tag).commit();
-//        }
+
     }
 
     @Override

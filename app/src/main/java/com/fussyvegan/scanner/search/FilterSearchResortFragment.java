@@ -2,38 +2,34 @@ package com.fussyvegan.scanner.search;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
 import com.fussyvegan.scanner.R;
-import com.fussyvegan.scanner.ResortsFragment;
-import com.fussyvegan.scanner.SearchFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
 
-public class FilterSearchResortFragment extends DialogFragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class FilterSearchResortFragment extends DialogFragment implements View.OnClickListener {
 
     private ImageView imgBack;
 
-    private CheckBox cbNoPalmOil;
-    private CheckBox cbGlutenFree;
-    private CheckBox cbNutFree;
-    private CheckBox cbSoyFree;
-    private CheckBox cbVegan;
+    private RadioButton cbNoPalmOil;
+    private RadioButton cbGlutenFree;
+    private RadioButton cbNutFree;
+    private RadioButton cbSoyFree;
+    private RadioButton cbVegan;
+    private RadioGroup radioGroup;
 
     private boolean isHostel = false;
     private boolean isBedAndBreakfast = false;
@@ -43,6 +39,7 @@ public class FilterSearchResortFragment extends DialogFragment implements View.O
     private boolean isClear = false;
 
     public static FilterSearchResortFragment filterSearchResortFragment;
+    private String mFilter;
 
     public static FilterSearchResortFragment newInstance() {
         if (filterSearchResortFragment == null) {
@@ -73,6 +70,7 @@ public class FilterSearchResortFragment extends DialogFragment implements View.O
         cbNutFree = view.findViewById(R.id.cb_nut_free);
         cbSoyFree = view.findViewById(R.id.cb_soy_free);
         cbVegan = view.findViewById(R.id.cb_vegan_company);
+        radioGroup = view.findViewById(R.id.radioGroup);
 
         tvClearFilter.setOnClickListener(this);
         btnApplyFilter.setOnClickListener(this);
@@ -83,12 +81,46 @@ public class FilterSearchResortFragment extends DialogFragment implements View.O
         cbNutFree.setChecked(isResort);
         cbSoyFree.setChecked(isSafariLodge);
 
-        cbNoPalmOil.setOnCheckedChangeListener(this);
-        cbGlutenFree.setOnCheckedChangeListener(this);
-        cbNutFree.setOnCheckedChangeListener(this);
-        cbSoyFree.setOnCheckedChangeListener(this);
-        cbVegan.setOnCheckedChangeListener(this);
+//
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                isHostel = false;
+                isBedAndBreakfast = false;
+                isBushCamp = false;
+                isResort = false;
+                isSafariLodge = false;
+                switch (checkedId) {
+                    case R.id.cb_no_palm_oil:
+                        isBedAndBreakfast = true;
+                        mFilter = "bed and breakfast";
+                        break;
+                    case R.id.cb_gluten:
+                        isBushCamp = true;
+                        mFilter = "bush camp";
+
+                        break;
+                    case R.id.cb_nut_free:
+                        isResort = true;
+                        mFilter = "resort";
+
+                        break;
+                    case R.id.cb_soy_free:
+                        isSafariLodge = true;
+                        mFilter = "safari lodge";
+                        break;
+                    case R.id.cb_vegan_company:
+                        isHostel = true;
+                        mFilter = "hostel";
+                        break;
+                }
+
+            }
+        });
+
+
         imgBack.setOnClickListener(this);
+
 
     }
 
@@ -110,11 +142,11 @@ public class FilterSearchResortFragment extends DialogFragment implements View.O
         switch (id) {
             case R.id.tv_clear_filter:
                 setCheckboxClear();
+                mFilter = null;
                 break;
             case R.id.btnApplyFilterSearch:
-                updateCheckbox();
                 checkCheckboxStatus();
-                EventBus.getDefault().post(new CustomEvent(isClear, isHostel, isBedAndBreakfast, isBushCamp, isResort, isSafariLodge));
+                EventBus.getDefault().post(new ResortFilter(mFilter, isClear));
                 getDialog().dismiss();
                 break;
             case R.id.imgBack:
@@ -140,22 +172,13 @@ public class FilterSearchResortFragment extends DialogFragment implements View.O
     }
 
 
-    private void updateCheckbox() {
-        isHostel = cbVegan.isChecked();
-        isBedAndBreakfast = cbNoPalmOil.isChecked();
-        isBushCamp = cbGlutenFree.isChecked();
-        isResort = cbNutFree.isChecked();
-        isSafariLodge = cbSoyFree.isChecked();
 
-    }
 
     private void checkCheckboxStatus() {
         if (!isHostel && !isBedAndBreakfast && !isBushCamp && !isResort && !isSafariLodge) {
             isClear = true;
         }
     }
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        isClear = false;
-    }
+
+
 }
