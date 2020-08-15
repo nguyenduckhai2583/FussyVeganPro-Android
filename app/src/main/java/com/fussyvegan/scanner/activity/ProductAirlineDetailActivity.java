@@ -13,9 +13,11 @@ import android.widget.Toast;
 
 import com.fussyvegan.scanner.R;
 import com.fussyvegan.scanner.dialog.BottomSheetListFavorite;
+import com.fussyvegan.scanner.dialog.DialogCheckInformation;
 import com.fussyvegan.scanner.model.ProductAirline;
 import com.fussyvegan.scanner.model.favorite.FavoriteType;
 import com.fussyvegan.scanner.utils.Constant;
+import com.fussyvegan.scanner.utils.SharedPrefs;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -129,7 +131,12 @@ public class ProductAirlineDetailActivity extends AppCompatActivity {
     }
 
     public void addToFavorite() {
-        showBottomSheet();
+        if (!SharedPrefs.getInstance().get(Constant.IS_LOGIN, Boolean.class)) {
+            DialogCheckInformation dialogCheckInformation = new DialogCheckInformation(this);
+            dialogCheckInformation.show();
+        } else {
+            showBottomSheet();
+        }
     }
 
     private void showBottomSheet() {

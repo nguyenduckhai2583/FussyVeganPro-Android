@@ -30,7 +30,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="5dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="8dp">
 
         <LinearLayout
             android:id="@+id/lnAllProducts"
@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="5dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="8dp">
 
         <LinearLayout
             android:id="@+id/lnSearchIngredients"
@@ -104,7 +104,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="5dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="8dp">
 
         <LinearLayout
             android:id="@+id/lnRecentlyAdded"
@@ -137,7 +137,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="5dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="8dp">
 
         <LinearLayout
             android:id="@+id/lnSuperMarketSpecials"
@@ -177,7 +177,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginHorizontal="16dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="8dp">
 
         <LinearLayout
             android:id="@+id/lnVeganGroceryGuide"
@@ -209,7 +209,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="4dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="8dp">
 
         <LinearLayout
             android:id="@+id/lnVeganAlcoholGuide"
@@ -241,7 +241,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="4dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="8dp">
 
         <LinearLayout
             android:id="@+id/lnVeganBeautyGuide"

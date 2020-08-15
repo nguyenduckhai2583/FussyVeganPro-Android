@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.fussyvegan.scanner.dialog.BottomSheetListFavorite;
+import com.fussyvegan.scanner.dialog.DialogCheckInformation;
 import com.fussyvegan.scanner.model.favorite.FavoriteType;
 import com.fussyvegan.scanner.utils.Constant;
 import com.google.android.material.tabs.TabLayout;
@@ -330,7 +331,12 @@ public class RestaurantDetailActivity extends AppCompatActivity implements OnRes
     }
 
     public void addToFavorite() {
-        showBottomSheet();
+        if (!SharedPrefs.getInstance().get(Constant.IS_LOGIN, Boolean.class)) {
+            DialogCheckInformation dialogCheckInformation = new DialogCheckInformation(this);
+            dialogCheckInformation.show();
+        } else {
+            showBottomSheet();
+        }
     }
 
     private void showBottomSheet() {

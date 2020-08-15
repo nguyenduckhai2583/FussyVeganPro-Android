@@ -47,6 +47,7 @@ public class CountryAdapter extends BaseAdapter {
         TextView textView = rowView.findViewById(R.id.tv_name_airline);
         ImageView imgIcon = rowView.findViewById(R.id.img_ari_line);
         imgIcon.setImageResource(icLink.get(i));
+        textView.setTextSize(18);
         textView.setText(settings.get(i));
         return rowView;
     }
