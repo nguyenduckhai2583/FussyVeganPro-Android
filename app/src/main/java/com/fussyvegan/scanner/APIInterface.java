@@ -117,7 +117,7 @@ public interface APIInterface {
     Call<ResourceLocationAirport> getLocationAirport(@Query("search") String search, @Query("airport_code") String airportCode);
 
     @GET("get_products.php?api_key=45090dcae2aYMK")
-    Call<ResourceResort> getResorts(@Query("search") String  search,@Query("keywords") String keywords, @Query("country") String country);
+    Call<ResourceResort> getResorts(@Query("search") String search, @Query("keywords") String keywords, @Query("country") String country);
 
     @GET("get_restaurants_paginate.php?api_key=45090dcae2aYMK")
     Call<RestaurantResponse> getRestaurantByFilter(@Query("search") String search, @Query("country") String country, @Query("region") String region, @Query("page") int page,
@@ -146,7 +146,8 @@ public interface APIInterface {
     @GET("get_products_paginate.php?api_key=45090dcae2aYMK")
     Call<Resource> getProductsPaginate(@Query("search") String keyword, @Query("vegan_status") String vegan_status,
                                        @Query("page") int page, @Query("palm") String palm,
-                                       @Query("gluten") String gluten, @Query("nut") String nut, @Query("soy") String soy
+                                       @Query("gluten") String gluten, @Query("nut") String nut,
+                                       @Query("soy") String soy
     );
 
 

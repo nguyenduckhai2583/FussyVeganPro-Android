@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AbsListView;
@@ -100,6 +101,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
         addContent();
         addEvent();
         loadRestaurant();
+
     }
 
     private void loadRestaurant() {
@@ -107,7 +109,23 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
         listDistance.clear();
         apiInterface = APIRestaurantClient.getClient().create(APIInterface.class);
         dialog = ProgressDialog.show(this, "Loading...", "Please wait...", true);
-        fetchData(keySearch, currentPage);
+
+        if (MyApplication.getInstance().getCuisineType() != null) {
+            listChoose = MyApplication.getInstance().getCuisineType();
+            distance = MyApplication.getInstance().getDistance();
+            StringBuilder cuisine = new StringBuilder();
+            for (CuisineType item : listChoose) {
+                cuisine.append(item.getType()).append(",");
+            }
+            if (cuisine.length() > 0) {
+                cuisineType = cuisine.toString().substring(0, cuisine.length() - 1);
+            } else {
+                cuisineType = "";
+            }
+            filterData(currentPage, cuisineType, false);
+        } else {
+            fetchData(keySearch, currentPage);
+        }
     }
 
     private void checkPermissionLocation() {
@@ -155,7 +173,7 @@ public class RestaurantActivity extends AppCompatActivity implements OnRestauran
         imgFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(MyApplication.getInstance().getCuisineType()!=null){
+                if (MyApplication.getInstance().getCuisineType() != null) {
                     listChoose = MyApplication.getInstance().getCuisineType();
                     distance = MyApplication.getInstance().getDistance();
                 }

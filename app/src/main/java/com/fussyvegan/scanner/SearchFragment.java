@@ -69,6 +69,7 @@ public class SearchFragment extends Fragment {
     private boolean mIsLoadMore;
     private TextView tvNumFilterActive;
     private TextView tvNumProductFound;
+    private int mNumberFiler  =  0;
 
 
     /**
@@ -212,37 +213,49 @@ public class SearchFragment extends Fragment {
 
     @Subscribe
     public void OnCustomEvent(CustomEvent event) {
-
+        mNumberFiler = 0;
         if (event.checkBox2) {
             vegan = "VEGAN";
+            mNumberFiler ++;
         } else {
             vegan = null;
         }
         if (event.checkBox3) {
-            noPalm = "YES";
+            noPalm = "NO";
+            mNumberFiler ++;
+
         } else {
             noPalm = null;
         }
         if (event.checkBox4) {
             glutenFree = "YES";
+            mNumberFiler ++;
+
         } else {
             glutenFree = null;
 
         }
         if (event.checkBox5) {
+            mNumberFiler ++;
+
             nutFree = "YES";
         } else {
             nutFree = null;
 
         }
         if (event.checkBox6) {
-            soyFree = "YES";
+            mNumberFiler ++;
+
+            soyFree = "NO";
         } else {
             soyFree = null;
 
         }
         mIsLoadMore = false;
         fetchProducts(mKeyword);
+        if(mNumberFiler > 0){
+            tvNumFilterActive.setText(String.valueOf(mNumberFiler));
+        }
 
     }
 
