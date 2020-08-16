@@ -82,9 +82,7 @@ public class VeganFriendlyResortsFragment extends BaseFragment {
                 Bundle args = new Bundle();
                 args.putString(NAME_COUNTRY, "Kenya");
                 fragment.setArguments(args);
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.frameLayoutContainer,fragment,tag).commit();
-                //replaceFragment(R.id.frameLayoutContainer, fragment,true);
+                replaceFragment(R.id.frameLayoutContainer, fragment,true);
             }
         });
 

@@ -3,6 +3,7 @@ package com.fussyvegan.scanner;
 import android.app.Application;
 import androidx.multidex.MultiDex;
 
+import com.fussyvegan.scanner.model.FilterResort;
 import com.fussyvegan.scanner.model.FilterRestaurant;
 
 import java.util.logging.Filter;
@@ -16,6 +17,7 @@ public class MyApplication extends Application {
     private static MyApplication mSelf;
 
     public static FilterRestaurant mFilterRestaurant ;
+    public static FilterResort mFilterResort ;
     public static MyApplication self() {
         return mSelf;
     }
@@ -33,5 +35,12 @@ public class MyApplication extends Application {
             mFilterRestaurant = new FilterRestaurant();
         }
         return mFilterRestaurant;
+    }
+
+    public static FilterResort getInstanceResort() {
+        if (mFilterResort == null) {
+            mFilterResort = new FilterResort();
+        }
+        return mFilterResort;
     }
 }

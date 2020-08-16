@@ -91,6 +91,8 @@ public class ScanFragment extends BaseFragment implements ZBarScannerView.Result
         mListener = null;
     }
 
+
+
     @Override
     public void handleResult(Result rawResult) {
         try {

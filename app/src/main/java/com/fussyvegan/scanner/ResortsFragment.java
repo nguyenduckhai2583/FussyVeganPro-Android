@@ -91,7 +91,6 @@ public class ResortsFragment extends Fragment implements GPSUtil.TurnOnGPS {
         if (getArguments() != null) {
             mNameCountry = getArguments().getString(NAME_COUNTRY);
         }
-        fetchResort(mSearch);
         activity = (MainActivity) this.getActivity();
         getCurrentLocation();
 
@@ -120,6 +119,11 @@ public class ResortsFragment extends Fragment implements GPSUtil.TurnOnGPS {
         activity.visibleBackItem(false);
         activity.invalidateOptionsMenu();
         activity.showFilterSearchResortOnly();
+        if (MyApplication.getInstanceResort().getFilter() != null) {
+            fetchResort(MyApplication.getInstanceResort().getFilter());
+        } else {
+            fetchResort(mSearch);
+        }
 
         searchView = view.findViewById(R.id.searchView);
         searchView.setIconified(false);
@@ -147,6 +151,7 @@ public class ResortsFragment extends Fragment implements GPSUtil.TurnOnGPS {
 
         } else {
             fetchResort(data.getFilter());
+            MyApplication.getInstanceResort().setFilter(data.getFilter());
 
         }
     }

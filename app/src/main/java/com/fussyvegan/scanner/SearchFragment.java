@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -50,7 +51,7 @@ public class SearchFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     public String searchScope = "search";
     APIInterface apiInterface;
-    List<Product> products;
+    List<Product> products = new ArrayList<>();
     List<Product> filterProducts;
     MainActivity activity;
     ListView ltvProduct;
@@ -69,7 +70,7 @@ public class SearchFragment extends Fragment {
     private boolean mIsLoadMore;
     private TextView tvNumFilterActive;
     private TextView tvNumProductFound;
-    private int mNumberFiler  =  0;
+    private int mNumberFiler = 0;
 
 
     /**
@@ -129,7 +130,28 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        //fetchProducts(activity.keyword);
+
+        ltvProduct.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+
+            }
+
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                int lastInScreen = firstVisibleItem + visibleItemCount;
+                if (lastInScreen == totalItemCount && totalItemCount != 0) {
+                    Log.d("vao dau chua", lastInScreen + "----1232321--" + totalItemCount);
+
+                    if (!mIsLoadMore && products.size() >= 50) {
+                        mIsLoadMore = true;
+                        page = page + 1;
+                        fetchProducts(mKeyword);
+                    }
+                }
+            }
+        });
 
         searchView = view.findViewById(R.id.searchView);
         searchView.setIconified(false);
@@ -196,6 +218,7 @@ public class SearchFragment extends Fragment {
         super.onResume();
         //searchView.setQuery("", false);
         searchView.clearFocus();
+        activity.showFilterSearchOnly();
     }
 
     @Override
@@ -216,27 +239,27 @@ public class SearchFragment extends Fragment {
         mNumberFiler = 0;
         if (event.checkBox2) {
             vegan = "VEGAN";
-            mNumberFiler ++;
+            mNumberFiler++;
         } else {
             vegan = null;
         }
         if (event.checkBox3) {
             noPalm = "NO";
-            mNumberFiler ++;
+            mNumberFiler++;
 
         } else {
             noPalm = null;
         }
         if (event.checkBox4) {
             glutenFree = "YES";
-            mNumberFiler ++;
+            mNumberFiler++;
 
         } else {
             glutenFree = null;
 
         }
         if (event.checkBox5) {
-            mNumberFiler ++;
+            mNumberFiler++;
 
             nutFree = "YES";
         } else {
@@ -244,7 +267,7 @@ public class SearchFragment extends Fragment {
 
         }
         if (event.checkBox6) {
-            mNumberFiler ++;
+            mNumberFiler++;
 
             soyFree = "NO";
         } else {
@@ -253,28 +276,12 @@ public class SearchFragment extends Fragment {
         }
         mIsLoadMore = false;
         fetchProducts(mKeyword);
-        if(mNumberFiler > 0){
+        if (mNumberFiler > 0) {
             tvNumFilterActive.setText(String.valueOf(mNumberFiler));
         }
 
     }
 
-//    public void updateFilter(boolean isClear, boolean isNoPalmOil, boolean isNoGMO, boolean isGlutenFree, boolean isNutFree, boolean isSoyFree, boolean isVeganCompany) {
-//        filterProducts.clear();
-//
-//        boolean filterCorrect = false;
-//        boolean ignoreCheck = false;
-//
-//        this.isClear = isClear;
-//        this.isNoPalmOil = isNoPalmOil;
-//        this.isNoGMO = isNoGMO;
-//        this.isGlutenFree = isGlutenFree;
-//        this.isNutFree = isNutFree;
-//        this.isSoyFree = isSoyFree;
-//        this.isVeganCompany = isVeganCompany;
-//
-//
-//    }
 
     public void fetchProducts(String keyword) {
         apiInterface = APIClient.getClient().create(APIInterface.class);
@@ -299,6 +306,9 @@ public class SearchFragment extends Fragment {
                     }
                     products.addAll(resource.getProducts());
                     adapter.updateData(products);
+                    if (resource.getProducts().size() == 50) {
+                        mIsLoadMore = false;
+                    }
                     Collections.sort(products, new Comparator<Product>() {
                         public int compare(Product p1, Product p2) {
                             return p1.getName().compareToIgnoreCase(p2.getName()); // To compare string values
